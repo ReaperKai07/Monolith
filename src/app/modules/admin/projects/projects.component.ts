@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
 
   ],
   templateUrl: './projects.component.html',
-  styleUrl: './projects.component.scss'
 })
 
 export class ProjectsComponent {
