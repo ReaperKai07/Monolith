@@ -33,7 +33,7 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/magenta-violet.css",
-              "src/styles.css"
+              "src/style/styles.css"
             ],
             "scripts": []
           },
@@ -93,7 +93,7 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/magenta-violet.css",
-              "src/styles.scss"
+              "src/style/styles.css"
             ],
             "scripts": []
           }
