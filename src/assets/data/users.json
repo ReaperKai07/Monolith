@@ -1,0 +1,16 @@
+[
+    {
+        "id" : 1,
+        "name" : "Khairul Izzat",
+        "email" : "khairulizzatroslan@gmail.com",
+        "password" : "870327Tun@",
+        "role" : "Administrator"
+    },
+    {
+        "id": 2,
+        "name": "John Doe",
+        "email": "john@monolith.com",
+        "password": "Password123!",
+        "role": "Developer"
+    }
+]
