@@ -55,7 +55,7 @@ export class AuthService {
      * @param id 
      * @returns 
      */
-    getUserById(id: number): Observable<UserProfile> {
+    getUserDetails(id: number): Observable<UserProfile> {
         return this.http.get<any[]>('/assets/data/users.json')
         .pipe(
             delay(500),
