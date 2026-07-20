@@ -26,33 +26,36 @@
                 </p>
             </div>
 
-            <!-- Email Input -->
-            <mat-form-field class="w-full">
-                <mat-label>Email</mat-label>
-                <input
-                    matInput
-                    type="email"
-                    formControlName="email"
-                    placeholder="example@email.com">
-                <mat-error *ngIf="signInForm.controls.email.hasError('required')">Email is required</mat-error>
-                <mat-error *ngIf="signInForm.controls.email.hasError('email')">Invalid email</mat-error>
-            </mat-form-field>
+            <!-- Form Field -->
+            <div class="w-full h-auto flex flex-col gap-2">
+                <!-- Email Input -->
+                <mat-form-field class="w-full">
+                    <mat-label>Email</mat-label>
+                    <input
+                        matInput
+                        type="email"
+                        formControlName="email"
+                        placeholder="example@email.com">
+                    <mat-error *ngIf="signInForm.controls.email.hasError('required')">Email is required</mat-error>
+                    <mat-error *ngIf="signInForm.controls.email.hasError('email')">Invalid email</mat-error>
+                </mat-form-field>
+    
+                <!-- Password Input -->
+                <mat-form-field class="w-full">
+                    <mat-label>Password</mat-label>
+                    <input
+                        matInput
+                        type="password"
+                        formControlName="password"
+                        placeholder="Minimum 8 length">
+                    <mat-error *ngIf="signInForm.controls.password.hasError('required')">Password is required</mat-error>
+                </mat-form-field>
+            </div>
 
-            <!-- Password Input -->
-            <mat-form-field class="w-full">
-                <mat-label>Password</mat-label>
-                <input
-                    matInput
-                    type="password"
-                    formControlName="password"
-                    placeholder="Minimum 8 length">
-                <mat-error *ngIf="signInForm.controls.password.hasError('required')">Password is required</mat-error>
-            </mat-form-field>
 
             <!-- Submit Button -->
             <button
-                class="w-full h-12 bg-white rounded-full 
-                    hover:bg-gray-200 transition-colors duration-200"
+                class="w-full h-12 bg-white rounded-full hover:bg-gray-200 transition-colors duration-200"
                 (click)="signIn()">
                 <p class="text-black font-semibold">
                     Sign In

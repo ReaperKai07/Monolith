@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
+import { LoginRequest } from '../../../core/auth/auth.model';
 
 @Component({
   selector: 'app-sign-in',
@@ -44,10 +45,17 @@ export class SignInComponent {
       return;
     }
 
-    console.log("Sign In clicked");
-    
+    const request : LoginRequest = this.signInForm.getRawValue();
 
-    // this.authService.login(this.signInForm.getRawValue()).subscribe();
+    this.authService.signIn(request).subscribe({
+      next : response => {
+        console.log(response);
+      },
+      error : error => {
+        console.error(error);
+      }
+    });
+
   }
 
 }
