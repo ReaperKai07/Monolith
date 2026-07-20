@@ -3,16 +3,16 @@ export interface LoginRequest {
     password : string;
 }
 
-export interface User {
-    id : number;
-    name : string;
-    email : string;
-    role : string;
+export interface UserProfile {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
 }
 
 export interface LoginResponse {
-    accessToken : string;
-    refreshToken : string;
-    expiresIn : number;
-    user : User;
+    accessToken: string;
+    refreshToken: string;
+    expiresIn: number;
+    userId: number;
 }
