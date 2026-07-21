@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { LoginRequest } from '../../../core/auth/auth.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertComponent, AlertType } from '../../../shared/components/alert/alert.component';
 
 @Component({
     selector: 'app-sign-in',
@@ -20,7 +21,8 @@ import { ActivatedRoute, Router } from '@angular/router';
         MatButtonModule,
         MatIconModule,
         MatCardModule,
-        CommonModule
+        CommonModule,
+        AlertComponent
     ],
     templateUrl: './sign-in.component.html',
     styleUrl: './sign-in.component.scss'
@@ -29,7 +31,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SignInComponent implements OnInit {
 
     signInForm!: UntypedFormGroup;
-
     hidePassword = true;
 
     /**
@@ -47,7 +48,6 @@ export class SignInComponent implements OnInit {
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
-
         // Create SignInForm
         this.signInForm = this._formBuilder.group({
             email: [ 'khairulizzatroslan@gmail.com', [ Validators.required, Validators.email ]],
@@ -65,34 +65,62 @@ export class SignInComponent implements OnInit {
      * @returns     
      */
     signIn(): void {
-
-        // Check form validation
+        // Hide alert
+        this.showAlert = false;
+        // If form invalid
         if (this.signInForm.invalid) {
             this.signInForm.markAllAsTouched();
+            this.alert = {
+                type: 'error',
+                message: 'Please enter a valid email and password.'
+            };
+            this.showAlert = true;
             return;
         }
-
-        // Assign body
-        const body : LoginRequest = this.signInForm.getRawValue();
-
-        this._authService.signIn(body).subscribe({
-            next : response => {
-                // Get user details
-                this._authService.getUserDetails(response.userId).subscribe({
-                    next: user => {
-                        console.log(user);
-                        // Set the redirect url
-                        const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-                        // Navigate to the redirect url
-                        this._router.navigateByUrl(redirectURL);
-                    }
-                });
-            },
-            error : error => {
-                console.error(error);
-            }
-        });
-
+        // Disable form
+        this.signInForm.disable();
+        // Sign in 
+        this._authService.signIn(this.signInForm.getRawValue())
+            .subscribe({
+                next : response => {
+                    // Get user details
+                    this._authService.getUserDetails(response.userId).subscribe({
+                        next: user => {
+                            // Log response
+                            console.log(user);
+                            // Set the redirect url
+                            const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                            // Navigate to the redirect url
+                            this._router.navigateByUrl(redirectURL);
+                        }
+                    });
+                },
+                error : error => {
+                    // Log error
+                    console.error(error);
+                    // Re-enable the form
+                    this.signInForm.enable();
+                    // Show alert
+                    this.showAlert = true;
+                    // Set alert
+                    this.alert = {type: 'error', message: error.message || 'Invalid email or password.'};
+                }
+            });
     }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Shared Components
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Alert
+     */
+    showAlert = false;
+    alert: {
+        type: AlertType;
+        message: string;
+    } = {
+        type: 'error',
+        message: ''
+    };
 }
