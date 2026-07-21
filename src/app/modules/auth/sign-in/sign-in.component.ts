@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { LoginRequest } from '../../../core/auth/auth.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-sign-in',
@@ -22,6 +23,7 @@ import { LoginRequest } from '../../../core/auth/auth.model';
         CommonModule
     ],
     templateUrl: './sign-in.component.html',
+    styleUrl: './sign-in.component.scss'
 })
 
 export class SignInComponent implements OnInit {
@@ -36,6 +38,8 @@ export class SignInComponent implements OnInit {
     constructor(
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder, 
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute,
     ){}
 
     // -----------------------------------------------------------------------------------------------------
@@ -49,6 +53,7 @@ export class SignInComponent implements OnInit {
             email: [ 'khairulizzatroslan@gmail.com', [ Validators.required, Validators.email ]],
             password: [ '870327Tun@', [ Validators.required, Validators.minLength(8) ]],
         })
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -57,7 +62,7 @@ export class SignInComponent implements OnInit {
 
     /**
      * Sign In & Get User by ID
-     * @returns 
+     * @returns     
      */
     signIn(): void {
 
@@ -72,15 +77,15 @@ export class SignInComponent implements OnInit {
 
         this._authService.signIn(body).subscribe({
             next : response => {
-                
-                // Save tokens
-                localStorage.setItem('accessToken', response.accessToken);
-
-                // Get user profile
+                // Get user details
                 this._authService.getUserDetails(response.userId).subscribe({
-                next: user => {
-                    console.log(user);
-                }
+                    next: user => {
+                        console.log(user);
+                        // Set the redirect url
+                        const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                        // Navigate to the redirect url
+                        this._router.navigateByUrl(redirectURL);
+                    }
                 });
             },
             error : error => {
