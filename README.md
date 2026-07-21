@@ -1,10 +1,14 @@
 # Monolith — Developer Portfolio Dashboard
 
-Monolith is a personal developer portfolio presented as an interactive dashboard application built with Angular.
+Monolith is my personal developer portfolio presented as a dashboard application built with Angular.
 
-The project was developed from scratch and is inspired by enterprise dashboard structures such as the Fuse Angular template. It demonstrates frontend architecture, responsive UI development, authentication flows, reusable components, and simulated REST API integration without requiring a live backend.
+Throughout my professional experience, I primarily worked on enterprise administration dashboards and mobile applications using Angular and Ionic. Many of those projects were built using the Fuse Angular template, where I learned enterprise project architecture, reusable component design, authentication flows, and responsive layouts.
 
-> **Obelisk** is the mobile-facing identity used within the application, while **Monolith** is the main project name.
+Monolith built as an enterprise-style dashboard completely from scratch. Rather than extending an existing template, every features, components, layouts, and architecture decisions are implemented manually to demonstrate my understanding of modern Angular development.
+
+This dashboard uses my personal resume and portfolio as its data source instead of mock enterprise data, while simulating a real backend through a local REST API mock. The goal is to showcase my professional experience and also how I develop production-style frontend applications.
+
+> **Obelisk** is the mobile identity used within the application, while **Monolith** is the main project's name.
 
 ## Tech Stack
 
@@ -25,33 +29,30 @@ The project was developed from scratch and is inspired by enterprise dashboard s
 * Access-token and refresh-token simulation
 * HTTP interceptor for authorization headers
 * Reusable shared UI components
+* Form validation and error handling
+* Responsive desktop and mobile layouts
 * Developer profile management
 * Project showcase
 * Skills visualization
 * Professional experience timeline
-* Responsive desktop and mobile layouts
-* Form validation and error handling
 
 ## Project Goals
 
 This project was created to demonstrate:
-
 * Clean and maintainable Angular architecture
 * Enterprise-style folder organization
 * Reusable standalone components
 * REST API integration patterns
 * Authentication and route protection
 * Responsive UI and UX design
-* Separation between presentation and business logic
 
 ## Screenshots
 
-Screenshots and application previews will be added as development progresses.
-( Coming Soon )
+> Screenshots will be added as development progresses.
 
 ## Running Locally
 
-### Prerequisites
+### Checklist
 
 Make sure the following are installed:
 
@@ -94,21 +95,16 @@ http://localhost:4200
 ## Mock Authentication
 
 The application uses local JSON data to simulate backend authentication and API responses.
-
-No real user data is transmitted or stored on an external server.
-
-Demo login credentials will be provided once the authentication module is finalized.
+Demo login credentials will be provided once everything is finalized.
 
 ## Planned Improvements
 
 * Complete portfolio dashboard
-* Dark and light themes
+* Improved accessibility for mobile
 * Project filtering and search
+* Downloadable resume
 * Interactive skills charts
-* Downloadable résumé
-* Improved accessibility
 * Unit and component testing
-* Deployment through GitHub Pages
 
 ## Status
 
@@ -116,4 +112,4 @@ This project is currently under active development.
 
 ## Author
 
-Developed by Khairul Izzat as a personal portfolio and frontend engineering showcase.
+Developed by Khairul Izzat bin Roslan, as a personal portfolio and frontend engineering showcase.
