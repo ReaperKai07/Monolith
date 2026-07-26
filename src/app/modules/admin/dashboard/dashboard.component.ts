@@ -3,10 +3,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
   imports: [
     MatIconModule
   ],
-  templateUrl: './dashboard.component.html',
 })
 
 export class DashboardComponent {
