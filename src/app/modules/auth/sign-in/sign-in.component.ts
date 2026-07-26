@@ -9,9 +9,11 @@ import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertMessageComponent, AlertType } from '../../../shared/components/alert-message/alert-message.component';
+import { UserService } from '../../../core/user/user.service';
 
 @Component({
     selector: 'app-sign-in',
+    templateUrl: './sign-in.component.html',
     standalone: true,
     imports: [
         ReactiveFormsModule,
@@ -23,8 +25,6 @@ import { AlertMessageComponent, AlertType } from '../../../shared/components/ale
         CommonModule,
         AlertMessageComponent,
     ],
-    templateUrl: './sign-in.component.html',
-    styleUrl: './sign-in.component.scss'
 })
 
 export class SignInComponent implements OnInit {
@@ -38,6 +38,7 @@ export class SignInComponent implements OnInit {
      */
     constructor(
         private _authService: AuthService,
+        private _userService: UserService,
         private _formBuilder: UntypedFormBuilder, 
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
@@ -84,7 +85,7 @@ export class SignInComponent implements OnInit {
             .subscribe({
                 next : response => {
                     // Get user details
-                    this._authService.getUserDetails(response.userId).subscribe({
+                    this._userService.getUserDetails(response.userId).subscribe({
                         next: user => {
                             this.isLoading = false;
                             console.log('Login success :',user);
