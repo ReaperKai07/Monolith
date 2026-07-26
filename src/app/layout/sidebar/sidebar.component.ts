@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
+import { LoadingOverlayService } from '../../core/services/loading-overlay.service';
 
 // navigation item model
 interface NavigationItem {
@@ -25,6 +26,7 @@ export class SidebarComponent {
    */
   constructor(
     private _authService: AuthService,
+    private _loadingOverlayService: LoadingOverlayService,
     private _router: Router,
   ) {}
 
@@ -59,11 +61,18 @@ export class SidebarComponent {
 
     // Sign out method to handle user sign-out
     signOut(): void {
-        this._authService.signOut().subscribe(() => {
-            // Delay 1 second to simulate BE, then navigate to sign-in
-            setTimeout(() => {
-                this._router.navigate(['/sign-in']);
-            }, 1000); 
+        this._loadingOverlayService.show();
+        this._authService.signOut().subscribe({
+            next: () => {
+                // Delay 1 second to simulate BE and allow loading overlay to be visible, then navigate to sign-in
+                setTimeout(() => {
+                    this._loadingOverlayService.hide();
+                    this._router.navigate(['/sign-in']);
+                }, 1000);
+            },
+            error: () => {
+                this._loadingOverlayService.hide();
+            }
         });
     }
 
