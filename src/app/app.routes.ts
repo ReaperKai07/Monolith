@@ -1,48 +1,93 @@
 import { Routes } from '@angular/router';
-import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
-import { DashboardComponent } from './modules/admin/dashboard/dashboard.component';
-import { SignInComponent } from './modules/auth/sign-in/sign-in.component';
+
 import { authGuard } from './core/auth/auth.guard';
+
+import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
+
+import { SignInComponent } from './modules/auth/sign-in/sign-in.component';
+import { DashboardComponent } from './modules/admin/dashboard/dashboard.component';
+import { ProjectsComponent } from './modules/admin/projects/projects.component';
+import { ExperiencesComponent } from './modules/admin/experiences/experiences.component';
+import { SkillsComponent } from './modules/admin/skills/skills.component';
+import { ContactsComponent } from './modules/admin/contacts/contacts.component';
+import { ProfileComponent } from './modules/admin/profile/profile.component';
 
 export const routes: Routes = [
 
-    // Redirect empty path
+    // -----------------------------------------------------------------------------------------------------
+    // @ Redirect routes
+    // -----------------------------------------------------------------------------------------------------
+
     {
         path: '',
         redirectTo: 'sign-in',
         pathMatch: 'full'
     },
 
-    // Redirect signed-in user
     { 
         path: 'signed-in-redirect', 
         pathMatch: 'full', 
         redirectTo: 'dashboard' 
     },
 
-    // Routes for guest sign-in
+    // -----------------------------------------------------------------------------------------------------
+    // @ Guest routes
+    // -----------------------------------------------------------------------------------------------------
+
     {
         path: 'sign-in',
         component: SignInComponent
     },
 
-    // Admin routes
+    // -----------------------------------------------------------------------------------------------------
+    // @ Authenticated routes
+    // -----------------------------------------------------------------------------------------------------
+
     {
         path: '',
         component: MainLayoutComponent,
         canActivateChild: [authGuard],
         children: [
             {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'dashboard'
+            },
+            {
                 path: 'dashboard',
                 component: DashboardComponent,
-            }
+            },
+            {
+                path: 'projects',
+                component: ProjectsComponent,
+            },
+            {
+                path: 'experiences',
+                component: ExperiencesComponent,
+            },
+            {
+                path: 'skills',
+                component: SkillsComponent,
+            },
+            {
+                path: 'contacts',
+                component: ContactsComponent,
+            },
+            {
+                path: 'profile',
+                component: ProfileComponent,
+            },
+
         ]
     },
 
-    // Redirect unknown URL
+    // -----------------------------------------------------------------------------------------------------
+    // @ Fallback route
+    // -----------------------------------------------------------------------------------------------------
+
     {
         path: '**',
-        redirectTo: 'sign-in'
-    },
+        redirectTo: 'dashboard'
+    }
 
 ];
