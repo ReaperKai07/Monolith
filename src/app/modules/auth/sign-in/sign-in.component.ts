@@ -31,6 +31,7 @@ export class SignInComponent implements OnInit {
 
     signInForm!: UntypedFormGroup;
     hidePassword = true;
+    isLoading = false;
 
     /**
      * Constructor
@@ -65,6 +66,7 @@ export class SignInComponent implements OnInit {
      * @returns     
      */
     signIn(): void {
+        this.isLoading = true;
         this.showAlert = false;
         // If form invalid
         if (this.signInForm.invalid) {
@@ -84,7 +86,8 @@ export class SignInComponent implements OnInit {
                     // Get user details
                     this._authService.getUserDetails(response.userId).subscribe({
                         next: user => {
-                            console.log(user);
+                            this.isLoading = false;
+                            console.log('Login success :',user);
                             // Set redirect to originally requested page, or fall back to dashboard
                             const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
                             this._router.navigateByUrl(redirectURL);
@@ -92,7 +95,8 @@ export class SignInComponent implements OnInit {
                     });
                 },
                 error : error => {
-                    console.error(error);
+                    console.error('Login error :', error);
+                    this.isLoading = false;
                     this.signInForm.enable();
                     this.showAlert = true;
                     // Set alert icon and message

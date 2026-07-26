@@ -73,9 +73,17 @@
 
             <!-- Submit Button -->
             <button
-                class="w-full h-12 bg-white rounded-full hover:bg-gray-200 transition-colors duration-200"
-                (click)="signIn()">
-                <p class="text-black font-semibold">Sign In</p>
+                class="w-full h-12 flex justify-center items-center bg-white rounded-full hover:bg-gray-200 transition-colors duration-200"
+                (click)="signIn()"
+                [disabled]="isLoading">
+                <p class="text-black font-semibold">
+                    @if(isLoading) {
+                        <div class="size-6 animate-spin rounded-full border-4 border-stone-400 border-t-stone-600">
+                        </div>
+                    } @else {
+                        Sign In
+                    }
+                </p>
             </button>
 
             <!-- Icon for mobile -->
