@@ -10,9 +10,8 @@ export interface LoginResponse {
     userId: number;
 }
 
-export interface UserProfile {
+export interface SignInResponse {
     id: number;
-    name: string;
     email: string;
-    role: string;
+    password: string;
 }

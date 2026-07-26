@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { delay, map, Observable, of } from 'rxjs';
-import { LoginRequest, LoginResponse, UserProfile } from './auth.model';
+import { LoginRequest, LoginResponse, SignInResponse } from './auth.model';
 
 @Injectable({ 
     providedIn: 'root' 
@@ -9,10 +9,19 @@ import { LoginRequest, LoginResponse, UserProfile } from './auth.model';
 
 export class AuthService {
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Dependencies
+    // -----------------------------------------------------------------------------------------------------
+
     private readonly _httpClient = inject(HttpClient);
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private properties
+    // -----------------------------------------------------------------------------------------------------
 
     private readonly accessTokenKey = 'accessToken';
     private readonly refreshTokenKey = 'refreshToken';
+    private readonly userIdKey = 'userId';
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -36,7 +45,7 @@ export class AuthService {
      * Check user ID
      */
     get userId(): number | null {
-        const id = localStorage.getItem('userId');
+        const id = localStorage.getItem(this.userIdKey);
         return id ? Number(id) : null;
     }
 
@@ -53,7 +62,7 @@ export class AuthService {
         request: LoginRequest
     ): Observable<LoginResponse>{
         return this._httpClient
-        .get<any[]>('/assets/data/users.json')
+        .get<SignInResponse[]>('/assets/data/users.json')
         .pipe(
             // 
             delay(800),
@@ -72,57 +81,21 @@ export class AuthService {
 
                 // Return body response
                 const response = {
+                    // Generate random UUIDs for access tokens
                     accessToken: crypto.randomUUID(),
+                    // Generate random UUIDs for refresh tokens
                     refreshToken: crypto.randomUUID(),
+                    // Set expiration time to 1 hour (3600 seconds)
                     expiresIn: 3600,
+                    // Set user ID
                     userId: user.id
                 };
 
-                // Save accessToken
                 localStorage.setItem(this.accessTokenKey, response.accessToken);
-
-                // Save userId
-                localStorage.setItem('userId', response.userId.toString());
-
-                // Save refreshToken
                 localStorage.setItem(this.refreshTokenKey, response.refreshToken);
+                localStorage.setItem(this.userIdKey, response.userId.toString());
 
-                // Return
                 return response;
-            })
-        );
-    }
-
-
-    /**
-     * Get User
-     * @param id 
-     * @returns 
-     */
-    getUserDetails(
-        id: number
-    ): Observable<UserProfile> {
-        return this._httpClient
-        .get<any[]>('/assets/data/users.json')
-        .pipe(
-            delay(500),
-            map(users => {
-
-                // Find user id
-                const user = users.find(u => u.id === id);
-
-                // Throw error
-                if (!user) {
-                    throw new Error('User not found');
-
-                }
-                // Return body response
-                return {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                };
             })
         );
     }
@@ -130,20 +103,22 @@ export class AuthService {
     /**
      * Sign out
      */
-    signOut(): Observable<any> {
-        // Clear local storage
+    signOut(): Observable<boolean> {
+        // localStorage.removeItem(this.accessTokenKey);
+        // localStorage.removeItem(this.refreshTokenKey);
+        // localStorage.removeItem(this.userIdKey);
         localStorage.clear();
-        // Return
         return of(true);
     }
 
+    /**
+     * 
+     * @returns 
+     */
     refreshToken(): Observable<LoginResponse>{
 
-        // Get refresh token
         const refreshToken = localStorage.getItem(this.refreshTokenKey);
-
-        // Get user Id
-        const userId = localStorage.getItem('userId');
+        const userId = localStorage.getItem(this.userIdKey);
 
         // No refresh token
         if(!refreshToken || !userId) {
