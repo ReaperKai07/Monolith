@@ -35,13 +35,13 @@
             <!-- Form Field -->
             <div class="w-full h-auto flex flex-col gap-4">
                 <!-- Error Alert  -->
-                <app-alert
+                <alert-message
                     class="mb-4"
                     [show]="showAlert"
                     [type]="alert.type"
                     [message]="alert.message"
                     [showIcon]="true">
-                </app-alert>
+                </alert-message>
                 <!-- Email Input -->
                 <mat-form-field class="w-full">
                     <mat-label>Email</mat-label>
@@ -113,7 +113,7 @@
         class="
             relative hidden md:flex 
             md:w-1/2 items-center justify-center
-            bg-gradient-to-b from-stone-800 to-stone-900">
+            bg-linear-to-b from-stone-800 to-stone-900">
 
         <!-- Illustration / Branding -->
         <div class="flex flex-row gap-6">

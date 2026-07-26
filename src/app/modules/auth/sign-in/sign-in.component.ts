@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/auth/auth.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -7,9 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { LoginRequest } from '../../../core/auth/auth.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertComponent, AlertType } from '../../../shared/components/alert/alert.component';
+import { AlertMessageComponent, AlertType } from '../../../shared/components/alert-message/alert-message.component';
 
 @Component({
     selector: 'app-sign-in',
@@ -22,7 +21,7 @@ import { AlertComponent, AlertType } from '../../../shared/components/alert/aler
         MatIconModule,
         MatCardModule,
         CommonModule,
-        AlertComponent
+        AlertMessageComponent,
     ],
     templateUrl: './sign-in.component.html',
     styleUrl: './sign-in.component.scss'
@@ -61,11 +60,11 @@ export class SignInComponent implements OnInit {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Sign In & Get User by ID
+     * Authenticates user and get user details
+     * redirecting them to the requested page or dashboard
      * @returns     
      */
     signIn(): void {
-        // Hide alert
         this.showAlert = false;
         // If form invalid
         if (this.signInForm.invalid) {
@@ -77,7 +76,6 @@ export class SignInComponent implements OnInit {
             this.showAlert = true;
             return;
         }
-        // Disable form
         this.signInForm.disable();
         // Sign in 
         this._authService.signIn(this.signInForm.getRawValue())
@@ -86,40 +84,40 @@ export class SignInComponent implements OnInit {
                     // Get user details
                     this._authService.getUserDetails(response.userId).subscribe({
                         next: user => {
-                            // Log response
                             console.log(user);
-                            // Set the redirect url
+                            // Set redirect to originally requested page, or fall back to dashboard
                             const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-                            // Navigate to the redirect url
                             this._router.navigateByUrl(redirectURL);
                         }
                     });
                 },
                 error : error => {
-                    // Log error
                     console.error(error);
-                    // Re-enable the form
                     this.signInForm.enable();
-                    // Show alert
                     this.showAlert = true;
-                    // Set alert
-                    this.alert = {type: 'error', message: error.message || 'Invalid email or password.'};
+                    // Set alert icon and message
+                    this.alert = {
+                        type: 'error', 
+                        message: error.message || 'Invalid email or password.'
+                    };
                 }
             });
     }
 
     // -----------------------------------------------------------------------------------------------------
-    // @ Shared Components
+    // @ Shared components
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Alert
+     * Alert Message
      */
     showAlert = false;
     alert: {
+        // set icon
         type: AlertType;
         message: string;
     } = {
+        // set message
         type: 'error',
         message: ''
     };
