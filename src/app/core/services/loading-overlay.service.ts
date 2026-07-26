@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
@@ -6,32 +6,33 @@ import { Injectable, signal } from '@angular/core';
 
 export class LoadingOverlayService {
 
-    /**
-     * Constructor
-     */
-    constructor() {}
-
     // -----------------------------------------------------------------------------------------------------
     // @ Private properties
     // -----------------------------------------------------------------------------------------------------
 
-    private readonly _isLoading = signal(false);
+    // Signal keeps track of numbers of active requests
+    private readonly _activeRequests = signal(0);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
     // -----------------------------------------------------------------------------------------------------
 
-    readonly isLoading = this._isLoading.asReadonly();
+    // Signal indicates the loading overlay should be displayed or not
+    readonly isLoading = computed(() => this._activeRequests() > 0);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
     show(): void {
-        this._isLoading.set(true);
+        this._activeRequests.update(count => count + 1);
     }
 
     hide(): void {
-        this._isLoading.set(false);
+        this._activeRequests.update(count => Math.max(0, count - 1));
+    }
+
+    reset(): void {
+        this._activeRequests.set(0);
     }
 }
