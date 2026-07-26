@@ -5,17 +5,17 @@ import { MatIconModule } from '@angular/material/icon';
 export type AlertType = 'success' | 'error' | 'warning' | 'info';
 
 @Component({
-    selector: 'app-alert',
+    selector: 'alert-message',
     standalone: true,
     imports: [
         NgClass,
         MatIconModule,
     ],
-    templateUrl: './alert.component.html',
-    styleUrl: './alert.component.scss'
+    templateUrl: './alert-message.component.html',
+    styleUrl: './alert-message.component.scss'
 })
 
-export class AlertComponent {
+export class AlertMessageComponent {
 
     // -----------------------------------------------------------------------------------------------------
     // @ Inputs
