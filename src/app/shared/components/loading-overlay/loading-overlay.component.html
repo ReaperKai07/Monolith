@@ -1,0 +1,32 @@
+@if (_loadingOverlayService.isLoading()) {
+
+    <div
+        class="
+            fixed inset-0 z-[9999]
+            flex items-center justify-center
+            bg-black/40 backdrop-blur-[1px]">
+
+        <div
+            class="
+                flex flex-col items-center gap-4
+                rounded-2xl bg-stone-900/90
+                px-8 py-6 shadow-2xl">
+
+            <!-- Spinner -->
+            <div
+                class="
+                    size-10 animate-spin rounded-full
+                    border-4 border-stone-500
+                    border-t-white">
+            </div>
+
+            <!-- Message -->
+            <p class="text-sm font-medium text-white">
+                Loading ...
+            </p>
+
+        </div>
+
+    </div>
+
+}
