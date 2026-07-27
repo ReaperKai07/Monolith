@@ -11,6 +11,8 @@ import { ExperiencesComponent } from './modules/admin/experiences/experiences.co
 import { SkillsComponent } from './modules/admin/skills/skills.component';
 import { ContactsComponent } from './modules/admin/contacts/contacts.component';
 import { ProfileComponent } from './modules/admin/profile/profile.component';
+import { CryptekLabComponent } from './modules/admin/cryptek-lab/cryptek-lab.component';
+import { CertificatesComponent } from './modules/admin/certificates/certificates.component';
 
 export const routes: Routes = [
 
@@ -70,9 +72,18 @@ export const routes: Routes = [
                 component: SkillsComponent,
             },
             {
+                path: 'certificates',
+                component: CertificatesComponent,
+            },
+            {
                 path: 'contacts',
                 component: ContactsComponent,
             },
+            {
+                path: 'cryptek-lab',
+                component: CryptekLabComponent,
+            },
+
             {
                 path: 'profile',
                 component: ProfileComponent,
