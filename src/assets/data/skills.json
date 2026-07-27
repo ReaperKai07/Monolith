@@ -1,0 +1,19 @@
+[
+    {
+        "id": 1,
+        "name": "Angular",
+        "category": "Framework",
+        "level": "Advanced",
+        "yearsOfExperience": 2,
+        "icon": "angular",
+        "description": "Used to build enterprise web applications and reusable frontend modules."
+    },
+    {
+        "id": 2,
+        "name": "Ionic",
+        "category": "Framework",
+        "yearsOfExperience": 1,
+        "icon": "angular",
+        "description": "Used to build enterprise web applications and reusable frontend modules."
+    }
+]

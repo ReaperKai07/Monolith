@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "name": "Monolith",
+        "slug": "monolith",
+        "category": "Personal",
+        "status": "In Development",
+        "startDate": "2026-07-01",
+        "endDate": null,
+        "summary": "An enterprise-style Angular portfolio dashboard",
+        "description": "A portfolio project designed to demonstrate Angular architecture, authentication, route guards, reusable components and mock API integration.",
+        "responsibilities": [
+            "Designed the application architecture",
+            "Implemented authentication and route protection",
+            "Created reusable UI components"
+        ],
+        "features": [
+            "Mock authentication",
+            "Role-based access",
+            "LocalStorage persistence",
+            "Responsive dashboard"
+        ],
+        "skillIds": [1, 2, 3, 4, 5],
+        "githubUrl": null,
+        "liveUrl": null
+    }
+]

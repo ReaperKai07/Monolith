@@ -1,16 +1,70 @@
 [
     {
-        "id" : 1,
-        "name" : "Khairul Izzat",
-        "email" : "khairulizzatroslan@gmail.com",
-        "password" : "870327Tun@",
-        "role" : "Administrator"
-    },
-    {
-        "id": 2,
-        "name": "John Doe",
-        "email": "john@monolith.com",
-        "password": "Password123!",
-        "role": "Developer"
+        "id": 1,
+        "name": "Khairul Izzat Bin Roslan",
+        "email": "khairulizzatroslan@gmail.com",
+        "password": "870327Tun@",
+        "role": "Administrator",
+
+        "profile": {
+            "headline": "Frontend Software Engineer",
+            "summary": "Frontend software engineer experienced in developing cross-platform web and mobile applications using Angular, TypeScript, Ionic and Capacitor.",
+            "phone": "0176016952",
+            "location": "Subang Jaya, Selangor, Malaysia",
+            "availability": "Open to Opportunities",
+            "profileImageUrl": "assets/images/profile/profile.jpg",
+            "resumeUrl": "assets/documents/resume.pdf",
+            "dateOfBirth": "2000-03-07",
+            "nationality": "Malaysian",
+            "languages": ["English", "Malay"]
+        },
+
+        "education": [
+            {
+                "id": 2,
+                "institution": "MARA University of Technology (UiTM)",
+                "campus": "Arau, Perlis",
+                "qualification": "Bachelor's Degree",
+                "course": "Information Technology",
+                "specialisation": "Big Data Analytics",
+                "startYear": 2022,
+                "endYear": 2024,
+                "description": "Studied web and software development, data analytics and data visualisation.",
+                "projectIds": [1],
+                "skillIds": [8, 9, 10]
+            },
+            {
+                "id": 1,
+                "institution": "MARA University of Technology (UiTM)",
+                "campus": "Tapah, Perak",
+                "qualification": "Diploma",
+                "course": "Conputer Science",
+                "specialisation": "",
+                "startYear": 2018,
+                "endYear": 2021,
+                "description": "Studied the foundation of programming, object oriented java and ",
+                "projectIds": [],
+                "skillIds": [8, 9, 10]
+            }
+        ],
+
+        "platforms": [
+            {
+                "id": 1,
+                "platform": "GitHub",
+                "username": "ReaperKai07",
+                "url": "https://github.com/ReaperKai07",
+                "icon": "github",
+                "public": true
+            },
+            {
+                "id": 2,
+                "platform": "LinkedIn",
+                "username": "Khairul Izzat Roslan",
+                "url": "https://linkedin.com/in/khairul-izzat-roslan",
+                "icon": "linkedin",
+                "public": true
+            }
+        ]
     }
 ]

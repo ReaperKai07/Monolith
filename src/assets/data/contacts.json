@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "profileId": 1,
+        "companyId": 1,
+        "name": "Reference Name",
+        "role": "Project Manager",
+        "relationship": "Former Supervisor",
+        "yearFrom": 2024,
+        "yearTo": 2026,
+        "email": null,
+        "phone": null,
+        "permissionToContact": false,
+        "public": false,
+        "note": "Reference available upon request."
+    }
+]

@@ -1,0 +1,41 @@
+[
+    {
+        "id": 1,
+        "profileId": 1,
+        "companyId": 1,
+        "role": "Frontend Software Engineer",
+        "employmentType": "Full-time",
+        "startDate": "2025-02-01",
+        "endDate": null,
+        "current": true,
+        "location": "Malaysia",
+        "workArrangement": "On-site",
+        "summary": "Developed and maintained cross-platform web and mobile applications",
+        "responsibilities": [
+            "Developed Angular and Ionic frontend modules, while ensuring optimal performance",
+            "Integrated applications with REST APIs and third-party services",
+            "Maintained iOS builds using Xcode and published to TestFlight",
+            "Collaborated with backend developers to implement new features and resolve issues"
+        ],
+        "projectIds": [1, 2, 3, 4, 5],
+        "skillIds": [1, 2, 3, 4, 5]
+    },
+    {
+        "id": 2,
+        "profileId": 1,
+        "companyId": 1,
+        "role": "Software Engineer",
+        "employmentType": "Intern",
+        "startDate": "2024-09-03",
+        "endDate": "2025-01-28",
+        "current": true,
+        "location": "Malaysia",
+        "workArrangement": "On-site",
+        "summary": "Assist other developers in their development of web or mobile applications",
+        "responsibilities": [
+            "Developed Angular and Ionic frontend modules, while ensuring optimal performance"
+        ],
+        "projectIds": [1, 2, 3, 4, 5],
+        "skillIds": [1, 2, 3, 4, 5]
+    }
+]
