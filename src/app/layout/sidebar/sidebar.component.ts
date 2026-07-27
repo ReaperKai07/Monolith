@@ -7,7 +7,7 @@ import { LoadingOverlayService } from '../../core/services/loading-overlay.servi
 interface NavigationItem {
     title: string;
     route: string;
-    icon: 'dashboard' | 'projects' | 'experiences' | 'skills' | 'contacts';
+    icon: 'dashboard' | 'projects' | 'experiences' | 'skills' | 'certificates' | 'contacts' | 'cryptek-lab';
 }
 
 @Component({
@@ -53,9 +53,19 @@ export class SidebarComponent {
             icon: 'skills'
         },
         {
+            title: 'Certificates',
+            route: '/certificates',
+            icon: 'certificates',
+        },
+        {
             title: 'Contacts',
             route: '/contacts',
             icon: 'contacts'
+        },
+        {
+            title: 'Cryptek Lab',
+            route: '/cryptek-lab',
+            icon: 'cryptek-lab'
         }
     ];
 
