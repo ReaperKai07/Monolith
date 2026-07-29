@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { UserService } from '../../core/user/user.service';
 
@@ -12,6 +12,13 @@ import { UserService } from '../../core/user/user.service';
 })
 
 export class HeaderComponent {
+
+    @Output()
+    menuClicked = new EventEmitter<void>();
+
+    onMenuClick(): void {
+        this.menuClicked.emit();
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Dependencies
