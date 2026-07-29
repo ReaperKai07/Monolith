@@ -1,4 +1,4 @@
-<div class="h-full w-[20vw] p-4 gap-8 flex flex-col bg-linear-to-b from-stone-700 to-stone-900 text-white">
+<div class=" flex h-full w-72 flex-col gap-8 overflow-y-auto bg-linear-to-b from-stone-700 to-stone-900 p-4 text-white lg:w-64 xl:w-72">
 
     <!-- Header -->
     <div class="flex justify-center items-center gap-4">
@@ -22,6 +22,7 @@
                 [routerLink]="item.route"
                 routerLinkActive
                 #navigationLink="routerLinkActive"
+                (click)="onNavigationSelected()"
                 [class.bg-white]="navigationLink.isActive"
                 [class.text-stone-900]="navigationLink.isActive"
                 [class.text-white]="!navigationLink.isActive"

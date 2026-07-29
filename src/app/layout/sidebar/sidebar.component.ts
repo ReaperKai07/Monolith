@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
 import { LoadingOverlayService } from '../../core/services/loading-overlay.service';
@@ -20,6 +20,13 @@ interface NavigationItem {
 })
 
 export class SidebarComponent {
+
+    @Output()
+    navigationSelected = new EventEmitter<void>();
+
+    onNavigationSelected(): void {
+        this.navigationSelected.emit();
+    }
 
   /**
    * Constructor
