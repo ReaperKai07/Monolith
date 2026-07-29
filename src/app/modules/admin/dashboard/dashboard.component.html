@@ -105,26 +105,36 @@
     <div class="lg:col-span-2 h-1 bg-stone-200"></div>
 
     <!-- Current Active Project -->
-    <section class="flex flex-col gap-16 rounded-lg bg-white p-6 shadow-sm sm:flex-row sm:items-center lg:col-span-2">
+    <section class="grid grid-cols-1 gap-8 rounded-lg bg-white p-6 shadow-sm lg:grid-cols-4 lg:col-span-2">
         <!-- Project Details -->
-        <div class="flex flex-1 flex-col gap-3">
+        <div class="flex flex-col gap-3 lg:col-span-3">
             <div>
-                <p class="text-sm font-medium uppercase tracking-wide text-stone-500">Current Project</p>
+                <p class="text-sm mb-4 font-medium uppercase tracking-wide text-stone-500">Latest Project</p>
                 <p class="mt-1 text-2xl font-semibold text-stone-900">Monolith</p>
+                <p class="text-sm text-stone-500">
+                    Personal developer portfolio presented as a dashboard application built with Angular 19.
+                </p>
             </div>
             <div class="flex flex-wrap gap-x-8 gap-y-2 text-sm text-stone-600">
                 <p>
-                    Status: 
+                    Status : 
                     <span class="font-medium text-stone-900">
-                        In Development
+                        Actively In Development
                     </span>
                 </p>
                 <p>
-                    Started: 
+                    Started : 
                     <span class="font-medium text-stone-900">
-                        June 2026
+                        July 2026
                     </span>
                 </p>
+                <p>
+                    Target Completion : 
+                    <span class="font-medium text-stone-900">
+                        August 2026
+                    </span>
+                </p>
+
             </div>
             <!-- Progress -->
             <div class="mt-2 flex flex-col gap-2">
@@ -136,12 +146,9 @@
                     <div class="h-full w-[10%] rounded-full bg-stone-800"></div>
                 </div>
             </div>
-            <p class="text-sm text-stone-500">
-                Next milestone: Complete the dashboard page.
-            </p>
         </div>
         <!-- Project Icon -->
-        <div class="flex shrink-0 items-center justify-center">
+        <div class="flex items-center justify-center lg:col-span-1">
             <div class="flex items-center justify-center rounded-full bg-stone-900 p-5">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
