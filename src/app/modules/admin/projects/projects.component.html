@@ -1,1 +1,191 @@
-<p>projects works!</p>
+<div class="flex flex-col gap-6">
+
+    <!-- Header -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-semibold text-stone-900">
+                Projects
+            </h1>
+            <p class="mt-1 text-sm text-stone-500">
+                This section manages and showcases your professional, academic, and personal projects.
+            </p>
+        </div>
+        <button
+            type="button"
+            class="flex shrink-0 items-center justify-center gap-4 rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-700">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+            </svg>
+            Add New Project
+        </button>
+    </div>
+
+    <!-- Divider -->
+    <div class="h-px w-full bg-stone-200"></div>
+
+    <!-- Search and Filters -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+        <!-- Search -->
+        <div class="w-full sm:max-w-xl">
+            <div class=" flex items-center gap-3 px-1 py-3 transition-colors focus-within:border-stone-700 bg-transparent border-b border-stone-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-5 shrink-0 text-stone-400">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35m1.35-5.15a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+                </svg>
+                <input
+                    type="search"
+                    placeholder="Search projects..."
+                    class="min-w-0 flex-1 border-none bg-transparent text-sm text-stone-800 outline-none placeholder:text-stone-400">
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex gap-3">
+            <select class=" rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-700 outline-none focus:border-stone-400">
+                <option>All statuses</option>
+                <option>Planning</option>
+                <option>In Development</option>
+                <option>Completed</option>
+            </select>
+
+            <select class="rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-700 outline-none focus:border-stone-400">
+                <option>All scopes</option>
+                <option>Frontend</option>
+                <option>Backend</option>
+                <option>UI/UX</option>
+            </select>
+
+        </div>
+
+    </div>
+
+    <!-- Table of Projects -->
+    <div class="w-full overflow-x-auto">
+        <table class="w-full min-w-[700px] text-left">
+            <!-- Table Header -->
+            <thead>
+                <tr class="border-b border-stone-200 text-sm text-stone-500">
+                    <th class="px-4 py-3 font-medium">Project</th>
+                    <!-- <th class="px-4 py-3 font-medium">Description</th> -->
+                    <!-- <th class="px-4 py-3 font-medium">Type</th> -->
+                    <th class="px-4 py-3 font-medium">Platform</th>
+                    <th class="px-4 py-3 font-medium">Technology</th>
+                    <!-- <th class="px-4 py-3 font-medium">Scope</th> -->
+                    <th class="px-4 py-3 font-medium">Duration</th>
+                    <th class="px-4 py-3 font-medium">Status</th>
+                    <th class="px-4 py-3 font-medium">Action</th>
+                </tr>
+            </thead>
+            <!-- Table Body -->
+            <tbody>
+                @for (project of projectsList; track project.id) {
+                    <tr class="border-b border-stone-200 text-sm hover:bg-stone-50">
+                        <!-- Project -->
+                        <td class="px-4 py-4">
+                            <p class="font-medium text-stone-900">
+                                {{ project.project }}
+                            </p>
+                        </td>
+                        <!-- Description -->
+                        <!-- <td class="px-4 py-4">
+                            <p class="max-w-sm truncate text-stone-600">
+                                {{ project.description }}
+                            </p>
+                        </td> -->
+                        <!-- Type -->
+                        <!-- <td class="px-4 py-4">
+                            {{ project.type }}
+                        </td> -->
+                        <!-- Platform -->
+                        <td class="px-4 py-4">
+                            <div class="flex flex-wrap gap-1">
+                                @for (platform of project.platform; track platform) {
+                                    <span class="rounded-full bg-stone-100 px-2 py-1 text-xs font-medium text-stone-700">
+                                        {{ platform }}
+                                    </span>
+                                }
+                            </div>
+                        </td>
+                        <!-- Technology -->
+                        <td class="px-4 py-4">
+                            <div class="flex flex-wrap gap-1">
+                                @for (technology of project.technology; track technology) {
+                                    <span
+                                        class="rounded-full bg-stone-500 px-2 py-1 text-xs text-white">
+                                        {{ technology }}
+                                    </span>
+                                }
+                            </div>
+                        </td>
+                        <!-- Scope -->
+                        <!-- <td class="px-4 py-4">
+                            <div class="flex flex-wrap gap-1">
+                                @for (scope of project.scope; track scope) {
+                                    <span
+                                        class="rounded-full bg-stone-200 px-2 py-1 text-xs text-stone-700">
+                                        {{ scope }}
+                                    </span>
+                                }
+                            </div>
+                        </td> -->
+                        <!-- Duration -->
+                        <td class="px-4 py-4 whitespace-nowrap text-center items-center">
+                            @if (project.startDate) {
+                                {{ project.startDate | date:'MMM yyyy' }}
+                                -
+                                @if (project.endDate) {
+                                    {{ project.endDate | date:'MMM yyyy' }}
+                                } @else {
+                                    Present
+                                }
+                            } @else {
+                                -
+                            }
+
+                        </td>
+                        <!-- Status -->
+                        <td class="px-4 py-4">
+                            <span
+                                class="rounded-full px-3 py-1 text-xs font-medium"
+                                [ngClass]="{
+                                    'bg-blue-100 text-blue-700': project.status === 'Planning',
+                                    'bg-orange-100 text-orange-700': project.status === 'In Development',
+                                    'bg-red-100 text-red-700': project.status === 'On Hold',
+                                    'bg-green-100 text-green-700': project.status === 'Completed'
+                                }">
+                                {{ project.status }}
+                            </span>
+                        </td>
+                        <!-- Actions -->
+                        <td class="px-4 py-4">
+                            <div class="flex items-center justify-center gap-2">
+                                <!-- Edit -->
+                                <button
+                                    type="button"
+                                    class="rounded-lg p-2 text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-600"
+                                    aria-label="Edit Project">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                                        <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                        <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                    </svg>
+
+                                </button>
+                                <!-- Delete -->
+                                <button
+                                    type="button"
+                                    class="rounded-lg p-2 text-stone-600 transition-colors hover:bg-red-50 hover:text-red-600"
+                                    aria-label="Delete Project">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                                        <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
