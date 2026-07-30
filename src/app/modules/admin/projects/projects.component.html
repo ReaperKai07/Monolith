@@ -47,14 +47,12 @@
                 <option>In Development</option>
                 <option>Completed</option>
             </select>
-
             <select class="rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-700 outline-none focus:border-stone-400">
                 <option>All scopes</option>
                 <option>Frontend</option>
                 <option>Backend</option>
                 <option>UI/UX</option>
             </select>
-
         </div>
 
     </div>
@@ -64,13 +62,10 @@
         <table class="w-full min-w-[700px] text-left">
             <!-- Table Header -->
             <thead>
-                <tr class="border-b border-stone-200 text-sm text-stone-500">
+                <tr class="border-b border-stone-200 text-sm text-stone-500 bg-white">
                     <th class="px-4 py-3 font-medium">Project</th>
-                    <!-- <th class="px-4 py-3 font-medium">Description</th> -->
-                    <!-- <th class="px-4 py-3 font-medium">Type</th> -->
                     <th class="px-4 py-3 font-medium">Platform</th>
                     <th class="px-4 py-3 font-medium">Technology</th>
-                    <!-- <th class="px-4 py-3 font-medium">Scope</th> -->
                     <th class="px-4 py-3 font-medium">Duration</th>
                     <th class="px-4 py-3 font-medium">Status</th>
                     <th class="px-4 py-3 font-medium">Action</th>
@@ -79,28 +74,31 @@
             <!-- Table Body -->
             <tbody>
                 @for (project of paginatedProjects; track project.id) {
-                    <tr class="border-b border-stone-200 text-sm hover:bg-stone-50">
+                    <tr class="group border-b border-stone-200 text-sm transition-colors duration-150 hover:bg-white/50">
                         <!-- Project -->
                         <td class="px-4 py-4">
-                            <p class="font-medium text-stone-900">
-                                {{ project.project }}
-                            </p>
+                            <div class="max-w-xs">
+                                <p class="font-semibold text-stone-900 transition-colors group-hover:text-stone-600">
+                                    {{ project.project }}
+                                </p>
+                                <p class="mt-1 max-w-[260px] truncate text-xs text-stone-500"
+                                    [matTooltip]="project.description"
+                                    matTooltipPosition="above">
+                                    {{ project.description }}
+                                </p>
+                            </div>
                         </td>
-                        <!-- Description -->
-                        <!-- <td class="px-4 py-4">
-                            <p class="max-w-sm truncate text-stone-600">
-                                {{ project.description }}
-                            </p>
-                        </td> -->
-                        <!-- Type -->
-                        <!-- <td class="px-4 py-4">
-                            {{ project.type }}
-                        </td> -->
                         <!-- Platform -->
                         <td class="px-4 py-4">
-                            <div class="flex flex-wrap gap-1">
+                            <div class="flex flex-wrap gap-2">
                                 @for (platform of project.platform; track platform) {
-                                    <span class="rounded-full bg-stone-100 px-2 py-1 text-xs font-medium text-stone-700">
+                                    <span
+                                        class="rounded-full px-2.5 py-1 text-xs font-medium"
+                                        [ngClass]="{
+                                            'bg-blue-100 text-blue-700': platform === 'Desktop',
+                                            'bg-green-100 text-green-700': platform === 'Android',
+                                            'bg-stone-200 text-pink-700': platform === 'iOS'
+                                        }">
                                         {{ platform }}
                                     </span>
                                 }
@@ -108,26 +106,25 @@
                         </td>
                         <!-- Technology -->
                         <td class="px-4 py-4">
-                            <div class="flex flex-wrap gap-1">
-                                @for (technology of project.technology; track technology) {
-                                    <span
-                                        class="rounded-full bg-stone-500 px-2 py-1 text-xs text-white">
+                            <div class="flex flex-wrap items-center gap-1.5">
+                                @for (
+                                    technology of project.technology | slice:0:3;
+                                    track technology
+                                ) {
+                                    <span class="rounded-full bg-stone-500 px-2.5 py-1 text-xs font-medium text-white">
                                         {{ technology }}
+                                    </span>
+                                }
+                                @if (project.technology.length > 3) {
+                                    <span
+                                        class="rounded-full bg-stone-200 px-2.5 py-1 text-xs font-medium text-stone-700 cursor-help"
+                                        [matTooltip]="project.technology.slice(3).join(', ')"
+                                        matTooltipPosition="above">
+                                        +{{ project.technology.length - 3 }}
                                     </span>
                                 }
                             </div>
                         </td>
-                        <!-- Scope -->
-                        <!-- <td class="px-4 py-4">
-                            <div class="flex flex-wrap gap-1">
-                                @for (scope of project.scope; track scope) {
-                                    <span
-                                        class="rounded-full bg-stone-200 px-2 py-1 text-xs text-stone-700">
-                                        {{ scope }}
-                                    </span>
-                                }
-                            </div>
-                        </td> -->
                         <!-- Duration -->
                         <td class="px-4 py-4 whitespace-nowrap text-center items-center">
                             @if (project.startDate) {
@@ -158,21 +155,24 @@
                         </td>
                         <!-- Actions -->
                         <td class="px-4 py-4">
-                            <div class="flex items-center justify-center gap-2">
+                            <div class="flex items-center justify-center gap-1">
                                 <!-- Edit -->
                                 <button
                                     type="button"
-                                    class="rounded-lg p-2 text-stone-600 transition-colors hover:bg-stone-100 hover:text-stone-600"
+                                    class="rounded-lg p-2 text-stone-600 transition-colors hover:bg-stone-200 hover:text-stone-600"
+                                    matTooltip="Edit"
+                                    matTooltipPosition="above"
                                     aria-label="Edit Project">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
                                         <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
                                         <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
                                     </svg>
-
                                 </button>
                                 <!-- Delete -->
                                 <button
                                     type="button"
+                                    matTooltip="Delete"
+                                    matTooltipPosition="above"
                                     class="rounded-lg p-2 text-stone-600 transition-colors hover:bg-red-50 hover:text-red-600"
                                     aria-label="Delete Project">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
@@ -189,15 +189,13 @@
     </div>
 
     <!-- Pagination -->
-    <div class="border-t border-stone-200">
-
+    <div class="">
         <app-pagination
             [currentPage]="currentPage"
             [pageSize]="pageSize"
             [totalItems]="projectsList.length"
             (pageChange)="onPageChange($event)">
         </app-pagination>
-
     </div>
 
 </div>

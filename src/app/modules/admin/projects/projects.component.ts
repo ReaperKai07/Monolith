@@ -1,7 +1,7 @@
-import { DatePipe, NgClass } from '@angular/common';
+import { DatePipe, NgClass, SlicePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatFormField } from "@angular/material/form-field";
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 type ProjectType = 'Mobile' | 'Website';
 type ProjectPlatform = 'iOS' | 'Android' | 'Desktop';
@@ -25,10 +25,11 @@ interface ProjectsList {
     standalone: true,
     templateUrl: './projects.component.html',
     imports: [
-        MatFormField,
         DatePipe,
         NgClass,
         PaginationComponent,
+        SlicePipe,
+        MatTooltipModule,
     ],
 })
 export class ProjectsComponent {
