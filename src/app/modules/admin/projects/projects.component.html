@@ -78,7 +78,7 @@
             </thead>
             <!-- Table Body -->
             <tbody>
-                @for (project of projectsList; track project.id) {
+                @for (project of paginatedProjects; track project.id) {
                     <tr class="border-b border-stone-200 text-sm hover:bg-stone-50">
                         <!-- Project -->
                         <td class="px-4 py-4">
@@ -185,6 +185,18 @@
                 }
             </tbody>
         </table>
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="border-t border-stone-200">
+
+        <app-pagination
+            [currentPage]="currentPage"
+            [pageSize]="pageSize"
+            [totalItems]="projectsList.length"
+            (pageChange)="onPageChange($event)">
+        </app-pagination>
 
     </div>
 

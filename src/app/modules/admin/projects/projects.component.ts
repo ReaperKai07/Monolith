@@ -1,6 +1,7 @@
 import { DatePipe, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatFormField } from "@angular/material/form-field";
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 type ProjectType = 'Mobile' | 'Website';
 type ProjectPlatform = 'iOS' | 'Android' | 'Desktop';
@@ -26,7 +27,8 @@ interface ProjectsList {
     imports: [
         MatFormField,
         DatePipe,
-        NgClass
+        NgClass,
+        PaginationComponent,
     ],
 })
 export class ProjectsComponent {
@@ -34,10 +36,22 @@ export class ProjectsComponent {
     readonly pageSize = 10;
     currentPage = 1;
 
-    /**
-     * Constructor
-     */
-    constructor(){}
+    get paginatedProjects(): ProjectsList[] {
+        const startIndex =
+            (this.currentPage - 1) * this.pageSize;
+
+        const endIndex =
+            startIndex + this.pageSize;
+
+        return this.projectsList.slice(
+            startIndex,
+            endIndex
+        );
+    }
+
+    onPageChange(page: number): void {
+        this.currentPage = page;
+    }
 
     projectsList: ProjectsList[] = [
         {
@@ -77,61 +91,5 @@ export class ProjectsComponent {
             status: 'Planning',
         },
     ];
-
-    /**
-     * Paginations Stuff
-     */
-    get totalPages(): number {
-        return Math.max(
-            1,
-            Math.ceil(this.projectsList.length / this.pageSize)
-        );
-    }
-
-    get paginatedProjects(): ProjectsList[] {
-        const startIndex = (this.currentPage - 1) * this.pageSize;
-        const endIndex = startIndex + this.pageSize;
-
-        return this.projectsList.slice(startIndex, endIndex);
-    }
-
-    get pageNumbers(): number[] {
-        return Array.from(
-            { length: this.totalPages },
-            (_, index) => index + 1
-        );
-    }
-
-    get firstDisplayedProject(): number {
-        if (this.projectsList.length === 0) {
-            return 0;
-        }
-
-        return (this.currentPage - 1) * this.pageSize + 1;
-    }
-
-    get lastDisplayedProject(): number {
-        return Math.min(
-            this.currentPage * this.pageSize,
-            this.projectsList.length
-        );
-    }
-
-    goToPage(page: number): void {
-        if (page < 1 || page > this.totalPages) {
-            return;
-        }
-
-        this.currentPage = page;
-    }
-
-    previousPage(): void {
-        this.goToPage(this.currentPage - 1);
-    }
-
-    nextPage(): void {
-        this.goToPage(this.currentPage + 1);
-    }
-
 
 }
