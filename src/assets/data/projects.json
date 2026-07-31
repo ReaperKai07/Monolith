@@ -1,27 +1,38 @@
 [
     {
         "id": 1,
-        "name": "Monolith",
-        "slug": "monolith",
-        "category": "Personal",
-        "status": "In Development",
-        "startDate": "2026-07-01",
+        "project": "Monolith",
+        "description": "Developer dashboard showcasing enterprise Angular architecture, authentication, and reusable components.",
+        "type": "Website",
+        "platform": [ "Desktop", "Android" ],
+        "technology": [ "Angular", "TypeScript", "Tailwind", "RxJS" ],
+        "scope": [ "Frontend", "UI/UX" ],
+        "startDate": "2026-06-01",
         "endDate": null,
-        "summary": "An enterprise-style Angular portfolio dashboard",
-        "description": "A portfolio project designed to demonstrate Angular architecture, authentication, route guards, reusable components and mock API integration.",
-        "responsibilities": [
-            "Designed the application architecture",
-            "Implemented authentication and route protection",
-            "Created reusable UI components"
-        ],
-        "features": [
-            "Mock authentication",
-            "Role-based access",
-            "LocalStorage persistence",
-            "Responsive dashboard"
-        ],
-        "skillIds": [1, 2, 3, 4, 5],
-        "githubUrl": null,
-        "liveUrl": null
+        "status": "In Development"
+    },
+    {
+        "id": 2,
+        "project": "Obelisk",
+        "description": "Frontend playground for exploring modern React patterns and UI experimentation.",
+        "type": "Website",
+        "platform": [ "Desktop", "Android" ],
+        "technology": [ "React", "TypeScript", "Tailwind" ],
+        "scope": [ "Frontend", "UI/UX" ],
+        "startDate": null,
+        "endDate": null,
+        "status": "On Hold"
+    },
+    {
+        "id": 3,
+        "project": "Dolmen",
+        "description": "Fictional telco self-service mobile application demonstrating authentication, eKYC, subscriptions, and billing workflows.",
+        "type": "Mobile",
+        "platform": [ "Android" ],
+        "technology": [ "Angular", "TypeScript", "Capacitor", "Ionic", "Tailwind", "RxJS" ],
+        "scope": [ "Frontend", "UI/UX" ],
+        "startDate": null,
+        "endDate": null,
+        "status": "Planning"
     }
 ]
