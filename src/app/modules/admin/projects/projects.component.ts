@@ -1,49 +1,85 @@
 import { DatePipe, NgClass, SlicePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
-type ProjectType = 'Mobile' | 'Website';
-type ProjectPlatform = 'iOS' | 'Android' | 'Desktop';
-type ProjectStatus = 'Planning' | 'In Development' | 'On Hold' | 'Completed';
-
-interface ProjectsList {
-    id: number;
-    project: string;
-    description: string;
-    type: ProjectType;
-    platform: ProjectPlatform[];
-    technology: string[];
-    scope: string[];
-    startDate: Date | null;
-    endDate: Date | null;
-    status: ProjectStatus;
-}
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialogComponent, DeleteDialogData } from '../../../shared/components/delete-dialog/delete-dialog.component';
+import { ProjectsService } from '../../../core/projects/projects.service';
+import { Project } from '../../../core/projects/projects.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-projects',
     standalone: true,
     templateUrl: './projects.component.html',
     imports: [
-        DatePipe,
         NgClass,
-        PaginationComponent,
+        DatePipe,
         SlicePipe,
         MatTooltipModule,
+        PaginationComponent,
     ],
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements OnInit {
+
+    private readonly _dialog = inject(MatDialog);
+    private readonly _projectsService = inject(ProjectsService);
+    private readonly _destroyRef = inject(DestroyRef);
 
     readonly pageSize = 10;
     currentPage = 1;
 
-    get paginatedProjects(): ProjectsList[] {
-        const startIndex =
-            (this.currentPage - 1) * this.pageSize;
+    projectsList: Project[] = [];
 
-        const endIndex =
-            startIndex + this.pageSize;
+    ngOnInit(): void {
 
+        /*
+         * Subscribe to the service state.
+         *
+         * Creating, updating, or deleting a project causes projects$
+         * to emit a new array, which automatically refreshes the table.
+         *
+         * takeUntilDestroyed prevents the subscription from remaining
+         * active after this component is destroyed.
+         */
+        this._projectsService.projects$
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe(projects => {
+                this.projectsList = projects;
+                this._ensureValidCurrentPage();
+            });
+
+        /*
+         * Loads saved projects from localStorage.
+         * If none exist, the service seeds them from projects.json.
+         */
+        this._projectsService
+            .initializeProjects()
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe({
+                error: error => {
+                    console.error(
+                        'Failed to initialize projects:',
+                        error
+                    );
+                },
+            });
+
+    }
+
+    /*
+     * Returns only the projects belonging to the current page.
+     *
+     * Page 1: indexes 0–9
+     * Page 2: indexes 10–19
+     */
+    get paginatedProjects(): Project[] {
+        const startIndex = (this.currentPage - 1) * this.pageSize;
+        const endIndex = startIndex + this.pageSize;
         return this.projectsList.slice(
             startIndex,
             endIndex
@@ -54,43 +90,80 @@ export class ProjectsComponent {
         this.currentPage = page;
     }
 
-    projectsList: ProjectsList[] = [
-        {
-            id: 1,
-            project: 'Monolith',
-            description: 'Developer dashboard showcasing enterprise Angular architecture, authentication, and reusable components.',
-            type: 'Website',
-            platform: [ 'Desktop', 'Android'],
-            technology: [ 'Angular', 'TypeScript', 'Tailwind', 'RxJS' ],
-            scope: [ 'Frontend', 'UI/UX', ],
-            startDate: new Date('2026-06-01'),
-            endDate: null,
-            status: 'In Development',
-        },
-        {
-            id: 2,
-            project: 'Obelisk',
-            description: 'Frontend playground for exploring modern React patterns and UI experimentation.',
-            type: 'Website',
-            platform: [ 'Desktop', 'Android'],
-            technology: [ 'React', 'TypeScript', 'Tailwind', ],
-            scope: [ 'Frontend', 'UI/UX', ],
-            startDate: null,
-            endDate: null,
-            status: 'On Hold',
-        },
-        {
-            id: 3,
-            project: 'Dolmen',
-            description: 'Fictional telco self-service mobile application demonstrating authentication, eKYC, subscriptions, and billing workflows.',
-            type: 'Mobile',
-            platform: [ 'Android'],
-            technology: [ 'Angular', 'TypeScript', 'Capacitor', 'Ionic', 'Tailwind', 'RxJS' ],
-            scope: [ 'Frontend', 'UI/UX', ],
-            startDate: null,
-            endDate: null,
-            status: 'Planning',
-        },
-    ];
+    openDeleteDialog(project: Project): void {
+        /*
+         * The reusable dialog only returns true or false.
+         * The Projects page remains responsible for performing the deletion.
+         */
+        const dialogRef = this._dialog.open<
+            DeleteDialogComponent,
+            DeleteDialogData,
+            boolean
+        >(
+            DeleteDialogComponent,
+            {
+                width: '420px',
+                maxWidth: 'calc(100vw - 32px)',
+                autoFocus: false,
+                data: {
+                    itemName: project.project,
+                    itemType: 'project',
+                },
+            }
+        );
+
+        dialogRef
+            .afterClosed()
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe(confirmed => {
+                if (!confirmed) {
+                    return;
+                }
+
+                this.deleteProject(project.id);
+            });
+
+    }
+
+    deleteProject(projectId: number): void {
+        this._projectsService
+            .deleteProject(projectId)
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe({
+                error: error => {
+                    console.error(
+                        'Failed to delete project:',
+                        error
+                    );
+                },
+            });
+    }
+
+    /*
+     * If the final project on the final page is deleted,
+     * move the user back to the last available page.
+     *
+     * Example:
+     * Page 2 has one project.
+     * That project is deleted.
+     * The current page is corrected from 2 back to 1.
+     */
+    private _ensureValidCurrentPage(): void {
+        const totalPages = Math.max(
+            1,
+            Math.ceil(
+                this.projectsList.length /
+                this.pageSize
+            )
+        );
+
+        if (this.currentPage > totalPages) {
+            this.currentPage = totalPages;
+        }
+    }
 
 }
