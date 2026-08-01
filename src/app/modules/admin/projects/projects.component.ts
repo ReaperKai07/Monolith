@@ -8,8 +8,7 @@ import { ProjectsService } from '../../../core/projects/projects.service';
 import { Project } from '../../../core/projects/projects.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DetailsProjectsComponent, DetailsProjectsDialogData } from './details-projects/details-projects.component';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, startWith } from 'rxjs';
+import { SearchComponent } from '../../../shared/components/search/search.component';
 
 @Component({
     selector: 'app-projects',
@@ -21,7 +20,7 @@ import { debounceTime, distinctUntilChanged, startWith } from 'rxjs';
         SlicePipe,
         MatTooltipModule,
         PaginationComponent,
-        ReactiveFormsModule,
+        SearchComponent,
     ],
 })
 export class ProjectsComponent implements OnInit {
@@ -30,7 +29,6 @@ export class ProjectsComponent implements OnInit {
     private readonly _projectsService = inject(ProjectsService);
     private readonly _destroyRef = inject(DestroyRef);
 
-    readonly searchControl = new FormControl('', {nonNullable: true});
     readonly pageSize = 10;
 
     currentPage = 1;
@@ -74,21 +72,6 @@ export class ProjectsComponent implements OnInit {
                         error
                     );
                 },
-            });
-
-        // Search automatically as the user types.
-        this.searchControl.valueChanges
-            .pipe(
-                startWith(''),
-                debounceTime(200),
-                distinctUntilChanged(),
-                takeUntilDestroyed(this._destroyRef)
-            )
-            .subscribe(value => {
-                this.searchTerm = value.trim().toLowerCase();
-
-                // Return to page one whenever the search changes.
-                this.currentPage = 1;
             });
 
     }
@@ -237,6 +220,7 @@ export class ProjectsComponent implements OnInit {
         if (!this.searchTerm) {
             return this.projectsList;
         }
+        const search = this.searchTerm.toLowerCase();
         return this.projectsList.filter(project => {
             const searchableValues = [
                 project.project,
@@ -247,9 +231,15 @@ export class ProjectsComponent implements OnInit {
                 ...project.scope,
             ];
             return searchableValues.some(value =>
-                value.toLowerCase().includes(this.searchTerm)
+                value.toLowerCase().includes(search)
             );
         });
+    }
+
+    onSearchChange(searchTerm: string): void {
+        this.searchTerm = searchTerm;
+        this.currentPage = 1;
+        this._ensureValidCurrentPage();
     }
 
 }

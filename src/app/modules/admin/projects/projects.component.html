@@ -27,18 +27,12 @@
     <!-- Search Filters -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <!-- Search -->
-        <div class="w-full">
-            <div class="flex items-center px-4 pb-4 gap-4 transition-colors bg-transparent border-b border-stone-200">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-5 shrink-0 text-stone-400">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35m1.35-5.15a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
-                </svg>
-                <input
-                    type="search"
-                    placeholder="Search by project name, type, platform, technology, status or job scope"
-                    [formControl]="searchControl"
-                    class="min-w-0 flex-1 border-none bg-transparent text-sm text-stone-800 outline-none placeholder:text-stone-400">
-            </div>
-        </div>
+        <app-search
+            class="w-full"
+            placeholder="Search projects..."
+            [debounceTimeMs]="200"
+            (searchChange)="onSearchChange($event)">
+        </app-search>
     </div>
 
     <!-- Table of Projects -->
@@ -175,7 +169,7 @@
                             colspan="6"
                             class="px-4 py-12 text-center text-sm text-stone-500">
                             @if (searchTerm) {
-                                No projects match "{{ searchControl.value }}".
+                                No projects match "{{ searchTerm }}".
                             } @else {
                                 No projects available.
                             }
