@@ -9,7 +9,6 @@ import {
     tap,
     throwError,
 } from 'rxjs';
-
 import {
     CreateProjectRequest,
     Project,
@@ -20,45 +19,31 @@ import {
 @Injectable({
     providedIn: 'root',
 })
+
 export class ProjectsService {
 
     private readonly _http = inject(HttpClient);
-
     private readonly _storageKey = 'monolith_projects';
     private readonly _projectsUrl = '/assets/data/projects.json';
-
-    private readonly _projects =
-        new BehaviorSubject<Project[]>([]);
-
-    readonly projects$ =
-        this._projects.asObservable();
+    private readonly _projects = new BehaviorSubject<Project[]>([]);
+    readonly projects$ = this._projects.asObservable();
 
     /**
      * Loads projects from localStorage.
      * If localStorage is empty, seed it using projects.json.
      */
     initializeProjects(): Observable<Project[]> {
-        const storedProjects =
-            localStorage.getItem(this._storageKey);
-
+        const storedProjects = localStorage.getItem(this._storageKey);
         if (storedProjects) {
             try {
-                const parsedProjects =
-                    JSON.parse(storedProjects) as ProjectDto[];
-
-                const projects =
-                    parsedProjects.map(project =>
-                        this._mapDtoToProject(project)
-                    );
-
+                const parsedProjects = JSON.parse(storedProjects) as ProjectDto[];
+                const projects = parsedProjects.map(project => this._mapDtoToProject(project));
                 this._projects.next(projects);
-
                 return of(projects);
             } catch {
                 localStorage.removeItem(this._storageKey);
             }
         }
-
         return this._loadSeedProjects();
     }
 
@@ -69,7 +54,6 @@ export class ProjectsService {
         if (this._projects.value.length > 0) {
             return of(this._projects.value);
         }
-
         return this.initializeProjects();
     }
 
@@ -79,15 +63,10 @@ export class ProjectsService {
     getProjectById(id: number): Observable<Project> {
         return this.getProjects().pipe(
             map(projects => {
-                const project =
-                    projects.find(item => item.id === id);
-
+                const project = projects.find(item => item.id === id);
                 if (!project) {
-                    throw new Error(
-                        `Project with ID ${id} was not found.`
-                    );
+                    throw new Error(`Project with ID ${id} was not found.`);
                 }
-
                 return project;
             })
         );
@@ -105,14 +84,11 @@ export class ProjectsService {
                     ...request,
                     id: this._generateNextId(projects),
                 };
-
                 const updatedProjects = [
                     ...projects,
                     newProject,
                 ];
-
                 this._saveProjects(updatedProjects);
-
                 return newProject;
             })
         );
@@ -131,7 +107,6 @@ export class ProjectsService {
                     projects.findIndex(
                         project => project.id === id
                     );
-
                 if (projectIndex === -1) {
                     return throwError(() =>
                         new Error(
@@ -139,22 +114,16 @@ export class ProjectsService {
                         )
                     );
                 }
-
                 const updatedProject: Project = {
                     ...projects[projectIndex],
                     ...request,
                     id,
                 };
-
                 const updatedProjects = [
                     ...projects,
                 ];
-
-                updatedProjects[projectIndex] =
-                    updatedProject;
-
+                updatedProjects[projectIndex] = updatedProject;
                 this._saveProjects(updatedProjects);
-
                 return of(updatedProject);
             })
         );
@@ -167,25 +136,14 @@ export class ProjectsService {
         return this.getProjects().pipe(
             switchMap(projects => {
                 const projectExists =
-                    projects.some(
-                        project => project.id === id
-                    );
-
+                    projects.some(project => project.id === id);
                 if (!projectExists) {
                     return throwError(() =>
-                        new Error(
-                            `Project with ID ${id} was not found.`
-                        )
+                        new Error(`Project with ID ${id} was not found.`)
                     );
                 }
-
-                const updatedProjects =
-                    projects.filter(
-                        project => project.id !== id
-                    );
-
+                const updatedProjects = projects.filter(project => project.id !== id);
                 this._saveProjects(updatedProjects);
-
                 return of(true);
             })
         );
@@ -210,9 +168,7 @@ export class ProjectsService {
                         this._mapDtoToProject(project)
                     )
                 ),
-                tap(projects =>
-                    this._saveProjects(projects)
-                )
+                tap(projects => this._saveProjects(projects))
             );
     }
 
@@ -223,12 +179,7 @@ export class ProjectsService {
             projects.map(project =>
                 this._mapProjectToDto(project)
             );
-
-        localStorage.setItem(
-            this._storageKey,
-            JSON.stringify(projectDtos)
-        );
-
+        localStorage.setItem(this._storageKey, JSON.stringify(projectDtos));
         this._projects.next(projects);
     }
 
@@ -238,7 +189,6 @@ export class ProjectsService {
         if (projects.length === 0) {
             return 1;
         }
-
         return Math.max(
             ...projects.map(project => project.id)
         ) + 1;
