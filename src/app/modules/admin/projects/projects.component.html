@@ -12,6 +12,7 @@
         </div>
         <button
             type="button"
+            (click)="openCreateDialog()"
             class="flex shrink-0 items-center justify-center gap-4 rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-700">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                 <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
@@ -23,38 +24,21 @@
     <!-- Divider -->
     <div class="h-px w-full bg-stone-200"></div>
 
-    <!-- Search and Filters -->
+    <!-- Search Filters -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-
         <!-- Search -->
-        <div class="w-full sm:max-w-xl">
-            <div class=" flex items-center gap-3 px-1 py-3 transition-colors focus-within:border-stone-700 bg-transparent border-b border-stone-200">
+        <div class="w-full">
+            <div class="flex items-center px-4 pb-4 gap-4 transition-colors bg-transparent border-b border-stone-200">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-5 shrink-0 text-stone-400">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35m1.35-5.15a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
                 </svg>
                 <input
                     type="search"
-                    placeholder="Search projects..."
+                    placeholder="Search by project name, type, platform, technology, status or job scope"
+                    [formControl]="searchControl"
                     class="min-w-0 flex-1 border-none bg-transparent text-sm text-stone-800 outline-none placeholder:text-stone-400">
             </div>
         </div>
-
-        <!-- Filters -->
-        <div class="flex gap-3">
-            <select class=" rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-700 outline-none focus:border-stone-400">
-                <option>All statuses</option>
-                <option>Planning</option>
-                <option>In Development</option>
-                <option>Completed</option>
-            </select>
-            <select class="rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-700 outline-none focus:border-stone-400">
-                <option>All scopes</option>
-                <option>Frontend</option>
-                <option>Backend</option>
-                <option>UI/UX</option>
-            </select>
-        </div>
-
     </div>
 
     <!-- Table of Projects -->
@@ -159,6 +143,7 @@
                                 <!-- Edit -->
                                 <button
                                     type="button"
+                                    (click)="openEditDialog(project)"
                                     class="rounded-lg p-2 text-stone-600 transition-colors hover:bg-stone-200 hover:text-stone-600"
                                     matTooltip="Edit"
                                     matTooltipPosition="above"
@@ -184,17 +169,31 @@
                         </td>
                     </tr>
                 }
+                @empty {
+                    <tr>
+                        <td
+                            colspan="6"
+                            class="px-4 py-12 text-center text-sm text-stone-500">
+                            @if (searchTerm) {
+                                No projects match "{{ searchControl.value }}".
+                            } @else {
+                                No projects available.
+                            }
+
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
 
     </div>
 
     <!-- Pagination -->
-    <div class="">
+    <div>
         <app-pagination
             [currentPage]="currentPage"
             [pageSize]="pageSize"
-            [totalItems]="projectsList.length"
+            [totalItems]="filteredProjects.length"
             (pageChange)="onPageChange($event)">
         </app-pagination>
     </div>

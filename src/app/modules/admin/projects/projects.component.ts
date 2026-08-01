@@ -7,6 +7,9 @@ import { DeleteDialogComponent, DeleteDialogData } from '../../../shared/compone
 import { ProjectsService } from '../../../core/projects/projects.service';
 import { Project } from '../../../core/projects/projects.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DetailsProjectsComponent, DetailsProjectsDialogData } from './details-projects/details-projects.component';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-projects',
@@ -18,6 +21,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         SlicePipe,
         MatTooltipModule,
         PaginationComponent,
+        ReactiveFormsModule,
     ],
 })
 export class ProjectsComponent implements OnInit {
@@ -26,8 +30,11 @@ export class ProjectsComponent implements OnInit {
     private readonly _projectsService = inject(ProjectsService);
     private readonly _destroyRef = inject(DestroyRef);
 
+    readonly searchControl = new FormControl('', {nonNullable: true});
     readonly pageSize = 10;
+
     currentPage = 1;
+    searchTerm = '';
 
     projectsList: Project[] = [];
 
@@ -69,6 +76,21 @@ export class ProjectsComponent implements OnInit {
                 },
             });
 
+        // Search automatically as the user types.
+        this.searchControl.valueChanges
+            .pipe(
+                startWith(''),
+                debounceTime(200),
+                distinctUntilChanged(),
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe(value => {
+                this.searchTerm = value.trim().toLowerCase();
+
+                // Return to page one whenever the search changes.
+                this.currentPage = 1;
+            });
+
     }
 
     /*
@@ -80,7 +102,7 @@ export class ProjectsComponent implements OnInit {
     get paginatedProjects(): Project[] {
         const startIndex = (this.currentPage - 1) * this.pageSize;
         const endIndex = startIndex + this.pageSize;
-        return this.projectsList.slice(
+        return this.filteredProjects.slice(
             startIndex,
             endIndex
         );
@@ -156,14 +178,78 @@ export class ProjectsComponent implements OnInit {
         const totalPages = Math.max(
             1,
             Math.ceil(
-                this.projectsList.length /
+                this.filteredProjects.length /
                 this.pageSize
             )
         );
-
         if (this.currentPage > totalPages) {
             this.currentPage = totalPages;
         }
+    }
+
+    /**
+     * Opens the dialog for creating a new project.
+     */
+    openCreateDialog(): void {
+        this._dialog.open<
+            DetailsProjectsComponent,
+            DetailsProjectsDialogData,
+            Project
+        >(
+            DetailsProjectsComponent,
+            {
+                width: '600px',
+                maxWidth: 'calc(100vw - 32px)',
+                maxHeight: 'calc(100vh - 32px)',
+                autoFocus: false,
+                data: {
+                    mode: 'create',
+                },
+            }
+        );
+    }
+
+    /**
+     * Opens the dialog for editing an existing project.
+     * @param project 
+     */
+    openEditDialog(project: Project): void {
+        this._dialog.open<
+            DetailsProjectsComponent,
+            DetailsProjectsDialogData,
+            Project
+        >(
+            DetailsProjectsComponent,
+            {
+                width: '600px',
+                maxWidth: 'calc(100vw - 32px)',
+                maxHeight: 'calc(100vh - 32px)',
+                autoFocus: false,
+                data: {
+                    mode: 'edit',
+                    project,
+                },
+            }
+        );
+    }
+
+    get filteredProjects(): Project[] {
+        if (!this.searchTerm) {
+            return this.projectsList;
+        }
+        return this.projectsList.filter(project => {
+            const searchableValues = [
+                project.project,
+                project.type,
+                project.status,
+                ...project.platform,
+                ...project.technology,
+                ...project.scope,
+            ];
+            return searchableValues.some(value =>
+                value.toLowerCase().includes(this.searchTerm)
+            );
+        });
     }
 
 }
