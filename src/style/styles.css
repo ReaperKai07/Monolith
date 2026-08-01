@@ -2,5 +2,78 @@
 
 @import "tailwindcss";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body { 
+    height: 100%; 
+}
+
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+/* -----------------------------------------------------------------------------------------------------
+ * CSS Clash Fixes
+ * ----------------------------------------------------------------------------------------------------- */
+
+/* Fix mat-form-field apperance:outline random border issue*/
+.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-right: none !important;
+}
+
+/* -----------------------------------------------------------------------------------------------------
+ * Custom Monolith Material Theme
+ * ----------------------------------------------------------------------------------------------------- */
+
+/* Remove notch border bug */
+.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-right: none !important;
+}
+
+/* Default outline */
+.mat-mdc-form-field .mdc-notched-outline__leading,
+.mat-mdc-form-field .mdc-notched-outline__notch,
+.mat-mdc-form-field .mdc-notched-outline__trailing {
+    border-color: rgb(168 162 158) !important; /* stone-400 */
+}
+
+/* Hover */
+.mat-mdc-form-field:hover .mdc-notched-outline__leading,
+.mat-mdc-form-field:hover .mdc-notched-outline__notch,
+.mat-mdc-form-field:hover .mdc-notched-outline__trailing {
+    border-color: rgb(120 113 108) !important; /* stone-500 */
+}
+
+/* Focus */
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+    border-color: rgb(41 37 36) !important; /* stone-800 */
+}
+
+/* Label */
+.mat-mdc-form-field .mdc-floating-label {
+    color: rgb(87 83 78) !important; /* stone-600 */
+}
+
+/* Focused label */
+.mat-mdc-form-field.mat-focused .mdc-floating-label {
+    color: rgb(41 37 36) !important; /* stone-800 */
+}
+
+/* Caret */
+.mat-mdc-input-element {
+    caret-color: rgb(41 37 36) !important;
+}
+
+/* Selected option */
+.mat-mdc-option.mdc-list-item--selected {
+    color: rgb(41 37 36) !important;
+}
+
+/* Checkbox */
+.mat-mdc-checkbox.mat-mdc-checkbox-checked {
+    --mdc-checkbox-selected-checkmark-color: white;
+    --mdc-checkbox-selected-focus-icon-color: rgb(41 37 36);
+    --mdc-checkbox-selected-hover-icon-color: rgb(41 37 36);
+    --mdc-checkbox-selected-icon-color: rgb(41 37 36);
+}
