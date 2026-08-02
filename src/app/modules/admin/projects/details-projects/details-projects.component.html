@@ -132,7 +132,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <!-- Scopes -->
+            <!-- Job Scopes -->
             <mat-form-field appearance="outline">
                 <mat-label>Job Scope</mat-label>
                 <mat-select
@@ -146,6 +146,25 @@
                 </mat-select>
                 <mat-error>
                     Select at least one job scope.
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Features -->
+            <mat-form-field
+                class="md:col-span-2"
+                appearance="outline">
+                <mat-label>Features</mat-label>
+                <mat-select
+                    formControlName="features"
+                    multiple>
+                    @for (feature of availableFeatures; track feature) {
+                        <mat-option [value]="feature">
+                            {{ feature }}
+                        </mat-option>
+                    }
+                </mat-select>
+                <mat-error>
+                    Select at least one feature.
                 </mat-error>
             </mat-form-field>
 
@@ -206,7 +225,7 @@
         <button
             type="submit"
             class="rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
-            [disabled]="projectForm.invalid || isSubmitting">
+            [disabled]="isSubmitting">
             @if (isSubmitting) {
                 Saving...
             } @else if (data.mode === 'create') {

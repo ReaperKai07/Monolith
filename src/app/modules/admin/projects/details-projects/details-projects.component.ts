@@ -10,6 +10,14 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CreateProjectRequest, Project, ProjectPlatform, ProjectStatus, ProjectType, UpdateProjectRequest } from '../../../../core/projects/projects.model';
 import { ProjectsService } from '../../../../core/projects/projects.service';
+import {
+    PROJECT_FEATURES,
+    PROJECT_PLATFORMS,
+    PROJECT_SCOPES,
+    PROJECT_STATUSES,
+    PROJECT_TECHNOLOGIES,
+    PROJECT_TYPES,
+} from '../../../../core/projects/projects.constants';
 
 export type DetailsProjectsMode = 'create' | 'edit';
 
@@ -53,11 +61,12 @@ export class DetailsProjectsComponent implements OnInit {
     // @ Public properties
     // -----------------------------------------------------------------------------------------------------
 
-    readonly projectTypes: ProjectType[] = [ 'Website', 'Mobile', ];
-    readonly projectPlatforms: ProjectPlatform[] = [ 'Desktop', 'Android', 'iOS', ];
-    readonly projectStatuses: ProjectStatus[] = [ 'Planning', 'In Development', 'On Hold', 'Completed', ];
-    readonly availableTechnologies = [ 'Angular', 'React', 'TypeScript', 'Tailwind', 'RxJS', 'Ionic', 'Capacitor',  ];
-    readonly availableScopes = [ 'Frontend', 'Backend', 'UI/UX' ];
+    readonly projectTypes = PROJECT_TYPES;
+    readonly projectPlatforms = PROJECT_PLATFORMS;
+    readonly projectStatuses = PROJECT_STATUSES;
+    readonly availableTechnologies = PROJECT_TECHNOLOGIES;
+    readonly availableScopes = PROJECT_SCOPES;
+    readonly availableFeatures = PROJECT_FEATURES;
 
     isSubmitting = false;
 
@@ -69,6 +78,7 @@ export class DetailsProjectsComponent implements OnInit {
             platform: [ [] as ProjectPlatform[], Validators.required, ],
             technology: [ [] as string[], Validators.required, ],
             scope: [ [] as string[], Validators.required, ],
+            features: [ [] as string[], Validators.required, ],
             startDate: [ null as Date | null, ],
             endDate: [ {value: null as Date | null, disabled: true, }, ],
             status: [ null as ProjectStatus | null, Validators.required, ],
@@ -131,6 +141,7 @@ export class DetailsProjectsComponent implements OnInit {
             platform: formValue.platform!,
             technology: formValue.technology!,
             scope: formValue.scope!,
+            features: formValue.features!,
             startDate: formValue.startDate,
             endDate: formValue.endDate,
             status: formValue.status!,
@@ -161,6 +172,7 @@ export class DetailsProjectsComponent implements OnInit {
             platform: [...project.platform],
             technology: [...project.technology],
             scope: [...project.scope],
+            features: [...(project.features ?? [])],
             startDate: project.startDate ? new Date(project.startDate) : null,
             endDate: project.endDate ? new Date(project.endDate) : null,
             status: project.status,

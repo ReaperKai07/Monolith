@@ -94,11 +94,13 @@ export class ProjectsComponent implements OnInit {
         return this.projectsList.filter(project => {
             const searchableValues = [
                 project.project,
+                project.description,
                 project.type,
                 project.status,
                 ...project.platform,
                 ...project.technology,
                 ...project.scope,
+                ...project.features,
             ];
             return searchableValues.some(value =>
                 value.toLowerCase().includes(search)
