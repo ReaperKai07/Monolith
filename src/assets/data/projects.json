@@ -1,36 +1,40 @@
 [
     {
         "id": 1,
-        "project": "HelloSIM Mobile App",
-        "description": " ... ",
+        "project": "HelloSIM",
+        "description": "Cross-platform telco mobile application featuring eKYC onboarding, account management, subscription services, and self-service customer workflows.",
         "type": "Mobile",
         "platform": [ "Android", "iOS" ],
         "technology": [ "Angular", "TypeScript", "Capacitor", "Ionic", "Tailwind", "RxJS" ],
         "scope": [ "Frontend" ],
+        "features": [ "eKYC Workflow", "RESTful API Integration", "Responsive UI", "Cross-platform Mobile", "App Maintenance", "Bug Fixes"
+        ],
         "startDate": null,
         "endDate": null,
         "status": "Completed"
     },
     {
         "id": 2,
-        "project": "Eastel Mobile App",
-        "description": " ... ",
+        "project": "Eastel",
+        "description": "Cross-platform telecommunications mobile application featuring eKYC onboarding, account management, service subscriptions, and customer self-service features.",
         "type": "Mobile",
         "platform": [ "Android", "iOS" ],
         "technology": [ "Angular", "TypeScript", "Capacitor", "Ionic", "Tailwind", "RxJS" ],
         "scope": [ "Frontend" ],
+        "features": [ "eKYC Workflow", "RESTful API Integration", "Cross-platform Mobile", "Customer Self-Service", "Bug Fixes", "Feature Enhancements" ],
         "startDate": null,
         "endDate": null,
         "status": "Completed"
     },
     {
         "id": 3,
-        "project": "HelloSIM eByzarr",
-        "description": "Fictional telco self-service mobile application demonstrating authentication, eKYC, subscriptions, and billing workflows.",
+        "project": "eByzarr",
+        "description": "Mobile marketplace application integrated with HelloSIM, featuring product browsing, responsive storefront interfaces, and reusable commerce components.",
         "type": "Mobile",
         "platform": [ "Android" ],
         "technology": [ "Angular", "TypeScript", "Tailwind", "RxJS" ],
         "scope": [ "Frontend", "UI/UX" ],
+        "features": [ "Marketplace UI", "Product Browsing", "Responsive Layout", "RESTful API Integration", "Component Reusability" ],
         "startDate": null,
         "endDate": null,
         "status": "Completed"
@@ -38,11 +42,12 @@
     {
         "id": 4,
         "project": "CelcomDigi WSP",
-        "description": "",
+        "description": "Responsive web portal developed from Figma mockups, including new frontend interfaces and migration of content from the previous legacy website.",
         "type": "Website",
         "platform": [ "Desktop" ],
         "technology": [ "Angular", "TypeScript", "Tailwind", "RxJS" ],
         "scope": [ "Frontend", "UI/UX" ],
+        "features": [ "Responsive Website", "Legacy Migration", "Figma Implementation", "Reusable Components" ],
         "startDate": null,
         "endDate": null,
         "status": "On Hold"
@@ -55,6 +60,7 @@
         "platform": [ "Desktop", "Android" ],
         "technology": [ "Angular", "TypeScript", "Tailwind", "RxJS" ],
         "scope": [ "Frontend", "UI/UX" ],
+        "features": [ "JWT Authentication", "Refresh Token Flow", "Route Guards", "HTTP Interceptors", "RESTful API Integration", "Reactive Forms", "CRUD Operations", "Reusable Dialog Components", "Reusable Search Component", "Reusable Pagination Component", "Responsive Layout", "Mock Backend", "Local Storage Persistence" ],
         "startDate": "2026-06-01",
         "endDate": null,
         "status": "In Development"
@@ -67,6 +73,7 @@
         "platform": [ "Desktop", "Android" ],
         "technology": [ "React" ],
         "scope": [ "Frontend", "UI/UX" ],
+        "features": [ "React Hooks", "Component Architecture", "Responsive Layout", "UI Experimentation" ],
         "startDate": null,
         "endDate": null,
         "status": "On Hold"
@@ -79,6 +86,7 @@
         "platform": [ "Android" ],
         "technology": [ "Angular", "TypeScript", "Capacitor", "Ionic", "Tailwind", "RxJS" ],
         "scope": [ "Frontend", "UI/UX" ],
+        "features": [ "Authentication Flow", "eKYC Workflow", "Subscription Management", "Billing Overview", "Responsive Mobile UI" ],
         "startDate": null,
         "endDate": null,
         "status": "Planning"
