@@ -1,9 +1,10 @@
 import { DatePipe, NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
 type UpdateType = 'Added' | 'Updated' | 'Deleted';
+
 interface RecentUpdate {
     id: number;
     type: UpdateType;
@@ -13,6 +14,7 @@ interface RecentUpdate {
 
 @Component({
     selector: 'app-dashboard',
+    standalone: true,
     templateUrl: './dashboard.component.html',
     imports: [
         MatIconModule,
@@ -22,7 +24,11 @@ interface RecentUpdate {
     ],
 })
 
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Dependencies
+    // -----------------------------------------------------------------------------------------------------
 
     // Mock data test
     recentUpdates: RecentUpdate[] = [
@@ -46,6 +52,20 @@ export class DashboardComponent {
         }
     ];
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    ngOnInit(): void {}
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Accessors
+    // -----------------------------------------------------------------------------------------------------
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public properties
+    // -----------------------------------------------------------------------------------------------------
+
     // Set styling for the update type column
     getUpdateTypeClasses(type: UpdateType): string {
         switch (type) {
@@ -60,5 +80,10 @@ export class DashboardComponent {
         }
 
     }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
 
 }

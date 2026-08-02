@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -7,19 +7,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { 
-    CreateProjectRequest,
-    Project,
-    ProjectPlatform,
-    ProjectStatus,
-    ProjectType,
-    UpdateProjectRequest,
-} from '../../../../core/projects/projects.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CreateProjectRequest, Project, ProjectPlatform, ProjectStatus, ProjectType, UpdateProjectRequest } from '../../../../core/projects/projects.model';
 import { ProjectsService } from '../../../../core/projects/projects.service';
 
-export type DetailsProjectsMode =
-    | 'create'
-    | 'edit';
+export type DetailsProjectsMode = 'create' | 'edit';
 
 export interface DetailsProjectsDialogData {
     mode: DetailsProjectsMode;
@@ -53,6 +45,7 @@ export class DetailsProjectsComponent implements OnInit {
     private readonly _formBuilder = inject(FormBuilder);
     private readonly _projectsService = inject(ProjectsService);
     private readonly _dialogRef = inject(MatDialogRef<DetailsProjectsComponent>);
+    private readonly _destroyRef = inject(DestroyRef);
 
     readonly data = inject<DetailsProjectsDialogData>(MAT_DIALOG_DATA);
 
@@ -60,46 +53,16 @@ export class DetailsProjectsComponent implements OnInit {
     // @ Public properties
     // -----------------------------------------------------------------------------------------------------
 
-    readonly projectTypes: ProjectType[] = [
-        'Website',
-        'Mobile',
-    ];
-
-    readonly projectPlatforms: ProjectPlatform[] = [
-        'Desktop',
-        'Android',
-        'iOS',
-    ];
-
-    readonly projectStatuses: ProjectStatus[] = [
-        'Planning',
-        'In Development',
-        'On Hold',
-        'Completed',
-    ];
-
-    readonly availableTechnologies = [
-        'Angular',
-        'React',
-        'TypeScript',
-        'Tailwind',
-        'RxJS',
-        'Ionic',
-        'Capacitor',
-    ];
-
-    readonly availableScopes = [
-        'Frontend',
-        'Backend',
-        'UI/UX',
-        'Mobile',
-        'API Integration',
-    ];
+    readonly projectTypes: ProjectType[] = [ 'Website', 'Mobile', ];
+    readonly projectPlatforms: ProjectPlatform[] = [ 'Desktop', 'Android', 'iOS', ];
+    readonly projectStatuses: ProjectStatus[] = [ 'Planning', 'In Development', 'On Hold', 'Completed', ];
+    readonly availableTechnologies = [ 'Angular', 'React', 'TypeScript', 'Tailwind', 'RxJS', 'Ionic', 'Capacitor',  ];
+    readonly availableScopes = [ 'Frontend', 'Backend', 'UI/UX' ];
 
     isSubmitting = false;
 
-    readonly projectForm =
-        this._formBuilder.group({
+    readonly projectForm = this._formBuilder.group(
+        {
             project: [ '', [ Validators.required, Validators.maxLength(100), ], ],
             description: [ '', [ Validators.required, Validators.maxLength(500), ], ],
             type: [ null as ProjectType | null, Validators.required, ],
@@ -107,28 +70,52 @@ export class DetailsProjectsComponent implements OnInit {
             technology: [ [] as string[], Validators.required, ],
             scope: [ [] as string[], Validators.required, ],
             startDate: [ null as Date | null, ],
-            endDate: [ null as Date | null, ],
+            endDate: [ {value: null as Date | null, disabled: true, }, ],
             status: [ null as ProjectStatus | null, Validators.required, ],
-        });
+        }
+    );
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
 
+    /**
+     * On init
+     */
     ngOnInit(): void {
-        if ( this.data.mode === 'edit' && this.data.project ) {
+        // Populate form when editing existing project.
+        if (this.data.mode === 'edit' && this.data.project) {
             this.populateForm(this.data.project);
         }
+        // Enable endDate only after startDate selected.
+        this.projectForm.controls.startDate.valueChanges
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe(startDate => {
+                const endDateControl = this.projectForm.controls.endDate;
+                if (startDate) {
+                    endDateControl.enable();
+                    return;
+                }
+                endDateControl.reset();
+                endDateControl.disable();
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    /**
+     * Closes dialog
+     */
     cancel(): void {
         this._dialogRef.close();
     }
 
+    /**
+     * Submits form
+     * @returns 
+     */
     submit(): void {
         if (this.projectForm.invalid) {
             this.projectForm.markAllAsTouched();
@@ -148,13 +135,13 @@ export class DetailsProjectsComponent implements OnInit {
             endDate: formValue.endDate,
             status: formValue.status!,
         };
-        if ( this.data.mode === 'edit' && this.data.project ) {
+        if (this.data.mode === 'edit' && this.data.project ) {
             this.updateProject(
                 this.data.project.id,
                 request
             );
             return;
-        }
+        } 
         this.createProject(request);
     }
 
@@ -162,6 +149,10 @@ export class DetailsProjectsComponent implements OnInit {
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------
 
+    /**
+     * Fill form with data
+     * @param project 
+     */
     private populateForm(project: Project): void {
         this.projectForm.patchValue({
             project: project.project,
@@ -174,13 +165,19 @@ export class DetailsProjectsComponent implements OnInit {
             endDate: project.endDate ? new Date(project.endDate) : null,
             status: project.status,
         });
+        if (project.startDate) {
+            this.projectForm.controls.endDate.enable();
+        }
     }
 
+    /**
+     * Creates new project
+     * @param request 
+     */
     private createProject(
         request: CreateProjectRequest
     ): void {
-        this._projectsService
-            .createProject(request)
+        this._projectsService.createProject(request)
             .subscribe({
                 next: project => {
                     this._dialogRef.close(project);
@@ -192,12 +189,16 @@ export class DetailsProjectsComponent implements OnInit {
             });
     }
 
+    /**
+     * Updates existing project
+     * @param projectId 
+     * @param request 
+     */
     private updateProject(
         projectId: number,
         request: UpdateProjectRequest
     ): void {
-        this._projectsService
-            .updateProject(projectId, request)
+        this._projectsService.updateProject(projectId, request)
             .subscribe({
                 next: project => {
                     this._dialogRef.close(project);
@@ -209,9 +210,16 @@ export class DetailsProjectsComponent implements OnInit {
             });
     }
 
+    /**
+     * Keep form on original state if failed submission
+     */
     private restoreForm(): void {
         this.isSubmitting = false;
         this.projectForm.enable();
+        // Disable endDate if startDate not selected
+        if (!this.projectForm.controls.startDate.value) {
+            this.projectForm.controls.endDate.disable();
+        }
     }
  
 }
