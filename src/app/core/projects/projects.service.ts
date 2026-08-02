@@ -22,11 +22,19 @@ import {
 
 export class ProjectsService {
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Dependencies
+    // -----------------------------------------------------------------------------------------------------
+
     private readonly _http = inject(HttpClient);
     private readonly _storageKey = 'monolith_projects';
     private readonly _projectsUrl = '/assets/data/projects.json';
     private readonly _projects = new BehaviorSubject<Project[]>([]);
     readonly projects$ = this._projects.asObservable();
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
     /**
      * Loads projects from localStorage.
@@ -103,15 +111,10 @@ export class ProjectsService {
     ): Observable<Project> {
         return this.getProjects().pipe(
             switchMap(projects => {
-                const projectIndex =
-                    projects.findIndex(
-                        project => project.id === id
-                    );
+                const projectIndex = projects.findIndex(project => project.id === id);
                 if (projectIndex === -1) {
                     return throwError(() =>
-                        new Error(
-                            `Project with ID ${id} was not found.`
-                        )
+                        new Error(`Project with ID ${id} was not found.`)
                     );
                 }
                 const updatedProject: Project = {
@@ -155,18 +158,19 @@ export class ProjectsService {
      */
     resetProjects(): Observable<Project[]> {
         localStorage.removeItem(this._storageKey);
-
         return this._loadSeedProjects();
     }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
 
     private _loadSeedProjects(): Observable<Project[]> {
         return this._http
             .get<ProjectDto[]>(this._projectsUrl)
             .pipe(
                 map(projects =>
-                    projects.map(project =>
-                        this._mapDtoToProject(project)
-                    )
+                    projects.map(project => this._mapDtoToProject(project))
                 ),
                 tap(projects => this._saveProjects(projects))
             );
@@ -175,10 +179,7 @@ export class ProjectsService {
     private _saveProjects(
         projects: Project[]
     ): void {
-        const projectDtos =
-            projects.map(project =>
-                this._mapProjectToDto(project)
-            );
+        const projectDtos = projects.map(project => this._mapProjectToDto(project));
         localStorage.setItem(this._storageKey, JSON.stringify(projectDtos));
         this._projects.next(projects);
     }
@@ -199,6 +200,7 @@ export class ProjectsService {
     ): Project {
         return {
             ...project,
+            features: project.features ?? [],
             startDate: project.startDate
                 ? new Date(project.startDate)
                 : null,
@@ -213,6 +215,7 @@ export class ProjectsService {
     ): ProjectDto {
         return {
             ...project,
+            features: project.features ?? [],
             startDate: project.startDate
                 ? this._formatDate(project.startDate)
                 : null,
@@ -224,11 +227,8 @@ export class ProjectsService {
 
     private _formatDate(date: Date): string {
         const year = date.getFullYear();
-        const month =
-            String(date.getMonth() + 1).padStart(2, '0');
-        const day =
-            String(date.getDate()).padStart(2, '0');
-
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     }
 

@@ -1,17 +1,6 @@
-export type ProjectType =
-    | 'Mobile'
-    | 'Website';
-
-export type ProjectPlatform =
-    | 'iOS'
-    | 'Android'
-    | 'Desktop';
-
-export type ProjectStatus =
-    | 'Planning'
-    | 'In Development'
-    | 'On Hold'
-    | 'Completed';
+export type ProjectType = 'Mobile' | 'Website';
+export type ProjectPlatform = 'iOS' | 'Android' | 'Desktop';
+export type ProjectStatus = 'Planning' | 'In Development' | 'On Hold' | 'Completed';
 
 export interface Project {
     id: number;
@@ -21,6 +10,7 @@ export interface Project {
     platform: ProjectPlatform[];
     technology: string[];
     scope: string[];
+    features: string[];
     startDate: Date | null;
     endDate: Date | null;
     status: ProjectStatus;
@@ -38,6 +28,7 @@ export interface ProjectDto {
     platform: ProjectPlatform[];
     technology: string[];
     scope: string[];
+    features: string[];
     startDate: string | null;
     endDate: string | null;
     status: ProjectStatus;
