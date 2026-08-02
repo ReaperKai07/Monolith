@@ -1,0 +1,197 @@
+<form
+    class="flex max-h-[90vh] w-full max-w-3xl flex-col bg-white"
+    [formGroup]="experienceForm"
+    (ngSubmit)="submit()">
+
+    <!-- Header -->
+    <div class="shrink-0 p-8 pb-0">
+        <!-- Icon -->
+        <div class="mb-4 flex size-12 items-center justify-center rounded-full bg-stone-200 text-stone-800">
+            @if (data.mode === 'create') {
+                <!-- Briefcase Plus -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                    <path fill-rule="evenodd" d="M7.5 5.25A2.25 2.25 0 0 1 9.75 3h4.5a2.25 2.25 0 0 1 2.25 2.25V6h2.25A3.75 3.75 0 0 1 22.5 9.75v7.5A3.75 3.75 0 0 1 18.75 21H5.25A3.75 3.75 0 0 1 1.5 17.25v-7.5A3.75 3.75 0 0 1 5.25 6H7.5v-.75Zm1.5 0V6h6v-.75a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0-.75.75ZM12.75 11.25a.75.75 0 0 0-1.5 0v1.5h-1.5a.75.75 0 0 0 0 1.5h1.5v1.5a.75.75 0 0 0 1.5 0v-1.5h1.5a.75.75 0 0 0 0-1.5h-1.5v-1.5Z" clip-rule="evenodd" />
+                </svg>
+            } @else {
+                <!-- Edit -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                    <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                    <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                </svg>
+            }
+        </div>
+        <!-- Header Content -->
+        <div class="border-b border-stone-300 pb-6">
+            <h2 class="text-xl font-semibold text-stone-900">
+                @if (data.mode === 'create') {
+                    Add New Experience
+                } @else {
+                    Edit Experience
+                }
+            </h2>
+            <p class="mt-1 text-sm text-stone-500">
+                @if (data.mode === 'create') {
+                    Add a new professional experience to your portfolio.
+                } @else {
+                    Update the selected professional experience.
+                }
+            </p>
+        </div>
+    </div>
+
+    <!-- Form Fields -->
+    <div class="min-h-0 flex-1 overflow-y-auto px-8 py-6">
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+            
+            <!-- Company -->
+            <mat-form-field appearance="outline">
+                <mat-label>Company</mat-label>
+                <input
+                    matInput
+                    formControlName="company"
+                    placeholder="Example: Kalsym Sdn. Bhd.">
+                <mat-error>
+                    Company name is required.
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Job Title -->
+            <mat-form-field appearance="outline">
+                <mat-label>Job Title</mat-label>
+                <input
+                    matInput
+                    formControlName="jobTitle"
+                    placeholder="Example: Software Engineer">
+                <mat-error>
+                    Job title is required.
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Employment Type -->
+            <mat-form-field appearance="outline">
+                <mat-label>Employment Type</mat-label>
+                <mat-select formControlName="employmentType">
+                    @for (employmentType of employmentTypes; track employmentType) {
+                        <mat-option [value]="employmentType">
+                            {{ employmentType }}
+                        </mat-option>
+                    }
+                </mat-select>
+                <mat-error>
+                    Employment type is required.
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Location -->
+            <mat-form-field appearance="outline">
+                <mat-label>Location</mat-label>
+                <input
+                    matInput
+                    formControlName="location"
+                    placeholder="Example: Selangor, Malaysia">
+                <mat-error>
+                    Location is required.
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Description -->
+            <mat-form-field
+                class="md:col-span-2"
+                appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea
+                    matInput
+                    rows="4"
+                    formControlName="description"
+                    placeholder="Describe your responsibilities and contributions">
+                </textarea>
+                <mat-error>
+                    Description is required.
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Linked Projects -->
+            <mat-form-field
+                class="md:col-span-2"
+                appearance="outline">
+                <mat-label>Linked Projects</mat-label>
+                <mat-select
+                    formControlName="projectIds"
+                    multiple>
+                    @for (project of projectsList; track project.id) {
+                        <mat-option [value]="project.id">
+                            {{ project.project }}
+                        </mat-option>
+                    }
+                </mat-select>
+                <mat-hint>
+                    Optional: select projects linked to this experience.
+                </mat-hint>
+
+            </mat-form-field>
+
+            <!-- Start Date -->
+            <mat-form-field appearance="outline">
+                <mat-label>Start Date</mat-label>
+                <input
+                    matInput
+                    readonly
+                    formControlName="startDate"
+                    [matDatepicker]="startDatePicker"
+                    [max]="experienceForm.controls.endDate.value"
+                    placeholder="Select start date"
+                    (click)="startDatePicker.open()">
+                <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="startDatePicker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #startDatePicker></mat-datepicker>
+            </mat-form-field>
+
+            <!-- End Date -->
+            <mat-form-field appearance="outline">
+                <mat-label>End Date</mat-label>
+                <input
+                    matInput
+                    readonly
+                    formControlName="endDate"
+                    [matDatepicker]="endDatePicker"
+                    [min]="experienceForm.controls.startDate.value"
+                    placeholder="Select end date"
+                    (click)="endDatePicker.open()">
+                <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="endDatePicker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #endDatePicker></mat-datepicker>
+            </mat-form-field>
+
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex shrink-0 justify-end gap-3 border-t border-stone-300 bg-white px-8 py-5">
+        <!-- Cancel -->
+        <button
+            type="button"
+            class="rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-stone-100"
+            [disabled]="isSubmitting"
+            (click)="cancel()">
+            Cancel
+        </button>
+        <!-- Submit -->
+        <button
+            type="submit"
+            class="rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
+            [disabled]="isSubmitting">
+            @if (isSubmitting) {
+                Saving...
+            } @else if (data.mode === 'create') {
+                Add Experience
+            } @else {
+                Save Changes
+            }
+        </button>
+    </div>
+
+</form>
