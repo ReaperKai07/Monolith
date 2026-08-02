@@ -24,12 +24,11 @@
     <!-- Divider -->
     <div class="h-px w-full bg-stone-200"></div>
 
-    <!-- Search Filters -->
+    <!-- Search Bar -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <!-- Search -->
         <app-search
             class="w-full"
-            placeholder="Search projects..."
+            placeholder="Search by project name, platform, technology or status"
             [debounceTimeMs]="200"
             (searchChange)="onSearchChange($event)">
         </app-search>
@@ -37,7 +36,7 @@
 
     <!-- Table of Projects -->
     <div class="w-full overflow-x-auto">
-        <table class="w-full min-w-[700px] text-left">
+        <table class="w-full text-left">
             <!-- Table Header -->
             <thead>
                 <tr class="border-b border-stone-200 text-sm text-stone-500">

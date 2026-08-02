@@ -25,27 +25,31 @@ import { SearchComponent } from '../../../shared/components/search/search.compon
 })
 export class ProjectsComponent implements OnInit {
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Dependencies
+    // -----------------------------------------------------------------------------------------------------
+
     private readonly _dialog = inject(MatDialog);
     private readonly _projectsService = inject(ProjectsService);
     private readonly _destroyRef = inject(DestroyRef);
 
-    readonly pageSize = 10;
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public properties
+    // -----------------------------------------------------------------------------------------------------
 
+    readonly pageSize = 10;
     currentPage = 1;
     searchTerm = '';
-
     projectsList: Project[] = [];
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
 
         /*
-         * Subscribe to the service state.
-         *
-         * Creating, updating, or deleting a project causes projects$
-         * to emit a new array, which automatically refreshes the table.
-         *
-         * takeUntilDestroyed prevents the subscription from remaining
-         * active after this component is destroyed.
+         * Subscribe to the projects service
          */
         this._projectsService.projects$
             .pipe(
@@ -57,8 +61,7 @@ export class ProjectsComponent implements OnInit {
             });
 
         /*
-         * Loads saved projects from localStorage.
-         * If none exist, the service seeds them from projects.json.
+         * Load projects data from localStorage, or take from projects.json
          */
         this._projectsService
             .initializeProjects()
@@ -76,146 +79,13 @@ export class ProjectsComponent implements OnInit {
 
     }
 
-    /*
-     * Returns only the projects belonging to the current page.
-     *
-     * Page 1: indexes 0–9
-     * Page 2: indexes 10–19
-     */
-    get paginatedProjects(): Project[] {
-        const startIndex = (this.currentPage - 1) * this.pageSize;
-        const endIndex = startIndex + this.pageSize;
-        return this.filteredProjects.slice(
-            startIndex,
-            endIndex
-        );
-    }
-
-    onPageChange(page: number): void {
-        this.currentPage = page;
-    }
-
-    openDeleteDialog(project: Project): void {
-        /*
-         * The reusable dialog only returns true or false.
-         * The Projects page remains responsible for performing the deletion.
-         */
-        const dialogRef = this._dialog.open<
-            DeleteDialogComponent,
-            DeleteDialogData,
-            boolean
-        >(
-            DeleteDialogComponent,
-            {
-                width: '420px',
-                maxWidth: 'calc(100vw - 32px)',
-                autoFocus: false,
-                data: {
-                    itemName: project.project,
-                    itemType: 'project',
-                },
-            }
-        );
-
-        dialogRef
-            .afterClosed()
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
-            .subscribe(confirmed => {
-                if (!confirmed) {
-                    return;
-                }
-
-                this.deleteProject(project.id);
-            });
-
-    }
-
-    deleteProject(projectId: number): void {
-        this._projectsService
-            .deleteProject(projectId)
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
-            .subscribe({
-                error: error => {
-                    console.error(
-                        'Failed to delete project:',
-                        error
-                    );
-                },
-            });
-    }
-
-    /*
-     * If the final project on the final page is deleted,
-     * move the user back to the last available page.
-     *
-     * Example:
-     * Page 2 has one project.
-     * That project is deleted.
-     * The current page is corrected from 2 back to 1.
-     */
-    private _ensureValidCurrentPage(): void {
-        const totalPages = Math.max(
-            1,
-            Math.ceil(
-                this.filteredProjects.length /
-                this.pageSize
-            )
-        );
-        if (this.currentPage > totalPages) {
-            this.currentPage = totalPages;
-        }
-    }
+    // -----------------------------------------------------------------------------------------------------
+    // @ Accessors
+    // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Opens the dialog for creating a new project.
+     * Returns projects matching the current search term
      */
-    openCreateDialog(): void {
-        this._dialog.open<
-            DetailsProjectsComponent,
-            DetailsProjectsDialogData,
-            Project
-        >(
-            DetailsProjectsComponent,
-            {
-                width: '600px',
-                maxWidth: 'calc(100vw - 32px)',
-                maxHeight: 'calc(100vh - 32px)',
-                autoFocus: false,
-                data: {
-                    mode: 'create',
-                },
-            }
-        );
-    }
-
-    /**
-     * Opens the dialog for editing an existing project.
-     * @param project 
-     */
-    openEditDialog(project: Project): void {
-        this._dialog.open<
-            DetailsProjectsComponent,
-            DetailsProjectsDialogData,
-            Project
-        >(
-            DetailsProjectsComponent,
-            {
-                width: '600px',
-                maxWidth: 'calc(100vw - 32px)',
-                maxHeight: 'calc(100vh - 32px)',
-                autoFocus: false,
-                data: {
-                    mode: 'edit',
-                    project,
-                },
-            }
-        );
-    }
-
     get filteredProjects(): Project[] {
         if (!this.searchTerm) {
             return this.projectsList;
@@ -236,10 +106,161 @@ export class ProjectsComponent implements OnInit {
         });
     }
 
+    /*
+     * Returns projects for the current page
+     */
+    get paginatedProjects(): Project[] {
+        const startIndex = (this.currentPage - 1) * this.pageSize;
+        const endIndex = startIndex + this.pageSize;
+        return this.filteredProjects.slice(
+            startIndex,
+            endIndex
+        );
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Opens confirm delete dialog
+     * @param project 
+     */
+    openDeleteDialog(project: Project): void {
+        const dialogRef = this._dialog.open<
+            DeleteDialogComponent,
+            DeleteDialogData,
+            boolean
+        >(
+            DeleteDialogComponent,
+            {
+                width: '420px',
+                maxWidth: 'calc(100vw - 32px)',
+                autoFocus: false,
+                data: {
+                    itemName: project.project,
+                    itemType: 'project',
+                },
+            }
+        );
+        dialogRef.afterClosed()
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe(confirmed => {
+                if (!confirmed) {
+                    return;
+                }
+                this.deleteProject(project.id);
+            });
+
+    }
+
+    /**
+     * Delete by project ID
+     * @param projectId 
+     */
+    deleteProject(projectId: number): void {
+        this._projectsService.deleteProject(projectId)
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
+            .subscribe({
+                error: error => {
+                    console.error(
+                        'Failed to delete project:',
+                        error
+                    );
+                },
+            });
+    }
+
+    /**
+     * Set and open create project dialog
+     */
+    openCreateDialog(): void {
+        this._openDetailsDialog({
+            mode: 'create',
+        });
+    }
+
+    /**
+     * Set and open edit project dialog
+     * @param project
+     */
+    openEditDialog(project: Project): void {
+        this._openDetailsDialog({
+            mode: 'edit',
+            project,
+        });
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /*
+     * Move to last available page
+     */
+    private _ensureValidCurrentPage(): void {
+        const totalPages = Math.max(
+            1,
+            Math.ceil(
+                this.filteredProjects.length /
+                this.pageSize
+            )
+        );
+        if (this.currentPage > totalPages) {
+            this.currentPage = totalPages;
+        }
+    }
+
+    /**
+     * Opens details dialog
+     * @param data 
+     */
+    private _openDetailsDialog(
+        data: DetailsProjectsDialogData
+    ): void {
+        this._dialog.open<
+            DetailsProjectsComponent,
+            DetailsProjectsDialogData,
+            Project
+        >(
+            DetailsProjectsComponent,
+            {
+                width: '600px',
+                maxWidth: 'calc(100vw - 32px)',
+                maxHeight: 'calc(100vh - 32px)',
+                autoFocus: false,
+                data,
+            }
+        );
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Pagination methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Handles page change event
+     * @param page 
+     */
+    onPageChange(page: number): void {
+        this.currentPage = page;
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Search methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Updates search term and reset current page
+     * @param searchTerm 
+     */
     onSearchChange(searchTerm: string): void {
         this.searchTerm = searchTerm;
         this.currentPage = 1;
-        this._ensureValidCurrentPage();
     }
 
 }
