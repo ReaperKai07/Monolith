@@ -9,6 +9,7 @@ import { DeleteDialogComponent, DeleteDialogData } from '../../../shared/compone
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { SearchComponent } from '../../../shared/components/search/search.component';
 import { ProjectsService } from '../../../core/projects/projects.service';
+import { DetailsExperiencesComponent, DetailsExperiencesDialogData } from './details-experiences/details-experiences.component';
 
 @Component({
     selector: 'app-experiences',
@@ -162,15 +163,21 @@ export class ExperiencesComponent implements OnInit {
      * Opens the create experience dialog
      */
     openCreateDialog(): void {
-        // DetailsExperiencesComponent will be connected next
+        this._openDetailsDialog({
+            mode: 'create',
+        });
     }
 
     /**
-     * Opens the edit experience dialog.
+     * Opens the edit experience dialog
      */
-    openEditDialog(experience: Experience): void {
-        // DetailsExperiencesComponent will be connected next
-        console.log('Edit experience:', experience);
+    openEditDialog(
+        experience: Experience
+    ): void {
+        this._openDetailsDialog({
+            mode: 'edit',
+            experience,
+        });
     }
 
     /**
@@ -259,6 +266,28 @@ export class ExperiencesComponent implements OnInit {
         if (this.currentPage > totalPages) {
             this.currentPage = totalPages;
         }
+    }
+
+    /**
+     * Opens the create or edit experience dialog
+     */
+    private _openDetailsDialog(
+        data: DetailsExperiencesDialogData
+    ): void {
+        this._dialog.open<
+            DetailsExperiencesComponent,
+            DetailsExperiencesDialogData,
+            Experience
+        >(
+            DetailsExperiencesComponent,
+            {
+                width: '600px',
+                maxWidth: 'calc(100vw - 32px)',
+                maxHeight: 'calc(100vh - 32px)',
+                autoFocus: false,
+                data,
+            }
+        );
     }
 
     // -----------------------------------------------------------------------------------------------------
