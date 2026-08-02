@@ -1,6 +1,54 @@
 [
     {
         "id": 1,
+        "project": "HelloSIM Mobile App",
+        "description": " ... ",
+        "type": "Mobile",
+        "platform": [ "Android", "iOS" ],
+        "technology": [ "Angular", "TypeScript", "Capacitor", "Ionic", "Tailwind", "RxJS" ],
+        "scope": [ "Frontend" ],
+        "startDate": null,
+        "endDate": null,
+        "status": "Completed"
+    },
+    {
+        "id": 2,
+        "project": "Eastel Mobile App",
+        "description": " ... ",
+        "type": "Mobile",
+        "platform": [ "Android", "iOS" ],
+        "technology": [ "Angular", "TypeScript", "Capacitor", "Ionic", "Tailwind", "RxJS" ],
+        "scope": [ "Frontend" ],
+        "startDate": null,
+        "endDate": null,
+        "status": "Completed"
+    },
+    {
+        "id": 3,
+        "project": "HelloSIM eByzarr",
+        "description": "Fictional telco self-service mobile application demonstrating authentication, eKYC, subscriptions, and billing workflows.",
+        "type": "Mobile",
+        "platform": [ "Android" ],
+        "technology": [ "Angular", "TypeScript", "Tailwind", "RxJS" ],
+        "scope": [ "Frontend", "UI/UX" ],
+        "startDate": null,
+        "endDate": null,
+        "status": "Completed"
+    },
+    {
+        "id": 4,
+        "project": "CelcomDigi WSP",
+        "description": "",
+        "type": "Website",
+        "platform": [ "Desktop" ],
+        "technology": [ "Angular", "TypeScript", "Tailwind", "RxJS" ],
+        "scope": [ "Frontend", "UI/UX" ],
+        "startDate": null,
+        "endDate": null,
+        "status": "On Hold"
+    },
+    {
+        "id": 5,
         "project": "Monolith",
         "description": "Developer dashboard showcasing enterprise Angular architecture, authentication, and reusable components.",
         "type": "Website",
@@ -12,19 +60,19 @@
         "status": "In Development"
     },
     {
-        "id": 2,
+        "id": 6,
         "project": "Obelisk",
         "description": "Frontend playground for exploring modern React patterns and UI experimentation.",
         "type": "Website",
         "platform": [ "Desktop", "Android" ],
-        "technology": [ "React", "TypeScript", "Tailwind" ],
+        "technology": [ "React" ],
         "scope": [ "Frontend", "UI/UX" ],
         "startDate": null,
         "endDate": null,
         "status": "On Hold"
     },
     {
-        "id": 3,
+        "id": 7,
         "project": "Dolmen",
         "description": "Fictional telco self-service mobile application demonstrating authentication, eKYC, subscriptions, and billing workflows.",
         "type": "Mobile",
@@ -35,4 +83,5 @@
         "endDate": null,
         "status": "Planning"
     }
+    
 ]
