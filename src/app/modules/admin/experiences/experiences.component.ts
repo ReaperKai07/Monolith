@@ -106,10 +106,7 @@ export class ExperiencesComponent implements OnInit {
                 )
                 .subscribe({
                     error: error => {
-                        console.error(
-                            'Failed to initialize projects:',
-                            error
-                        );
+                        console.error('Failed to initialize projects:', error);
                     },
                 });
     }

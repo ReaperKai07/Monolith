@@ -25,14 +25,12 @@
     <div class="h-px w-full bg-stone-200"></div>
 
     <!-- Search Bar -->
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <app-search
-            class="w-full"
-            placeholder="Search by project name, platform, technology or status"
-            [debounceTimeMs]="200"
-            (searchChange)="onSearchChange($event)">
-        </app-search>
-    </div>
+    <app-search
+        class="w-full"
+        placeholder="Search by keyword"
+        [debounceTimeMs]="200"
+        (searchChange)="onSearchChange($event)">
+    </app-search>
 
     <!-- Table of Projects -->
     <section class="overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm">
