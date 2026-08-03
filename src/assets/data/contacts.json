@@ -1,17 +1,29 @@
 [
     {
         "id": 1,
-        "profileId": 1,
-        "companyId": 1,
-        "name": "Reference Name",
-        "role": "Project Manager",
-        "relationship": "Former Supervisor",
-        "yearFrom": 2024,
-        "yearTo": 2026,
-        "email": null,
-        "phone": null,
-        "permissionToContact": false,
-        "public": false,
-        "note": "Reference available upon request."
+        "name": "Albert Lew",
+        "image": "",
+        "title": "Software Engineering Manager",
+        "company": "Kalsym Sdn. Bhd.",
+        "phone": "01X-XXX XXXX",
+        "email": "albert@example.com"
+    },
+    {
+        "id": 2,
+        "name": "Kevin",
+        "image": "",
+        "title": "Project Director",
+        "company": "Kalsym Sdn. Bhd.",
+        "phone": "01X-XXX XXXX",
+        "email": "kevin@example.com"
+    },
+    {
+        "id": 3,
+        "name": "Academic Supervisor",
+        "image": "",
+        "title": "University Lecturer",
+        "company": "University Name",
+        "phone": "",
+        "email": "lecturer@example.com"
     }
 ]
