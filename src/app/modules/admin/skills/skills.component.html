@@ -1,1 +1,220 @@
-<p>skills works!</p>
+<!-- Content -->
+<div class="flex w-full flex-col gap-8">
+
+    <!-- Page Header -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-semibold text-stone-900">
+                Skills
+            </h1>
+            <p class="mt-1 text-sm text-stone-500">
+                A categorized overview of my technical and professional capabilities.
+            </p>
+        </div>
+        <button
+            type="button"
+            class="flex shrink-0 items-center justify-center gap-2 rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-700"
+            (click)="openCreateDialog()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+            </svg>
+            Add New Skill
+        </button>
+    </div>
+
+    <!-- Divider -->
+    <div class="h-px w-full bg-stone-200"></div>
+
+    <!-- Search -->
+    <app-search
+        class="w-full"
+        placeholder="Search by keyword"
+        [debounceTimeMs]="200"
+        (searchChange)="onSearchChange($event)">
+    </app-search>
+
+    <!-- Category Filters -->
+    <div class="flex flex-wrap gap-2">
+        <!-- All -->
+        <button
+            type="button"
+            class="rounded-full px-4 py-2 text-sm font-medium transition-colors"
+            [ngClass]="{
+                'bg-stone-800 text-white': selectedCategory === 'All',
+                'border border-stone-200 bg-white text-stone-600 hover:bg-stone-100': selectedCategory !== 'All'
+            }"
+            (click)="selectCategory('All')">
+            All
+        </button>
+
+        <!-- Categories -->
+        @for (category of skillCategories; track category) {
+            <button
+                type="button"
+                class="rounded-full px-4 py-2 text-sm font-medium transition-colors"
+                [ngClass]="{
+                    'bg-stone-800 text-white': selectedCategory === category,
+                    'border border-stone-200 bg-white text-stone-600 hover:bg-stone-100': selectedCategory !== category
+                }"
+                (click)="selectCategory(category)">
+                {{ category }}
+            </button>
+        }
+    </div>
+
+    <!-- Skill Groups -->
+    @for (group of skillGroups; track group.category) {
+        <section class="flex flex-col gap-4">
+            <!-- Category Header -->
+            <div>
+                <h2 class="text-lg font-semibold text-stone-900">
+                    {{ group.category }}
+                </h2>
+                <p class="mt-1 text-sm text-stone-500">
+                    {{ group.skills.length }}
+                    {{ group.skills.length === 1 ? 'skill' : 'skills' }}
+                </p>
+            </div>
+            <!-- Skill Cards -->
+            <div class="grid auto-rows-fr grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+                @for (skill of group.skills; track skill.id) {
+                    <article class="group flex h-full flex-col rounded-lg border border-stone-200 bg-white p-8 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-stone-300 hover:shadow-md">
+                        <!-- Card Header -->
+                        <div class="flex min-h-14 items-start gap-4">
+                            <!-- Logo -->
+                            <div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-stone-100">
+                                <img
+                                    [src]="'assets/icons/' + skill.icon"
+                                    [alt]="skill.name"
+                                    class="size-8 object-contain">
+                            </div>
+                            <!-- Name -->
+                            <div class="min-w-0 flex-1">
+                                <h3 class="truncate font-semibold text-stone-900">
+                                    {{ skill.name }}
+                                </h3>
+                                <p class="mt-1 text-xs text-stone-500">
+                                    {{ skill.type }}
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Description -->
+                        <div class="mt-4 min-h-18">
+                            <p
+                                class="line-clamp-3 text-sm leading-6 text-stone-600"
+                                [matTooltip]="skill.description"
+                                matTooltipPosition="above">
+                                {{ skill.description }}
+                            </p>
+                        </div>
+                        <!-- Level -->
+                        <div class="mt-5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-stone-500">
+                                    Proficiency
+                                </span>
+                                <span class="text-xs font-medium text-stone-700">
+                                    {{ skill.level }}
+                                </span>
+                            </div>
+                            <!-- Level Indicator -->
+                            <div class="mt-2 grid grid-cols-4 gap-1">
+                                @for (step of [1, 2, 3, 4]; track step) {
+                                    <div
+                                        class="h-1.5 rounded-full"
+                                        [ngClass]="{
+                                            'bg-stone-800': step <= getSkillLevelValue(skill),
+                                            'bg-stone-200': step > getSkillLevelValue(skill)
+                                        }">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <!-- Experience -->
+                        <div class="flex h-10 items-center justify-between pt-4">
+                            <span class="text-xs text-stone-500">
+                                Experience
+                            </span>
+                            <span class="text-xs font-medium text-stone-700">
+                                {{ formatExperience(skill.experienceMonths) }}
+                            </span>
+                        </div>
+                        <!-- Related Projects -->
+                        <div class="mt-3 flex items-start justify-between gap-4">
+                            <span class="shrink-0 text-xs text-stone-500">
+                                Related Projects
+                            </span>
+                            @let projectNames = getProjectNames(skill.projectIds);
+                            <div class="flex flex-wrap justify-end gap-1.5">
+                                <!-- Display the first two linked projects -->
+                                @for (projectName of projectNames | slice:0:2; track projectName) {
+                                    <span class="rounded-full bg-stone-200 px-2.5 py-1 text-xs font-medium text-stone-700">
+                                        {{ projectName }}
+                                    </span>
+                                }
+                                <!-- Display the remaining project count -->
+                                @if (projectNames.length > 2) {
+                                    <span
+                                        class="cursor-help rounded-full bg-stone-800 px-2.5 py-1 text-xs font-medium text-white"
+                                        [matTooltip]="projectNames.slice(2).join(', ')"
+                                        matTooltipPosition="above">
+                                        +{{ projectNames.length - 2 }}
+                                    </span>
+                                }
+                                <!-- No linked projects -->
+                                @if (projectNames.length === 0) {
+                                    <span class="text-sm text-stone-400">
+                                        —
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                        <!-- Actions -->
+                        <div class="mt-5 flex justify-end gap-1 border-t border-stone-300 pt-4">
+                            <!-- Edit -->
+                            <button
+                                type="button"
+                                aria-label="Edit skill"
+                                matTooltip="Edit skill"
+                                matTooltipPosition="above"
+                                class="rounded-lg p-2 text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-900"
+                                (click)="openEditDialog(skill)">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                    <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                </svg>
+                            </button>
+                            <!-- Delete -->
+                            <button
+                                type="button"
+                                aria-label="Delete skill"
+                                matTooltip="Delete skill"
+                                matTooltipPosition="above"
+                                class="rounded-lg p-2 text-stone-500 transition-colors hover:bg-red-100 hover:text-red-600"
+                                (click)="openDeleteDialog(skill)">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                    </article>
+                }
+            </div>
+        </section>
+    } @empty {
+        <!-- Empty State -->
+        <div class="flex flex-col items-center justify-center rounded-lg border border-dashed border-stone-300 bg-white px-6 py-16 text-center">
+            <div class=" flex size-14 items-center justify-center rounded-full bg-stone-100 text-stone-600">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
+                    <path fill-rule="evenodd" d="M5.166 2.621v.858c-1.035.148-2.059.33-3.071.543a.75.75 0 0 0-.584.859 6.753 6.753 0 0 0 6.138 5.6 6.73 6.73 0 0 0 2.743 1.346A6.707 6.707 0 0 1 9.279 15H8.54c-1.036 0-1.875.84-1.875 1.875V19.5h-.75a2.25 2.25 0 0 0-2.25 2.25c0 .414.336.75.75.75h15a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-2.25-2.25h-.75v-2.625c0-1.036-.84-1.875-1.875-1.875h-.739a6.706 6.706 0 0 1-1.112-3.173 6.73 6.73 0 0 0 2.743-1.347 6.753 6.753 0 0 0 6.139-5.6.75.75 0 0 0-.585-.858 47.077 47.077 0 0 0-3.07-.543V2.62a.75.75 0 0 0-.658-.744 49.22 49.22 0 0 0-6.093-.377c-2.063 0-4.096.128-6.093.377a.75.75 0 0 0-.657.744Z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <h2 class="mt-4 text-lg font-semibold text-stone-900">
+                No skills found
+            </h2>
+            <p class="mt-2 max-w-md text-sm text-stone-500">
+                Try changing the current search term or selected category.
+            </p>
+        </div>
+    }
+</div>

@@ -1,0 +1,204 @@
+<form
+    class="flex max-h-[90vh] w-full max-w-3xl flex-col bg-white"
+    [formGroup]="skillForm"
+    (ngSubmit)="submit()">
+
+    <!-- Header -->
+    <div class="shrink-0 p-8 pb-0">
+        <!-- Icon -->
+        <div class="mb-4 flex size-12 items-center justify-center rounded-full bg-stone-200 text-stone-800">
+            @if (data.mode === 'create') {
+                <!-- Add Icon -->
+                <svg
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                    <path fill-rule="evenodd" d="M19.5 21a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3h-5.379a.75.75 0 0 1-.53-.22L11.47 3.66A2.25 2.25 0 0 0 9.879 3H4.5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h15Zm-6.75-10.5a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V10.5Z" clip-rule="evenodd" />
+                </svg>
+            } @else {
+                <!-- Edit Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                    <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                    <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                </svg>
+            }
+        </div>
+        <!-- Title -->
+        <div class="border-b border-stone-300 pb-6">
+            <h2 class="text-xl font-semibold text-stone-900">
+                @if (data.mode === 'create') {
+                    Add New Skill
+                } @else {
+                    Edit Skill
+                }
+            </h2>
+            <p class="mt-1 text-sm text-stone-500">
+                @if (data.mode === 'create') {
+                    Add a technical or professional skill.
+                } @else {
+                    Update the selected skill details.
+                }
+            </p>
+        </div>
+    </div>
+
+    <!-- Form Fields -->
+    <div class="min-h-0 flex-1 overflow-y-auto px-8 py-6">
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+
+            <!-- Skill Name -->
+            <mat-form-field appearance="outline">
+                <mat-label>Skill Name</mat-label>
+                <input
+                    matInput
+                    formControlName="name"
+                    placeholder="Example: Angular">
+                @if (skillForm.controls.name.hasError('required')) {
+                    <mat-error>
+                        Skill name is required.
+                    </mat-error>
+                }
+                @if (skillForm.controls.name.hasError('maxlength')) {
+                    <mat-error>
+                        Skill name cannot exceed 100 characters.
+                    </mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Icon Filename -->
+            <mat-form-field appearance="outline">
+                <mat-label>Icon Filename</mat-label>
+                <input
+                    matInput
+                    formControlName="icon"
+                    placeholder="Example: angular.svg">
+                <mat-hint>Empty to use placeholder icon.</mat-hint>
+            </mat-form-field>
+
+            <!-- Description -->
+            <mat-form-field
+                appearance="outline"
+                class="md:col-span-2">
+                <mat-label>Description</mat-label>
+                <textarea
+                    matInput
+                    rows="4"
+                    formControlName="description"
+                    placeholder="Describe your experience with this skill">
+                </textarea>
+                @if (skillForm.controls.description.hasError('required')) {
+                    <mat-error>
+                        Description is required.
+                    </mat-error>
+                }
+                @if (skillForm.controls.description.hasError('maxlength')) {
+                    <mat-error>Description cannot exceed 500 characters.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Category -->
+            <mat-form-field appearance="outline">
+                <mat-label>Category</mat-label>
+                <mat-select formControlName="category">
+                    @for (category of skillCategories; track category) {
+                        <mat-option [value]="category">
+                            {{ category }}
+                        </mat-option>
+                    }
+                </mat-select>
+                <mat-error>Category is required.</mat-error>
+            </mat-form-field>
+
+            <!-- Type -->
+            <mat-form-field appearance="outline">
+                <mat-label>Type</mat-label>
+                <mat-select formControlName="type">
+                    @for (type of skillTypes; track type) {
+                        <mat-option [value]="type">
+                            {{ type }}
+                        </mat-option>
+                    }
+                </mat-select>
+                <mat-error>Skill type is required.</mat-error>
+            </mat-form-field>
+
+            <!-- Level -->
+            <mat-form-field appearance="outline">
+                <mat-label>Proficiency Level</mat-label>
+                <mat-select formControlName="level">
+                    @for (level of skillLevels; track level) {
+                        <mat-option [value]="level">
+                            {{ level }}
+                        </mat-option>
+                    }
+                </mat-select>
+                <mat-error>Proficiency level is required.</mat-error>
+            </mat-form-field>
+
+            <!-- Experience Months -->
+            <mat-form-field appearance="outline">
+                <mat-label>Experience (Months)</mat-label>
+                <input
+                    matInput
+                    type="number"
+                    min="0"
+                    formControlName="experienceMonths"
+                    placeholder="Example: 20">
+                @if (skillForm.controls.experienceMonths.hasError('required')) {
+                    <mat-error>
+                        Experience is required.
+                    </mat-error>
+                }
+                @if (skillForm.controls.experienceMonths.hasError('min')) {
+                    <mat-error>
+                        Experience cannot be negative.
+                    </mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Related Projects -->
+            <mat-form-field
+                appearance="outline"
+                class="md:col-span-2">
+                <mat-label>Related Projects</mat-label>
+                <mat-select
+                    formControlName="projectIds"
+                    multiple>
+                    @for (project of projectsList; track project.id) {
+                        <mat-option [value]="project.id">
+                            {{ project.project }}
+                        </mat-option>
+                    }
+                </mat-select>
+                <mat-hint>Optional. Select projects that use this skill.</mat-hint>
+            </mat-form-field>
+
+        </div>
+
+    </div>
+
+    <!-- Actions -->
+    <div class="flex shrink-0 justify-end gap-3 border-t border-stone-300 bg-white px-8 py-5">
+        <!-- Cancel -->
+        <button
+            type="button"
+            class="rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-stone-100"
+            [disabled]="isSubmitting"
+            (click)="cancel()">
+            Cancel
+        </button>
+
+        <!-- Submit -->
+        <button
+            type="submit"
+            class="rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
+            [disabled]="isSubmitting">
+            @if (isSubmitting) {
+                Saving...
+            } @else if (data.mode === 'create') {
+                Add Skill
+            } @else {
+                Save Changes
+            }
+        </button>
+    </div>
+
+</form>
