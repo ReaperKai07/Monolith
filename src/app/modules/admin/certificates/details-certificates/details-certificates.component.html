@@ -1,0 +1,254 @@
+<form
+    class="flex max-h-[90vh] w-full max-w-3xl flex-col bg-white"
+    [formGroup]="certificateForm"
+    (ngSubmit)="submit()">
+
+    <!-- Header -->
+    <div class="shrink-0 p-8 pb-0">
+
+        <!-- Icon -->
+        <div class="mb-4 flex size-12 items-center justify-center rounded-full bg-stone-200 text-stone-800">
+            @if (data.mode === 'create') {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                    <path fill-rule="evenodd" d="M19.5 21a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3h-5.379a.75.75 0 0 1-.53-.22L11.47 3.66A2.25 2.25 0 0 0 9.879 3H4.5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h15Zm-6.75-10.5a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V10.5Z" clip-rule="evenodd" />
+                </svg>
+            } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                    <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                    <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                </svg>
+            }
+        </div>
+
+        <!-- Title -->
+        <div class="border-b border-stone-300 pb-6">
+            <h2 class="text-xl font-semibold text-stone-900">
+                @if (data.mode === 'create') {
+                    Add New Certificate
+                } @else {
+                    Edit Certificate
+                }
+            </h2>
+            <p class="mt-1 text-sm text-stone-500">
+                @if (data.mode === 'create') {
+                    Add a certification, course, workshop or training credential.
+                } @else {
+                    Update the selected certificate details.
+                }
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Form Fields -->
+    <div class="min-h-0 flex-1 overflow-y-auto px-8 py-6">
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+
+            <!-- Certificate Name -->
+            <mat-form-field appearance="outline">
+                <mat-label>Certificate Name</mat-label>
+                <input
+                    matInput
+                    formControlName="name"
+                    placeholder="Example: Angular Fundamentals">
+                @if (certificateForm.controls.name.hasError('required')) {
+                    <mat-error>Certificate name is required.</mat-error>
+                }
+                @if (certificateForm.controls.name.hasError('maxlength')) {
+                    <mat-error>Certificate name cannot exceed 150 characters.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Issuer -->
+            <mat-form-field appearance="outline">
+                <mat-label>Issuer</mat-label>
+                <input
+                    matInput
+                    formControlName="issuer"
+                    placeholder="Example: Coursera">
+                @if (certificateForm.controls.issuer.hasError('required')) {
+                    <mat-error>Issuer is required.</mat-error>
+                }
+                @if (certificateForm.controls.issuer.hasError('maxlength')) {
+                    <mat-error>Issuer cannot exceed 100 characters.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Certificate Type -->
+            <mat-form-field appearance="outline">
+                <mat-label>Certificate Type</mat-label>
+                <mat-select formControlName="type">
+                    @for (type of certificateTypes; track type) {
+                        <mat-option [value]="type">
+                            {{ type }}
+                        </mat-option>
+                    }
+                </mat-select>
+                <mat-error>Certificate type is required.</mat-error>
+            </mat-form-field>
+
+            <!-- Logo Filename -->
+            <mat-form-field appearance="outline">
+                <mat-label>Logo Filename</mat-label>
+                <input
+                    matInput
+                    formControlName="logo"
+                    placeholder="Example: coursera.svg">
+                <mat-hint>Leave empty to use the placeholder icon.</mat-hint>
+                @if (certificateForm.controls.logo.hasError('maxlength')) {
+                    <mat-error>
+                        Logo filename cannot exceed 100 characters.
+                    </mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Description -->
+            <mat-form-field
+                appearance="outline"
+                class="md:col-span-2">
+                <mat-label>Description</mat-label>
+                <textarea
+                    matInput
+                    rows="4"
+                    formControlName="description"
+                    placeholder="Describe the certificate or completed course">
+                </textarea>
+                @if (certificateForm.controls.description.hasError('required')) {
+                    <mat-error>Description is required.</mat-error>
+                }
+                @if (certificateForm.controls.description.hasError('maxlength')) {
+                    <mat-error>Description cannot exceed 500 characters.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Issue Date -->
+            <mat-form-field appearance="outline">
+                <mat-label>Issue Date</mat-label>
+                <input
+                    matInput
+                    readonly
+                    class="cursor-pointer"
+                    formControlName="issueDate"
+                    [matDatepicker]="issueDatePicker"
+                    placeholder="Select issue date"
+                    (click)="issueDatePicker.open()">
+                <mat-datepicker-toggle matIconSuffix [for]="issueDatePicker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #issueDatePicker></mat-datepicker>
+                <mat-error>Issue date is required.</mat-error>
+            </mat-form-field>
+
+            <!-- Expiry Date -->
+            <mat-form-field appearance="outline">
+                <mat-label>Expiry Date</mat-label>
+                <input
+                    matInput
+                    readonly
+                    class="cursor-pointer"
+                    formControlName="expiryDate"
+                    [matDatepicker]="expiryDatePicker"
+                    [min]="certificateForm.controls.issueDate.value"
+                    placeholder="Select expiry date"
+                    (click)="expiryDatePicker.open()">
+                <mat-datepicker-toggle matIconSuffix [for]="expiryDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #expiryDatePicker></mat-datepicker>
+                <mat-hint>Optional for certificates without expiry.</mat-hint>
+            </mat-form-field>
+
+            <!-- Date Validation -->
+            @if (formSubmitted && certificateForm.hasError('invalidDateRange')) {
+                <div class="md:col-span-2">
+                    <p class="text-sm text-red-600">
+                        Expiry date cannot be earlier than the issue date.
+                    </p>
+                </div>
+            }
+
+            <!-- Credential ID -->
+            <mat-form-field appearance="outline">
+                <mat-label>Credential ID</mat-label>
+                <input
+                    matInput
+                    formControlName="credentialId"
+                    placeholder="Example: ABC-123456">
+                <mat-hint>Optional verification identifier.</mat-hint>
+                @if (certificateForm.controls.credentialId.hasError('maxlength')) {
+                    <mat-error>Credential ID cannot exceed 150 characters.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Credential URL -->
+            <mat-form-field appearance="outline">
+                <mat-label>Credential URL</mat-label>
+                <input
+                    matInput
+                    formControlName="credentialUrl"
+                    placeholder="https://example.com/credential">
+                <mat-hint>Optional external verification page.</mat-hint>
+                @if (certificateForm.controls.credentialUrl.hasError('pattern')) {
+                    <mat-error>
+                        Enter a valid URL beginning with http:// or https://.
+                    </mat-error>
+                } 
+            </mat-form-field>
+
+            <!-- Certificate File URL -->
+            <mat-form-field
+                appearance="outline"
+                class="md:col-span-2">
+                <mat-label>Certificate File URL</mat-label>
+                <input
+                    matInput
+                    formControlName="certificateFileUrl"
+                    placeholder="assets/documents/certificate.pdf">
+                <mat-hint>Optional local file path or external URL.</mat-hint>
+                @if (certificateForm.controls.certificateFileUrl.hasError('maxlength')) {
+                    <mat-error>Certificate file path cannot exceed 300 characters.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Related Skills -->
+            <mat-form-field
+                appearance="outline"
+                class="md:col-span-2">
+                <mat-label>Related Skills</mat-label>
+                <mat-select
+                    formControlName="skillIds"
+                    multiple>
+                    @for (skill of skillsList; track skill.id) {
+                        <mat-option [value]="skill.id">
+                            {{ skill.name }}
+                        </mat-option>
+                    }
+                </mat-select>
+                <mat-hint>Optional. Select skills related to this certificate.</mat-hint>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex shrink-0 justify-end gap-3 border-t border-stone-300 bg-white px-8 py-5">
+        <!-- Cancel -->
+        <button
+            type="button"
+            class="rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-stone-100 disabled:cursor-not-allowed disabled:opacity-50"
+            [disabled]="isSubmitting"
+            (click)="cancel()">
+            Cancel
+        </button>
+        <!-- Submit -->
+        <button
+            type="submit"
+            class="rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
+            [disabled]="certificateForm.invalid || isSubmitting">
+            @if (isSubmitting) {
+                Saving...
+            } @else if (data.mode === 'create') {
+                Add Certificate
+            } @else {
+                Save Changes
+            }
+        </button>
+    </div>
+
+</form>
