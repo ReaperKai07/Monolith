@@ -1,1 +1,277 @@
-<p>cryptek-lab works!</p>
+<!-- Content -->
+<div class="flex w-full flex-col gap-8">
+
+    <!-- Page Header -->
+    <div>
+        <h1 class="text-2xl font-semibold text-stone-900">
+            Cryptek Lab
+        </h1>
+
+        <p class="mt-1 text-sm text-stone-500">
+            A showcase of reusable components and interface patterns used across Monolith.
+        </p>
+    </div>
+
+    <!-- Divider -->
+    <div class="h-px w-full bg-stone-200"></div>
+
+    <!-- Search Component -->
+    <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
+
+        <div>
+            <h2 class="text-lg font-semibold text-stone-900">
+                Search
+            </h2>
+
+            <p class="mt-1 text-sm text-stone-500">
+                Reusable real-time search input with debounce and clear behaviour.
+            </p>
+        </div>
+
+        <div class="mt-6">
+            <app-search
+                class="w-full"
+                placeholder="Search components..."
+                [debounceTimeMs]="200"
+                (searchChange)="onSearchChange($event)">
+            </app-search>
+        </div>
+
+        <p class="mt-4 text-sm text-stone-500">
+            Current value:
+            <span class="font-medium text-stone-900">
+                {{ searchTerm || 'None' }}
+            </span>
+        </p>
+
+    </section>
+
+    <!-- Pagination Component -->
+    <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
+
+        <div>
+            <h2 class="text-lg font-semibold text-stone-900">
+                Pagination
+            </h2>
+
+            <p class="mt-1 text-sm text-stone-500">
+                Reusable pagination component for table and list views.
+            </p>
+        </div>
+
+        <div class="mt-6">
+            <app-pagination
+                [currentPage]="currentPage"
+                [pageSize]="pageSize"
+                [totalItems]="totalItems"
+                (pageChange)="onPageChange($event)">
+            </app-pagination>
+        </div>
+
+        <p class="mt-4 text-sm text-stone-500">
+            Current page:
+            <span class="font-medium text-stone-900">
+                {{ currentPage }}
+            </span>
+        </p>
+
+    </section>
+
+    <!-- Delete Dialog -->
+    <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
+
+        <div>
+            <h2 class="text-lg font-semibold text-stone-900">
+                Delete Confirmation Dialog
+            </h2>
+
+            <p class="mt-1 text-sm text-stone-500">
+                Reusable confirmation dialog for destructive actions.
+            </p>
+        </div>
+
+        <button
+            type="button"
+            class="
+                mt-6 rounded-lg bg-red-600
+                px-4 py-2
+                text-sm font-medium text-white
+                transition-colors
+                hover:bg-red-500
+            "
+            (click)="openDeleteDialog()">
+
+            Open Delete Dialog
+
+        </button>
+
+    </section>
+
+    <!-- Alert Messages -->
+    <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
+
+        <div>
+            <h2 class="text-lg font-semibold text-stone-900">
+                Alert Messages
+            </h2>
+
+            <p class="mt-1 text-sm text-stone-500">
+                Feedback messages for success, warning, information and error states.
+            </p>
+        </div>
+
+        <div class="mt-6 flex flex-col gap-4">
+
+            <!-- Adjust inputs to your actual component API -->
+            <alert-message
+                type="success"
+                message="Operation completed successfully.">
+            </alert-message>
+
+            <alert-message
+                type="error"
+                message="Something went wrong while processing the request.">
+            </alert-message>
+
+            <alert-message
+                type="warning"
+                message="Review the provided information before continuing.">
+            </alert-message>
+
+            <alert-message
+                type="info"
+                message="This is an informational message.">
+            </alert-message>
+
+        </div>
+
+    </section>
+
+    <!-- Empty State -->
+    <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
+
+        <div>
+            <h2 class="text-lg font-semibold text-stone-900">
+                Empty State
+            </h2>
+
+            <p class="mt-1 text-sm text-stone-500">
+                Standard layout used when a page contains no matching data.
+            </p>
+        </div>
+
+        <div class="mt-6 flex flex-col items-center justify-center rounded-lg border border-dashed border-stone-300 bg-white px-6 py-12 text-center">
+
+            <div class="flex size-14 items-center justify-center rounded-full bg-stone-100 text-stone-600">
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="size-8">
+
+                    <path
+                        fill-rule="evenodd"
+                        d="M19.5 21a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3h-5.379a.75.75 0 0 1-.53-.22L11.47 3.66A2.25 2.25 0 0 0 9.879 3H4.5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h15Zm-6.75-10.5a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V10.5Z"
+                        clip-rule="evenodd" />
+
+                </svg>
+
+            </div>
+
+            <h3 class="mt-4 text-lg font-semibold text-stone-900">
+                No items found
+            </h3>
+
+            <p class="mt-2 max-w-md text-sm text-stone-500">
+                Add a new item or adjust the current search and filter.
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- Chips -->
+    <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
+
+        <div>
+            <h2 class="text-lg font-semibold text-stone-900">
+                Chips and Badges
+            </h2>
+
+            <p class="mt-1 text-sm text-stone-500">
+                Compact labels used for technologies, statuses, categories and linked records.
+            </p>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-2">
+
+            <span class="rounded-full bg-stone-200 px-2.5 py-1 text-xs font-medium text-stone-700">
+                Angular
+            </span>
+
+            <span class="rounded-full bg-stone-800 px-2.5 py-1 text-xs font-medium text-white">
+                +3
+            </span>
+
+            <span class="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
+                Completed
+            </span>
+
+            <span class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-700">
+                Planning
+            </span>
+
+            <span class="rounded-full bg-red-100 px-2.5 py-1 text-xs font-medium text-red-700">
+                Expired
+            </span>
+
+        </div>
+
+    </section>
+
+    <!-- Buttons -->
+    <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
+
+        <div>
+            <h2 class="text-lg font-semibold text-stone-900">
+                Buttons
+            </h2>
+
+            <p class="mt-1 text-sm text-stone-500">
+                Standard action styles used throughout Monolith.
+            </p>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+
+            <button
+                type="button"
+                class="rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-700">
+                Primary
+            </button>
+
+            <button
+                type="button"
+                class="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-100">
+                Secondary
+            </button>
+
+            <button
+                type="button"
+                class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-500">
+                Destructive
+            </button>
+
+            <button
+                type="button"
+                disabled
+                class="cursor-not-allowed rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white opacity-50">
+                Disabled
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
