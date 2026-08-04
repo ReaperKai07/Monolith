@@ -21,7 +21,7 @@ body {
 }
 
 /* -----------------------------------------------------------------------------------------------------
- * Custom Monolith Material Theme
+ * Custom Material Theme
  * ----------------------------------------------------------------------------------------------------- */
 
 /* Remove notch border bug */
@@ -76,4 +76,21 @@ body {
     --mdc-checkbox-selected-focus-icon-color: rgb(41 37 36);
     --mdc-checkbox-selected-hover-icon-color: rgb(41 37 36);
     --mdc-checkbox-selected-icon-color: rgb(41 37 36);
+}
+
+/* -----------------------------------------------------------------------------------------------------
+ * Custom Snackbar
+ * ----------------------------------------------------------------------------------------------------- */
+
+.mat-mdc-snack-bar-container.monolith-snackbar {
+    --mdc-snackbar-container-color: transparent;
+    --mdc-snackbar-supporting-text-color: inherit;
+}
+
+.mat-mdc-snack-bar-container.monolith-snackbar
+.mdc-snackbar__surface {
+    min-width: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
 }

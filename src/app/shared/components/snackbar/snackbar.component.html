@@ -1,0 +1,68 @@
+<div
+    class="flex min-w-80 max-w-md items-start gap-3 rounded-xl border p-4 shadow-xl"
+    [ngClass]="{
+        'border-green-200 bg-green-50 text-green-800': data.type === 'success',
+        'border-red-200 bg-red-50 text-red-800': data.type === 'error',
+        'border-amber-200 bg-amber-50 text-amber-800': data.type === 'warning',
+        'border-blue-200 bg-blue-50 text-blue-800': data.type === 'info'
+    }">
+
+    <!-- Icon -->
+    <div
+        class="flex size-9 shrink-0 items-center justify-center rounded-full"
+        [ngClass]="{
+            'bg-green-100': data.type === 'success',
+            'bg-red-100': data.type === 'error',
+            'bg-amber-100': data.type === 'warning',
+            'bg-blue-100': data.type === 'info'
+        }">
+        @switch (data.type) {
+            <!-- Success -->
+            @case ('success') {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd" d="M2.25 12a9.75 9.75 0 1 1 19.5 0 9.75 9.75 0 0 1-19.5 0Zm14.28-2.03a.75.75 0 0 0-1.06-1.06l-4.72 4.72-2.22-2.22a.75.75 0 0 0-1.06 1.06l2.75 2.75a.75.75 0 0 0 1.06 0l5.25-5.25Z" clip-rule="evenodd" />
+                </svg>
+            }
+            <!-- Error -->
+            @case ('error') {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.198 0l7.355 12.75c1.154 2-.289 4.5-2.6 4.5H4.646c-2.31 0-3.754-2.5-2.599-4.5l7.354-12.75ZM12 9a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 12 9Zm0 7.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+                </svg>
+            }
+            <!-- Warning -->
+            @case ('warning') {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.198 0l7.355 12.75c1.154 2-.289 4.5-2.6 4.5H4.646c-2.31 0-3.754-2.5-2.599-4.5l7.354-12.75ZM12 9a.75.75 0 0 1 .75.75v3a.75.75 0 0 1-1.5 0v-3A.75.75 0 0 1 12 9Zm0 7.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+                </svg>
+            }
+            <!-- Info -->
+            @case ('info') {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd" d="M2.25 12a9.75 9.75 0 1 1 19.5 0 9.75 9.75 0 0 1-19.5 0ZM12 10.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 12 10.5Zm0-3a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Z" clip-rule="evenodd" />
+                </svg>
+            }
+        }
+    </div>
+
+    <!-- Message -->
+    <div class="min-w-0 flex-1">
+        <p class="text-sm font-semibold">
+            {{ data.title }}
+        </p>
+        <p class="mt-1 text-sm opacity-80">
+            {{ data.message }}
+        </p>
+    </div>
+
+    <!-- Close -->
+    <button
+        type="button"
+        aria-label="Dismiss notification"
+        class="shrink-0 rounded-lg p-1 opacity-60 transition-opacity hover:opacity-100"
+        (click)="dismiss()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+    </button>
+
+</div>
