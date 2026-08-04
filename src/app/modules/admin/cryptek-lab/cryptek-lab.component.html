@@ -17,17 +17,14 @@
 
     <!-- Search Component -->
     <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
-
         <div>
             <h2 class="text-lg font-semibold text-stone-900">
                 Search
             </h2>
-
             <p class="mt-1 text-sm text-stone-500">
-                Reusable real-time search input with debounce and clear behaviour.
+                Reusable real-time search input with debounce 0.2 second and clear behaviour.
             </p>
         </div>
-
         <div class="mt-6">
             <app-search
                 class="w-full"
@@ -36,29 +33,137 @@
                 (searchChange)="onSearchChange($event)">
             </app-search>
         </div>
-
         <p class="mt-4 text-sm text-stone-500">
             Current value:
             <span class="font-medium text-stone-900">
                 {{ searchTerm || 'None' }}
             </span>
         </p>
+    </section>
 
+    <!-- Skeleton Loader -->
+    <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
+        <!-- Header -->
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+                <h2 class="text-lg font-semibold text-stone-900">
+                    Skeleton Loader
+                </h2>
+                <p class="mt-1 text-sm text-stone-500">
+                    Placeholder content displayed while data is loading.
+                </p>
+            </div>
+            <!-- Reload Demo -->
+            <button
+                type="button"
+                class="flex shrink-0 items-center justify-center gap-2 rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-100 disabled:cursor-not-allowed disabled:opacity-50"
+                [disabled]="isSkeletonLoading"
+                (click)="reloadSkeletonDemo()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-4" [class.animate-spin]="isSkeletonLoading">
+                    <path stroke-linecap="round"stroke-linejoin="round" d="M16.023 9.348h4.992V4.356M2.985 19.644v-4.992h4.992M4.65 9a7.5 7.5 0 0 1 12.713-3.364l3.652 3.712M19.35 15a7.5 7.5 0 0 1-12.713 3.364l-3.652-3.712" />
+                </svg>
+                Reload Demo
+            </button>
+        </div>
+        <!-- Demo Card -->
+        <div class="mt-6 max-w-xl rounded-lg border border-stone-200 bg-white p-6">
+            @if (isSkeletonLoading) {
+                <!-- Skeleton Content -->
+                <div class="flex items-start gap-4">
+                    <app-skeleton-loader
+                        shape="circle"
+                        width="48px"
+                        height="48px">
+                    </app-skeleton-loader>
+                    <div class="flex flex-1 flex-col gap-2">
+                        <app-skeleton-loader
+                            shape="text"
+                            width="40%"
+                            height="16px">
+                        </app-skeleton-loader>
+                        <app-skeleton-loader
+                            shape="text"
+                            width="65%"
+                            height="12px">
+                        </app-skeleton-loader>
+                    </div>
+                </div>
+                <div class="mt-5 flex flex-col gap-2">
+                    <app-skeleton-loader
+                        shape="text"
+                        width="100%"
+                        height="12px">
+                    </app-skeleton-loader>
+                    <app-skeleton-loader
+                        shape="text"
+                        width="92%"
+                        height="12px">
+                    </app-skeleton-loader>
+                    <app-skeleton-loader
+                        shape="text"
+                        width="70%"
+                        height="12px">
+                    </app-skeleton-loader>
+                </div>
+                <div class="mt-6 flex justify-between">
+                    <app-skeleton-loader
+                        shape="text"
+                        width="90px"
+                        height="12px">
+                    </app-skeleton-loader>
+                    <app-skeleton-loader
+                        shape="text"
+                        width="110px"
+                        height="12px">
+                    </app-skeleton-loader>
+                </div>
+            } @else {
+                <!-- Loaded Content -->
+                <div class="flex items-start gap-4">
+                    <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-stone-800 text-white">
+                        <span class="font-semibold">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                <path d="M16.5 7.5h-9v9h9v-9Z" />
+                                <path fill-rule="evenodd" d="M8.25 2.25A.75.75 0 0 1 9 3v.75h2.25V3a.75.75 0 0 1 1.5 0v.75H15V3a.75.75 0 0 1 1.5 0v.75h.75a3 3 0 0 1 3 3v.75H21A.75.75 0 0 1 21 9h-.75v2.25H21a.75.75 0 0 1 0 1.5h-.75V15H21a.75.75 0 0 1 0 1.5h-.75v.75a3 3 0 0 1-3 3h-.75V21a.75.75 0 0 1-1.5 0v-.75h-2.25V21a.75.75 0 0 1-1.5 0v-.75H9V21a.75.75 0 0 1-1.5 0v-.75h-.75a3 3 0 0 1-3-3v-.75H3A.75.75 0 0 1 3 15h.75v-2.25H3a.75.75 0 0 1 0-1.5h.75V9H3a.75.75 0 0 1 0-1.5h.75v-.75a3 3 0 0 1 3-3h.75V3a.75.75 0 0 1 .75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h10.5a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V6.75Z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-stone-900">
+                            Monolith Dashboard
+                        </h3>
+                        <p class="mt-1 text-sm text-stone-500">
+                            Angular Component Showcase
+                        </p>
+                    </div>
+                </div>
+                <p class="mt-5 text-sm leading-6 text-stone-600">
+                    This content appears after the simulated loading process completes.
+                    The skeleton loader provides visual feedback while the application prepares
+                    the requested data.
+                </p>
+                <div class="mt-6 flex items-center justify-between border-t border-stone-100 pt-4">
+                    <span class="text-sm text-stone-500">
+                        Loading Duration
+                    </span>
+                    <span class="text-sm font-medium text-stone-900">
+                        2 second
+                    </span>
+                </div>
+            }
+        </div>
     </section>
 
     <!-- Pagination Component -->
     <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
-
         <div>
             <h2 class="text-lg font-semibold text-stone-900">
                 Pagination
             </h2>
-
             <p class="mt-1 text-sm text-stone-500">
                 Reusable pagination component for table and list views.
             </p>
         </div>
-
         <div class="mt-6">
             <app-pagination
                 [currentPage]="currentPage"
@@ -67,211 +172,181 @@
                 (pageChange)="onPageChange($event)">
             </app-pagination>
         </div>
-
         <p class="mt-4 text-sm text-stone-500">
             Current page:
             <span class="font-medium text-stone-900">
                 {{ currentPage }}
             </span>
         </p>
+    </section>
 
+    <!-- Loading Overlay -->
+    <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
+        <div>
+            <h2 class="text-lg font-semibold text-stone-900">
+                Loading Overlay
+            </h2>
+            <p class="mt-1 text-sm text-stone-500">
+                Global loading indicator displayed during asynchronous operations.
+            </p>
+        </div>
+        <button
+            type="button"
+            class="mt-6 rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-700"
+            (click)="showLoadingOverlay()">
+            Show Loading Overlay for 1 seconds
+        </button>
     </section>
 
     <!-- Delete Dialog -->
     <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
-
         <div>
             <h2 class="text-lg font-semibold text-stone-900">
                 Delete Confirmation Dialog
             </h2>
-
             <p class="mt-1 text-sm text-stone-500">
                 Reusable confirmation dialog for destructive actions.
             </p>
         </div>
-
         <button
             type="button"
-            class="
-                mt-6 rounded-lg bg-red-600
-                px-4 py-2
-                text-sm font-medium text-white
-                transition-colors
-                hover:bg-red-500
-            "
+            class="mt-6 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-500"
             (click)="openDeleteDialog()">
-
             Open Delete Dialog
-
         </button>
-
     </section>
 
     <!-- Alert Messages -->
     <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
-
         <div>
             <h2 class="text-lg font-semibold text-stone-900">
                 Alert Messages
             </h2>
-
             <p class="mt-1 text-sm text-stone-500">
                 Feedback messages for success, warning, information and error states.
             </p>
         </div>
-
+        <!-- Adjust inputs to your actual component API -->
         <div class="mt-6 flex flex-col gap-4">
-
-            <!-- Adjust inputs to your actual component API -->
+            <!-- Success -->
             <alert-message
                 type="success"
                 message="Operation completed successfully.">
             </alert-message>
-
+            <!-- Error -->
             <alert-message
                 type="error"
                 message="Something went wrong while processing the request.">
             </alert-message>
-
+            <!-- Warning -->
             <alert-message
                 type="warning"
                 message="Review the provided information before continuing.">
             </alert-message>
-
+            <!-- Info -->
             <alert-message
                 type="info"
                 message="This is an informational message.">
             </alert-message>
-
         </div>
-
     </section>
 
     <!-- Empty State -->
     <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
-
         <div>
             <h2 class="text-lg font-semibold text-stone-900">
                 Empty State
             </h2>
-
             <p class="mt-1 text-sm text-stone-500">
                 Standard layout used when a page contains no matching data.
             </p>
         </div>
-
         <div class="mt-6 flex flex-col items-center justify-center rounded-lg border border-dashed border-stone-300 bg-white px-6 py-12 text-center">
-
             <div class="flex size-14 items-center justify-center rounded-full bg-stone-100 text-stone-600">
-
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="size-8">
-
-                    <path
-                        fill-rule="evenodd"
-                        d="M19.5 21a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3h-5.379a.75.75 0 0 1-.53-.22L11.47 3.66A2.25 2.25 0 0 0 9.879 3H4.5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h15Zm-6.75-10.5a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V10.5Z"
-                        clip-rule="evenodd" />
-
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
+                    <path fill-rule="evenodd" d="M19.5 21a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3h-5.379a.75.75 0 0 1-.53-.22L11.47 3.66A2.25 2.25 0 0 0 9.879 3H4.5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h15Zm-6.75-10.5a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V10.5Z" clip-rule="evenodd" />
                 </svg>
-
             </div>
-
             <h3 class="mt-4 text-lg font-semibold text-stone-900">
                 No items found
             </h3>
-
             <p class="mt-2 max-w-md text-sm text-stone-500">
                 Add a new item or adjust the current search and filter.
             </p>
-
         </div>
-
     </section>
 
     <!-- Chips -->
     <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
-
         <div>
             <h2 class="text-lg font-semibold text-stone-900">
                 Chips and Badges
             </h2>
-
             <p class="mt-1 text-sm text-stone-500">
                 Compact labels used for technologies, statuses, categories and linked records.
             </p>
         </div>
-
         <div class="mt-6 flex flex-wrap gap-2">
-
+            <!-- Normal Label -->
             <span class="rounded-full bg-stone-200 px-2.5 py-1 text-xs font-medium text-stone-700">
                 Angular
             </span>
-
+            <!-- Compact Count -->
             <span class="rounded-full bg-stone-800 px-2.5 py-1 text-xs font-medium text-white">
                 +3
             </span>
-
+            <!-- Complete -->
             <span class="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
                 Completed
             </span>
-
+            <!-- Planning -->
             <span class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-700">
                 Planning
             </span>
-
+            <!-- Expired -->
             <span class="rounded-full bg-red-100 px-2.5 py-1 text-xs font-medium text-red-700">
                 Expired
             </span>
-
         </div>
-
     </section>
 
     <!-- Buttons -->
     <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
-
         <div>
             <h2 class="text-lg font-semibold text-stone-900">
                 Buttons
             </h2>
-
             <p class="mt-1 text-sm text-stone-500">
                 Standard action styles used throughout Monolith.
             </p>
         </div>
-
         <div class="mt-6 flex flex-wrap gap-3">
-
+            <!-- Primary -->
             <button
                 type="button"
                 class="rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-stone-700">
                 Primary
             </button>
-
+            <!-- Secondary / Cancel / Back -->
             <button
                 type="button"
                 class="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-100">
                 Secondary
             </button>
-
+            <!-- Destructive / Delete -->
             <button
                 type="button"
                 class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-500">
                 Destructive
             </button>
-
+            <!-- Disabled -->
             <button
                 type="button"
                 disabled
                 class="cursor-not-allowed rounded-lg bg-stone-800 px-4 py-2 text-sm font-medium text-white opacity-50">
                 Disabled
             </button>
-
         </div>
-
     </section>
 
 </div>
