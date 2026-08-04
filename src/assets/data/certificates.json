@@ -1,1 +1,16 @@
-[]
+[
+    {
+        "id": 1,
+        "name": "Angular Fundamentals (Example Only)",
+        "issuer": "Udemy",
+        "type": "Course",
+        "description": "Completed a structured course covering Angular components, services, routing, reactive forms and HTTP integration.",
+        "issueDate": "2025-08-15",
+        "expiryDate": null,
+        "credentialId": "EXAMPLE-UC-ANGULAR",
+        "credentialUrl": "https://example.com/credentials/angular-fundamentals",
+        "certificateFileUrl": "assets/documents/angular-fundamentals.pdf",
+        "logo": "angular.svg",
+        "skillIds": [1, 2, 3, 5]
+    }
+]
