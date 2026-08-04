@@ -18,6 +18,7 @@ import {
     PROJECT_TECHNOLOGIES,
     PROJECT_TYPES,
 } from '../../../../core/projects/projects.constants';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
 
 export type DetailsProjectsMode = 'create' | 'edit';
 
@@ -54,6 +55,7 @@ export class DetailsProjectsComponent implements OnInit {
     private readonly _projectsService = inject(ProjectsService);
     private readonly _dialogRef = inject(MatDialogRef<DetailsProjectsComponent>);
     private readonly _destroyRef = inject(DestroyRef);
+    private readonly _snackbarService = inject(SnackbarService)
 
     readonly data = inject<DetailsProjectsDialogData>(MAT_DIALOG_DATA);
 
@@ -147,10 +149,7 @@ export class DetailsProjectsComponent implements OnInit {
             status: formValue.status!,
         };
         if (this.data.mode === 'edit' && this.data.project ) {
-            this.updateProject(
-                this.data.project.id,
-                request
-            );
+            this.updateProject(this.data.project.id, request);
             return;
         } 
         this.createProject(request);
@@ -192,10 +191,18 @@ export class DetailsProjectsComponent implements OnInit {
         this._projectsService.createProject(request)
             .subscribe({
                 next: project => {
+                    this._snackbarService.success(
+                        `"${project.project}" was created successfully.`, 
+                        'New Project Created'
+                    );
                     this._dialogRef.close(project);
                 },
                 error: error => {
                     console.error('Failed to create project:', error);
+                    this._snackbarService.error(
+                        'The project could not be created. Please try again.', 
+                        'Create Failed'
+                    );
                     this.restoreForm();
                 },
             });
@@ -213,10 +220,18 @@ export class DetailsProjectsComponent implements OnInit {
         this._projectsService.updateProject(projectId, request)
             .subscribe({
                 next: project => {
+                    this._snackbarService.success(
+                        `"${project.project}" was updated successfully.`, 
+                        'Project Updated'
+                    );
                     this._dialogRef.close(project);
                 },
                 error: error => {
                     console.error('Failed to update project:', error);
+                    this._snackbarService.error(
+                        'The project could not be updated. Please try again.', 
+                        'Update Failed'
+                    );
                     this.restoreForm();
                 },
             });

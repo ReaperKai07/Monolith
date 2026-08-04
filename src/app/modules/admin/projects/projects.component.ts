@@ -9,6 +9,7 @@ import { Project } from '../../../core/projects/projects.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DetailsProjectsComponent, DetailsProjectsDialogData } from './details-projects/details-projects.component';
 import { SearchComponent } from '../../../shared/components/search/search.component';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-projects',
@@ -23,6 +24,7 @@ import { SearchComponent } from '../../../shared/components/search/search.compon
         SearchComponent,
     ],
 })
+
 export class ProjectsComponent implements OnInit {
 
     // -----------------------------------------------------------------------------------------------------
@@ -32,14 +34,17 @@ export class ProjectsComponent implements OnInit {
     private readonly _dialog = inject(MatDialog);
     private readonly _projectsService = inject(ProjectsService);
     private readonly _destroyRef = inject(DestroyRef);
+    private readonly _snackbarService = inject(SnackbarService);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
     // -----------------------------------------------------------------------------------------------------
 
     readonly pageSize = 10;
+    
     currentPage = 1;
     searchTerm = '';
+
     projectsList: Project[] = [];
 
     // -----------------------------------------------------------------------------------------------------
@@ -52,9 +57,7 @@ export class ProjectsComponent implements OnInit {
          * Subscribe to the projects service
          */
         this._projectsService.projects$
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(projects => {
                 this.projectsList = projects;
                 this._ensureValidCurrentPage();
@@ -65,15 +68,10 @@ export class ProjectsComponent implements OnInit {
          */
         this._projectsService
             .initializeProjects()
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
                 error: error => {
-                    console.error(
-                        'Failed to initialize projects:',
-                        error
-                    );
+                    console.error('Failed to initialize projects:', error);
                 },
             });
 
@@ -114,10 +112,7 @@ export class ProjectsComponent implements OnInit {
     get paginatedProjects(): Project[] {
         const startIndex = (this.currentPage - 1) * this.pageSize;
         const endIndex = startIndex + this.pageSize;
-        return this.filteredProjects.slice(
-            startIndex,
-            endIndex
-        );
+        return this.filteredProjects.slice(startIndex, endIndex);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -146,16 +141,13 @@ export class ProjectsComponent implements OnInit {
             }
         );
         dialogRef.afterClosed()
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(confirmed => {
                 if (!confirmed) {
                     return;
                 }
                 this.deleteProject(project.id);
             });
-
     }
 
     /**
@@ -164,14 +156,19 @@ export class ProjectsComponent implements OnInit {
      */
     deleteProject(projectId: number): void {
         this._projectsService.deleteProject(projectId)
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
+                next: () => {
+                    this._snackbarService.success(
+                        'The project was deleted successfully.',
+                        'Project Deleted'
+                    );
+                },
                 error: error => {
-                    console.error(
-                        'Failed to delete project:',
-                        error
+                    console.error('Failed to delete project:', error);
+                    this._snackbarService.error(
+                        'The project could not be deleted.',
+                        'Delete Failed'
                     );
                 },
             });

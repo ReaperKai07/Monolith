@@ -36,6 +36,7 @@
     <section class="overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm">
         <div class="w-full overflow-x-auto">
             <table class="w-full text-left">
+
                 <!-- Table Header -->
                 <thead>
                     <tr class="border-b border-stone-200 text-sm text-stone-500">
@@ -47,23 +48,27 @@
                         <th class="px-4 py-3 font-medium">Action</th>
                     </tr>
                 </thead>
+
                 <!-- Table Body -->
                 <tbody>
                     @for (project of paginatedProjects; track project.id) {
                         <tr class="group border-b border-stone-200 text-sm transition-colors duration-150 hover:bg-white/50">
+                            
                             <!-- Project -->
                             <td class="px-4 py-4">
                                 <div class="max-w-xs">
                                     <p class="font-semibold text-stone-900 transition-colors group-hover:text-stone-600">
                                         {{ project.project }}
                                     </p>
-                                    <p class="mt-1 max-w-[260px] truncate text-xs text-stone-500"
+                                    <p 
+                                        class="mt-1 max-w-[260px] truncate text-xs text-stone-500"
                                         [matTooltip]="project.description"
                                         matTooltipPosition="above">
                                         {{ project.description }}
                                     </p>
                                 </div>
                             </td>
+
                             <!-- Platform -->
                             <td class="px-4 py-4">
                                 <div class="flex flex-wrap gap-2">
@@ -80,13 +85,11 @@
                                     }
                                 </div>
                             </td>
+
                             <!-- Technology -->
                             <td class="px-4 py-4">
                                 <div class="flex flex-wrap items-center gap-1.5">
-                                    @for (
-                                        technology of project.technology | slice:0:3;
-                                        track technology
-                                    ) {
+                                    @for (technology of project.technology | slice:0:3; track technology) {
                                         <span class="rounded-full bg-stone-500 px-2.5 py-1 text-xs font-medium text-white">
                                             {{ technology }}
                                         </span>
@@ -101,6 +104,7 @@
                                     }
                                 </div>
                             </td>
+
                             <!-- Duration -->
                             <td class="px-4 py-4 whitespace-nowrap text-center items-center">
                                 @if (project.startDate) {
@@ -114,8 +118,8 @@
                                 } @else {
                                     -
                                 }
-
                             </td>
+                            
                             <!-- Status -->
                             <td class="px-4 py-4">
                                 <span
@@ -129,6 +133,7 @@
                                     {{ project.status }}
                                 </span>
                             </td>
+
                             <!-- Actions -->
                             <td class="px-4 py-4">
                                 <div class="flex items-center justify-center gap-1">
@@ -159,19 +164,21 @@
                                     </button>
                                 </div>
                             </td>
+
                         </tr>
                     }
+                    
                     @empty {
                         <tr>
                             <td colspan="8" class="px-6 py-10">
                                 <div class="flex flex-col items-center justify-center rounded-lg text-center">
                                     <!-- Icon -->
-                                    <div class="flex size-14 items-center justify-center rounded-full bg-stone-100 text-stone-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                    <div class="flex size-14 items-center justify-center rounded-full bg-stone-800 text-stone-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
                                             <path fill-rule="evenodd" d="M10.5 3.798v5.02a3 3 0 0 1-.879 2.121l-2.377 2.377a9.845 9.845 0 0 1 5.091 1.013 8.315 8.315 0 0 0 5.713.636l.285-.071-3.954-3.955a3 3 0 0 1-.879-2.121v-5.02a23.614 23.614 0 0 0-3 0Zm4.5.138a.75.75 0 0 0 .093-1.495A24.837 24.837 0 0 0 12 2.25a25.048 25.048 0 0 0-3.093.191A.75.75 0 0 0 9 3.936v4.882a1.5 1.5 0 0 1-.44 1.06l-6.293 6.294c-1.62 1.621-.903 4.475 1.471 4.88 2.686.46 5.447.698 8.262.698 2.816 0 5.576-.239 8.262-.697 2.373-.406 3.092-3.26 1.47-4.881L15.44 9.879A1.5 1.5 0 0 1 15 8.818V3.936Z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
-                                    <h2 class="mt-4 text-lg font-semibold text-stone-900">
+                                    <h2 class="mt-4 text-lg font-semibold text-stone-800">
                                         @if (searchTerm) {
                                             No matching projects
                                         } @else {
@@ -195,7 +202,7 @@
         </div>
 
         <!-- Pagination -->
-        <div>
+        <div class="border-t border-stone-200">
             <app-pagination
                 [currentPage]="currentPage"
                 [pageSize]="pageSize"
