@@ -7,6 +7,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
 import { SearchComponent } from '../../../shared/components/search/search.component';
 import { LoadingOverlayService } from '../../../core/services/loading-overlay.service';
 import { SkeletonLoaderComponent } from '../../../shared/components/skeleton-loader/skeleton-loader.component';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-cryptek-lab',
@@ -29,6 +30,7 @@ export class CryptekLabComponent implements OnInit{
     private readonly _dialog = inject(MatDialog);
     private readonly _destroyRef = inject(DestroyRef);
     private readonly _loadingOverlayService = inject(LoadingOverlayService);
+    private readonly _snackbarService = inject(SnackbarService);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
@@ -132,6 +134,50 @@ export class CryptekLabComponent implements OnInit{
         setTimeout(() => {
             this.isSkeletonLoading = false;
         }, 1000);
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Snackbar methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Displays a success snackbar
+     */
+    showSuccessSnackbar(): void {
+        this._snackbarService.success(
+            'The operation was completed successfully.',
+            'Operation Successful'
+        );
+    }
+
+    /**
+     * Displays an error snackbar
+     */
+    showErrorSnackbar(): void {
+        this._snackbarService.error(
+            'Something went wrong while processing the request.',
+            'Operation Failed'
+        );
+    }
+
+    /**
+     * Displays a warning snackbar
+     */
+    showWarningSnackbar(): void {
+        this._snackbarService.warning(
+            'Review the provided information before continuing.',
+            'Review Required'
+        );
+    }
+
+    /**
+     * Displays an informational snackbar
+     */
+    showInfoSnackbar(): void {
+        this._snackbarService.info(
+            'This is an example informational notification.',
+            'Information'
+        );
     }
 
 }
