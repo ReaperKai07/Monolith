@@ -17,6 +17,7 @@ import {
 import { SkillsService } from '../../../../core/skills/skills.service';
 import { Project } from '../../../../core/projects/projects.model';
 import { ProjectsService } from '../../../../core/projects/projects.service';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
 
 export type DetailsSkillsMode = 'create' | 'edit';
 
@@ -49,6 +50,7 @@ export class DetailsSkillsComponent implements OnInit {
     private readonly _skillsService = inject(SkillsService);
     private readonly _projectsService = inject(ProjectsService);
     private readonly _dialogRef = inject(MatDialogRef<DetailsSkillsComponent>);
+    private readonly _snackbarService = inject(SnackbarService)
 
     readonly data = inject<DetailsSkillsDialogData>(MAT_DIALOG_DATA);
 
@@ -173,10 +175,18 @@ export class DetailsSkillsComponent implements OnInit {
         this._skillsService.createSkill(request)
             .subscribe({
                 next: skill => {
+                    this._snackbarService.success(
+                        `"${skill.name}" was created successfully.`, 
+                        'New Skill Created'
+                    );
                     this._dialogRef.close(skill);
                 },
                 error: error => {
                     console.error('Failed to create skill:', error);
+                    this._snackbarService.error(
+                        'The skill could not be created. Please try again.', 
+                        'Create Failed'
+                    );
                     this.restoreForm();
                 },
             });
@@ -192,10 +202,18 @@ export class DetailsSkillsComponent implements OnInit {
         this._skillsService.updateSkill(skillId, request)
             .subscribe({
                 next: skill => {
+                    this._snackbarService.success(
+                        `"${skill.name}" was updated successfully.`, 
+                        'Skill Updated'
+                    );
                     this._dialogRef.close(skill);
                 },
                 error: error => {
                     console.error('Failed to update skill:', error);
+                    this._snackbarService.error(
+                        'The skill could not be updated. Please try again.', 
+                        'Update Failed'
+                    );
                     this.restoreForm();
                 },
             });

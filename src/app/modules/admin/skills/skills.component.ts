@@ -11,6 +11,7 @@ import { SearchComponent } from '../../../shared/components/search/search.compon
 import { ProjectsService } from '../../../core/projects/projects.service';
 import { Project } from '../../../core/projects/projects.model';
 import { DetailsSkillsComponent, DetailsSkillsDialogData } from './details-skills/details-skills.component';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 type SkillCategoryFilter = 'All' | SkillCategory;
 
@@ -42,6 +43,7 @@ export class SkillsComponent implements OnInit {
     private readonly _skillsService = inject(SkillsService);
     private readonly _destroyRef = inject(DestroyRef);
     private readonly _projectsService = inject(ProjectsService);
+    private readonly _snackbarService = inject(SnackbarService);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
@@ -65,9 +67,7 @@ export class SkillsComponent implements OnInit {
          * Subscribe to the skills service
          */
         this._skillsService.skills$
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(skills => {
                 this.skillsList = skills;
             });
@@ -75,11 +75,8 @@ export class SkillsComponent implements OnInit {
         /*
          * Load skills from localStorage, or seed them from skills.json
          */
-        this._skillsService
-            .initializeSkills()
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+        this._skillsService.initializeSkills()
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
                 error: error => {
                     console.error('Failed to initialize skills:', error);
@@ -90,9 +87,7 @@ export class SkillsComponent implements OnInit {
          * Subscribe to the project service
          */
         this._projectsService.projects$
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(projects => {
                 this.projectsList = projects;
             });
@@ -101,9 +96,7 @@ export class SkillsComponent implements OnInit {
          * Load projects from localStorage, or seed them from projects.json
          */
         this._projectsService.initializeProjects()
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
                 error: error => {
                     console.error('Failed to initialize projects:', error);
@@ -199,16 +192,12 @@ export class SkillsComponent implements OnInit {
             }
         );
 
-        dialogRef
-            .afterClosed()
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+        dialogRef.afterClosed()
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(confirmed => {
                 if (!confirmed) {
                     return;
                 }
-
                 this.deleteSkill(skill.id);
             });
     }
@@ -218,16 +207,20 @@ export class SkillsComponent implements OnInit {
      * @param skillId
      */
     deleteSkill(skillId: number): void {
-        this._skillsService
-            .deleteSkill(skillId)
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+        this._skillsService.deleteSkill(skillId)
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
+                next: () => {
+                    this._snackbarService.success(
+                        'The skill was deleted successfully.',
+                        'Skill Deleted'
+                    );
+                },
                 error: error => {
-                    console.error(
-                        'Failed to delete skill:',
-                        error
+                    console.error('Failed to delete skill:', error);
+                    this._snackbarService.error(
+                        'The skill could not be deleted.',
+                        'Delete Failed'
                     );
                 },
             });
