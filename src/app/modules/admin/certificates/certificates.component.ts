@@ -11,6 +11,7 @@ import { SkillsService } from '../../../core/skills/skills.service';
 import { DeleteDialogComponent, DeleteDialogData } from '../../../shared/components/delete-dialog/delete-dialog.component';
 import { SearchComponent } from '../../../shared/components/search/search.component';
 import { DetailsCertificatesComponent, DetailsCertificatesDialogData } from './details-certificates/details-certificates.component';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 type CertificateTypeFilter = 'All' | CertificateType;
 type CertificateStatus = 'Valid' | 'Expired' | 'No Expiry';
@@ -37,6 +38,7 @@ export class CertificatesComponent implements OnInit {
     private readonly _certificatesService = inject(CertificatesService);
     private readonly _skillsService = inject(SkillsService);
     private readonly _destroyRef = inject(DestroyRef);
+    private readonly _snackbarService = inject(SnackbarService);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
@@ -62,9 +64,7 @@ export class CertificatesComponent implements OnInit {
          * Subscribe to the certificates service
          */
         this._certificatesService.certificates$
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(certificates => {
                 this.certificatesList = certificates;
             });
@@ -72,11 +72,8 @@ export class CertificatesComponent implements OnInit {
         /*
          * Load certificates from localStorage, or seed from certificates.json
          */
-        this._certificatesService
-            .initializeCertificates()
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+        this._certificatesService.initializeCertificates()
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
                 error: error => {
                     console.error('Failed to initialize certificates:', error);
@@ -87,9 +84,7 @@ export class CertificatesComponent implements OnInit {
          * Subscribe to skills for related-skill names
          */
         this._skillsService.skills$
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(skills => {
                 this.skillsList = skills;
             });
@@ -99,9 +94,7 @@ export class CertificatesComponent implements OnInit {
          */
         this._skillsService
             .initializeSkills()
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
                 error: error => {
                     console.error('Failed to initialize skills:', error);
@@ -188,9 +181,7 @@ export class CertificatesComponent implements OnInit {
             }
         );
         dialogRef.afterClosed()
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(confirmed => {
                 if (!confirmed) {
                     return;
@@ -205,12 +196,20 @@ export class CertificatesComponent implements OnInit {
      */
     deleteCertificate(certificateId: number): void {
         this._certificatesService.deleteCertificate(certificateId)
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
+                next: () => {
+                    this._snackbarService.success(
+                        'The certificate was deleted successfully.',
+                        'Certificate Deleted'
+                    );
+                },
                 error: error => {
                     console.error('Failed to delete certificate:', error);
+                    this._snackbarService.error(
+                        'The certificate could not be deleted.',
+                        'Delete Failed'
+                    );
                 },
             });
     }

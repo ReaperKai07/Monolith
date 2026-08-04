@@ -24,6 +24,7 @@ import {
 import { CertificatesService } from '../../../../core/certificates/certificates.service';
 import { Skill } from '../../../../core/skills/skills.model';
 import { SkillsService } from '../../../../core/skills/skills.service';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
 
 export type DetailsCertificatesMode = 'create' | 'edit';
 
@@ -76,6 +77,8 @@ export class DetailsCertificatesComponent implements OnInit {
     private readonly _certificatesService = inject(CertificatesService);
     private readonly _skillsService = inject(SkillsService);
     private readonly _dialogRef = inject(MatDialogRef<DetailsCertificatesComponent>);
+    private readonly _snackbarService = inject(SnackbarService)
+
     readonly data = inject<DetailsCertificatesDialogData>(MAT_DIALOG_DATA);
 
     // -----------------------------------------------------------------------------------------------------
@@ -113,10 +116,10 @@ export class DetailsCertificatesComponent implements OnInit {
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
-        this._loadSkills();
+        this.loadSkills();
 
         if (this.data.mode === 'edit' && this.data.certificate) {
-            this._populateForm(
+            this.populateForm(
                 this.data.certificate
             );
         }
@@ -159,13 +162,13 @@ export class DetailsCertificatesComponent implements OnInit {
             skillIds: formValue.skillIds ?? [],
         };
         if (this.data.mode === 'edit' && this.data.certificate) {
-            this._updateCertificate(
+            this.updateCertificate(
                 this.data.certificate.id,
                 request
             );
             return;
         }
-        this._createCertificate(request);
+        this.createCertificate(request);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -175,7 +178,7 @@ export class DetailsCertificatesComponent implements OnInit {
     /**
      * Loads skills for the related-skills selector.
      */
-    private _loadSkills(): void {
+    private loadSkills(): void {
         this._skillsService.getSkills()
             .subscribe({
                 next: skills => {
@@ -190,7 +193,7 @@ export class DetailsCertificatesComponent implements OnInit {
     /**
      * Populates the form when editing.
      */
-    private _populateForm(
+    private populateForm(
         certificate: Certificate
     ): void {
         this.certificateForm.patchValue({
@@ -211,17 +214,25 @@ export class DetailsCertificatesComponent implements OnInit {
     /**
      * Creates a new certificate.
      */
-    private _createCertificate(
+    private createCertificate(
         request: CreateCertificateRequest
     ): void {
         this._certificatesService.createCertificate(request)
             .subscribe({
                 next: certificate => {
+                    this._snackbarService.success(
+                        `"${certificate.name}" was created successfully.`, 
+                        'New Certificate Created'
+                    );
                     this._dialogRef.close(certificate);
                 },
                 error: error => {
                     console.error('Failed to create certificate:', error);
-                    this._restoreForm();
+                    this._snackbarService.error(
+                        'The certificate could not be created. Please try again.', 
+                        'Create Failed'
+                    );
+                    this.restoreForm();
                 },
             });
     }
@@ -229,7 +240,7 @@ export class DetailsCertificatesComponent implements OnInit {
     /**
      * Updates an existing certificate.
      */
-    private _updateCertificate(
+    private updateCertificate(
         certificateId: number,
         request: UpdateCertificateRequest
     ): void {
@@ -239,11 +250,19 @@ export class DetailsCertificatesComponent implements OnInit {
             )
             .subscribe({
                 next: certificate => {
+                    this._snackbarService.success(
+                        `"${certificate.name}" was updated successfully.`, 
+                        'Certificate Updated'
+                    );
                     this._dialogRef.close(certificate);
                 },
                 error: error => {
                     console.error('Failed to update certificate:', error);
-                    this._restoreForm();
+                    this._snackbarService.error(
+                        'The certificate could not be updated. Please try again.', 
+                        'Update Failed'
+                    );
+                    this.restoreForm();
                 },
             });
     }
@@ -251,7 +270,7 @@ export class DetailsCertificatesComponent implements OnInit {
     /**
      * Restores the form after an error.
      */
-    private _restoreForm(): void {
+    private restoreForm(): void {
         this.isSubmitting = false;
         this.certificateForm.enable();
     }
