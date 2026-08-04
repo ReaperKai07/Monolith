@@ -18,6 +18,7 @@ import {
 import { ExperiencesService } from '../../../../core/experiences/experiences.service';
 import { Project } from '../../../../core/projects/projects.model';
 import { ProjectsService } from '../../../../core/projects/projects.service';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
 
 export type DetailsExperiencesMode = 'create' | 'edit';
 
@@ -43,6 +44,7 @@ export interface DetailsExperiencesDialogData {
         provideNativeDateAdapter(),
     ],
 })
+
 export class DetailsExperiencesComponent implements OnInit {
 
     // -----------------------------------------------------------------------------------------------------
@@ -52,68 +54,31 @@ export class DetailsExperiencesComponent implements OnInit {
     private readonly _formBuilder = inject(FormBuilder);
     private readonly _experiencesService = inject(ExperiencesService);
     private readonly _projectsService = inject(ProjectsService);
-    private readonly _dialogRef =
-        inject(MatDialogRef<DetailsExperiencesComponent>);
+    private readonly _dialogRef = inject(MatDialogRef<DetailsExperiencesComponent>);
     private readonly _destroyRef = inject(DestroyRef);
-
-    readonly data =
-        inject<DetailsExperiencesDialogData>(MAT_DIALOG_DATA);
+    private readonly _snackbarService = inject(SnackbarService)
+    
+    readonly data = inject<DetailsExperiencesDialogData>(MAT_DIALOG_DATA);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
     // -----------------------------------------------------------------------------------------------------
 
     readonly employmentTypes = EMPLOYMENT_TYPES;
-
+    
     projectsList: Project[] = [];
 
     isSubmitting = false;
 
     readonly experienceForm = this._formBuilder.group({
-        company: [
-            '',
-            [
-                Validators.required,
-                Validators.maxLength(100),
-            ],
-        ],
-        jobTitle: [
-            '',
-            [
-                Validators.required,
-                Validators.maxLength(100),
-            ],
-        ],
-        employmentType: [
-            null as EmploymentType | null,
-            Validators.required,
-        ],
-        location: [
-            '',
-            [
-                Validators.required,
-                Validators.maxLength(150),
-            ],
-        ],
-        description: [
-            '',
-            [
-                Validators.required,
-                Validators.maxLength(500),
-            ],
-        ],
-        projectIds: [
-            [] as number[],
-        ],
-        startDate: [
-            null as Date | null,
-        ],
-        endDate: [
-            {
-                value: null as Date | null,
-                disabled: true,
-            },
-        ],
+        company: [ '', [ Validators.required, Validators.maxLength(100), ], ],
+        jobTitle: [ '', [ Validators.required, Validators.maxLength(100), ], ],
+        employmentType: [ null as EmploymentType | null, Validators.required, ],
+        location: [ '', [ Validators.required, Validators.maxLength(150), ], ],
+        description: [ '', [ Validators.required, Validators.maxLength(500), ], ],
+        projectIds: [ [] as number[], ],
+        startDate: [ null as Date | null, ],
+        endDate: [ { value: null as Date | null, disabled: true, }, ],
     });
 
     // -----------------------------------------------------------------------------------------------------
@@ -245,12 +210,8 @@ export class DetailsExperiencesComponent implements OnInit {
             employmentType: experience.employmentType,
             location: experience.location,
             projectIds: [...experience.projectIds],
-            startDate: experience.startDate
-                ? new Date(experience.startDate)
-                : null,
-            endDate: experience.endDate
-                ? new Date(experience.endDate)
-                : null,
+            startDate: experience.startDate ? new Date(experience.startDate) : null,
+            endDate: experience.endDate? new Date(experience.endDate) : null,
         });
 
         if (experience.startDate) {
@@ -264,21 +225,22 @@ export class DetailsExperiencesComponent implements OnInit {
     private createExperience(
         request: CreateExperienceRequest
     ): void {
-        this._experiencesService
-            .createExperience(request)
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+        this._experiencesService.createExperience(request)
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
                 next: experience => {
+                    this._snackbarService.success(
+                        `"${experience.company}" was created successfully.`, 
+                        'New Experience Created'
+                    );
                     this._dialogRef.close(experience);
                 },
                 error: error => {
-                    console.error(
-                        'Failed to create experience:',
-                        error
+                    console.error('Failed to create project:', error);
+                    this._snackbarService.error(
+                        'The experience could not be added. Please try again.', 
+                        'Create Failed'
                     );
-
                     this.restoreForm();
                 },
             });
@@ -291,24 +253,24 @@ export class DetailsExperiencesComponent implements OnInit {
         experienceId: number,
         request: UpdateExperienceRequest
     ): void {
-        this._experiencesService
-            .updateExperience(
-                experienceId,
-                request
-            )
+        this._experiencesService.updateExperience(experienceId, request)
             .pipe(
                 takeUntilDestroyed(this._destroyRef)
             )
             .subscribe({
                 next: experience => {
+                    this._snackbarService.success(
+                        `"${experience.company}" was updated successfully.`, 
+                        'Project Updated'
+                    );
                     this._dialogRef.close(experience);
                 },
                 error: error => {
-                    console.error(
-                        'Failed to update experience:',
-                        error
+                    console.error('Failed to update experience:', error);
+                    this._snackbarService.error(
+                        'The experience could not be updated. Please try again.', 
+                        'Update Failed'
                     );
-
                     this.restoreForm();
                 },
             });

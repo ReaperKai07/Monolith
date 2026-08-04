@@ -10,6 +10,7 @@ import { PaginationComponent } from '../../../shared/components/pagination/pagin
 import { SearchComponent } from '../../../shared/components/search/search.component';
 import { ProjectsService } from '../../../core/projects/projects.service';
 import { DetailsExperiencesComponent, DetailsExperiencesDialogData } from './details-experiences/details-experiences.component';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
     selector: 'app-experiences',
@@ -34,15 +35,19 @@ export class ExperiencesComponent implements OnInit {
     private readonly _experiencesService = inject(ExperiencesService);
     private readonly _destroyRef = inject(DestroyRef);
     private readonly _projectsService = inject(ProjectsService);
+    private readonly _snackbarService = inject(SnackbarService)
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
     // -----------------------------------------------------------------------------------------------------
 
     readonly pageSize = 10;
+
     currentPage = 1;
     searchTerm = '';
+
     experiencesList: Experience[] = [];
+    
     projectNameMap = new Map<number, string>();
 
     // -----------------------------------------------------------------------------------------------------
@@ -207,7 +212,6 @@ export class ExperiencesComponent implements OnInit {
                 if (!confirmed) {
                     return;
                 }
-
                 this.deleteExperience(experience.id);
             });
     }
@@ -222,8 +226,18 @@ export class ExperiencesComponent implements OnInit {
                 takeUntilDestroyed(this._destroyRef)
             )
             .subscribe({
+                next: () => {
+                    this._snackbarService.success(
+                        'The experience was deleted successfully.',
+                        'Experience Deleted'
+                    );
+                },
                 error: error => {
                     console.error('Failed to delete experience:', error);
+                    this._snackbarService.error(
+                        'The experience could not be deleted.',
+                        'Delete Failed'
+                    );
                 },
             });
     }
