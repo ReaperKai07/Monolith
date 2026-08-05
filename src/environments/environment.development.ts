@@ -4,5 +4,5 @@ export const environment = {
     /*
      * Simulated backend URL for now via location of json data
      */
-    apiUrl: '/assets/data'
+    apiUrl: 'assets/data'
 };
