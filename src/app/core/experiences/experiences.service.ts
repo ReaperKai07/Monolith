@@ -15,6 +15,7 @@ import {
     ExperienceDto,
     UpdateExperienceRequest,
 } from './experiences.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -33,7 +34,7 @@ export class ExperiencesService {
     // -----------------------------------------------------------------------------------------------------
 
     private readonly _storageKey = 'monolith_experiences';
-    private readonly _experiencesUrl = '/assets/data/experiences.json';
+    private readonly _experiencesUrl = `${environment.apiUrl}/experiences.json`;
     private readonly _experiences = new BehaviorSubject<Experience[]>([]);
 
     // -----------------------------------------------------------------------------------------------------

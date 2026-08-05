@@ -10,6 +10,7 @@ import {
     throwError,
 } from 'rxjs';
 import { CreateSkillRequest, Skill, UpdateSkillRequest } from './skills.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -27,7 +28,7 @@ export class SkillsService {
     // @ Private properties
     // -----------------------------------------------------------------------------------------------------
 
-    private readonly _skillsUrl = '/assets/data/skills.json';
+    private readonly _skillsUrl = `${environment.apiUrl}/skills.json`;
     private readonly _storageKey = 'monolith_skills';
     private readonly _skills = new BehaviorSubject<Skill[]>([]);
 

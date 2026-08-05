@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { Contact } from './contacts.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -19,7 +20,7 @@ export class ContactsService {
     // @ Private properties
     // -----------------------------------------------------------------------------------------------------
 
-    private readonly _contactsUrl = '/assets/data/contacts.json';
+    private readonly _contactsUrl = `${environment.apiUrl}/contacts.json`;
     private readonly _contacts = new BehaviorSubject<Contact[]>([]);
     private _initialized = false;
 

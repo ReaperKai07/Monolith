@@ -10,6 +10,7 @@ import {
     throwError,
 } from 'rxjs';
 import { Certificate, CreateCertificateRequest, UpdateCertificateRequest } from './certificates.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,7 @@ export class CertificatesService {
     // @ Private properties
     // -----------------------------------------------------------------------------------------------------
 
-    private readonly _certificatesUrl = '/assets/data/certificates.json';
+    private readonly _certificatesUrl = `${environment.apiUrl}/certificates.json`;
     private readonly _storageKey = 'monolith_certificates';
     private readonly _certificates = new BehaviorSubject<Certificate[]>([]);
 

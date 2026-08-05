@@ -15,6 +15,7 @@ import {
     ProjectDto,
     UpdateProjectRequest,
 } from './projects.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root',
@@ -26,10 +27,20 @@ export class ProjectsService {
     // @ Dependencies
     // -----------------------------------------------------------------------------------------------------
 
-    private readonly _http = inject(HttpClient);
+    private readonly _httpClient = inject(HttpClient);
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private properties
+    // -----------------------------------------------------------------------------------------------------
+
     private readonly _storageKey = 'monolith_projects';
-    private readonly _projectsUrl = '/assets/data/projects.json';
+    private readonly _projectsUrl = `${environment.apiUrl}/projects.json`;
     private readonly _projects = new BehaviorSubject<Project[]>([]);
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Accessors
+    // -----------------------------------------------------------------------------------------------------
+
     readonly projects$ = this._projects.asObservable();
 
     // -----------------------------------------------------------------------------------------------------
@@ -166,7 +177,7 @@ export class ProjectsService {
     // -----------------------------------------------------------------------------------------------------
 
     private _loadSeedProjects(): Observable<Project[]> {
-        return this._http
+        return this._httpClient
             .get<ProjectDto[]>(this._projectsUrl)
             .pipe(
                 map(projects =>
