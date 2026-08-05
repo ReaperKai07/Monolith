@@ -1,7 +1,8 @@
-import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { delay, map, Observable, of } from 'rxjs';
-import { LoginRequest, LoginResponse, SignInResponse } from './auth.model';
+import { LoginRequest, LoginResponse, UserCredentialsRecord  } from './auth.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ 
     providedIn: 'root' 
@@ -19,34 +20,39 @@ export class AuthService {
     // @ Private properties
     // -----------------------------------------------------------------------------------------------------
 
-    private readonly accessTokenKey = 'accessToken';
-    private readonly refreshTokenKey = 'refreshToken';
-    private readonly userIdKey = 'userId';
+    private readonly _usersUrl = `${environment.apiUrl}/users.json`;
+    private readonly _accessTokenKey = 'accessToken';
+    private readonly _refreshTokenKey = 'refreshToken';
+    private readonly _userIdKey = 'userId';
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Check authentication status
+     * Returns whether the user is authenticated
      */
     get authenticated(): boolean {
-        return !!localStorage.getItem(this.accessTokenKey);
+        return Boolean(this.accessToken);
     }
 
     /**
-     * Cheack access token
+     * Returns the current access token
      */
     get accessToken(): string | null {
-        return localStorage.getItem(this.accessTokenKey);
+        return localStorage.getItem(this._accessTokenKey);
     }
 
     /**
-     * Check user ID
+     * Returns the current signed-in user ID
      */
     get userId(): number | null {
-        const id = localStorage.getItem(this.userIdKey);
-        return id ? Number(id) : null;
+        const userId = localStorage.getItem(this._userIdKey);
+        if (!userId) {
+            return null;
+        }
+        const parsedUserId = Number(userId);
+        return Number.isNaN(parsedUserId) ? null : parsedUserId;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -54,47 +60,31 @@ export class AuthService {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Sign In
-     * @param request 
-     * @returns 
+     * Signs in using the demo user data
+     * @param request
      */
     signIn(
         request: LoginRequest
-    ): Observable<LoginResponse>{
-        return this._httpClient
-        .get<SignInResponse[]>('/assets/data/users.json')
+    ): Observable<LoginResponse> {
+        return this._httpClient.get<UserCredentialsRecord[]>(this._usersUrl)
         .pipe(
-            // 
             delay(800),
             map(users => {
-                
-                // Find login info
-                const user = users.find(u => 
-                    u.email === request.email &&
-                    u.password === request.password
+                const user = users.find(item =>
+                    item.email === request.email &&
+                    item.password === request.password
                 );
-
-                // Throw error
-                if(!user) {
-                    throw new Error('Invalid email or password');
+                if (!user) {
+                    throw new Error('Invalid email or password.');
                 }
 
-                // Return body response
-                const response = {
-                    // Generate random UUIDs for access tokens
+                const response: LoginResponse = {
                     accessToken: crypto.randomUUID(),
-                    // Generate random UUIDs for refresh tokens
                     refreshToken: crypto.randomUUID(),
-                    // Set expiration time to 1 hour (3600 seconds)
                     expiresIn: 3600,
-                    // Set user ID
-                    userId: user.id
+                    userId: user.id,
                 };
-
-                localStorage.setItem(this.accessTokenKey, response.accessToken);
-                localStorage.setItem(this.refreshTokenKey, response.refreshToken);
-                localStorage.setItem(this.userIdKey, response.userId.toString());
-
+                this._saveSession(response);
                 return response;
             })
         );
@@ -104,43 +94,54 @@ export class AuthService {
      * Sign out
      */
     signOut(): Observable<boolean> {
-        // localStorage.removeItem(this.accessTokenKey);
-        // localStorage.removeItem(this.refreshTokenKey);
-        // localStorage.removeItem(this.userIdKey);
+        // Remove only Auth but keep changes
+        // localStorage.removeItem(this._accessTokenKey);
+        // localStorage.removeItem(this._refreshTokenKey);
+        // localStorage.removeItem(this._userIdKey);
+        // Remove everything
         localStorage.clear();
         return of(true);
     }
 
     /**
-     * 
-     * @returns 
+     * Creates a new simulated access token
      */
-    refreshToken(): Observable<LoginResponse>{
-
-        const refreshToken = localStorage.getItem(this.refreshTokenKey);
-        const userId = localStorage.getItem(this.userIdKey);
-
-        // No refresh token
-        if(!refreshToken || !userId) {
-            throw new Error('No refresh token available');
+    refreshToken(): Observable<LoginResponse> {
+        const refreshToken = localStorage.getItem(this._refreshTokenKey);
+        const userId = this.userId;
+        if (!refreshToken || userId === null) {
+            throw new Error('No refresh token available.');
         }
-
-        // Return body response
-        return of ({
+        const response: LoginResponse = {
             accessToken: crypto.randomUUID(),
-            refreshToken: refreshToken,
+            refreshToken,
             expiresIn: 3600,
-            userId: Number(userId)
-        })
+            userId,
+        };
+        return of(response)
         .pipe(
             delay(500),
-            map(response => {
-                // Save new access token
-                localStorage.setItem(this.accessTokenKey, response.accessToken);
-                // Return response
-                return response;
+            map(result => {
+                localStorage.setItem(this._accessTokenKey, result.accessToken);
+                return result;
             })
-        )
+        );
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Private methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Saves authentication data
+     * @param response
+     */
+    private _saveSession(
+        response: LoginResponse
+    ): void {
+        localStorage.setItem(this._accessTokenKey, response.accessToken);
+        localStorage.setItem(this._refreshTokenKey, response.refreshToken);
+        localStorage.setItem(this._userIdKey, response.userId.toString());
     }
   
 }

@@ -1,6 +1,6 @@
 export interface LoginRequest {
-    email : string;
-    password : string;
+    email: string;
+    password: string;
 }
 
 export interface LoginResponse {
@@ -10,7 +10,7 @@ export interface LoginResponse {
     userId: number;
 }
 
-export interface SignInResponse {
+export interface UserCredentialsRecord {
     id: number;
     email: string;
     password: string;
