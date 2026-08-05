@@ -1,18 +1,16 @@
 import { Routes } from '@angular/router';
-
 import { authGuard } from './core/auth/auth.guard';
-
+import { noAuthGuard } from './core/auth/noAuth.guard';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
-
 import { SignInComponent } from './modules/auth/sign-in/sign-in.component';
 import { DashboardComponent } from './modules/admin/dashboard/dashboard.component';
 import { ProjectsComponent } from './modules/admin/projects/projects.component';
 import { ExperiencesComponent } from './modules/admin/experiences/experiences.component';
 import { SkillsComponent } from './modules/admin/skills/skills.component';
-import { ContactsComponent } from './modules/admin/contacts/contacts.component';
-import { ProfileComponent } from './modules/admin/profile/profile.component';
-import { CryptekLabComponent } from './modules/admin/cryptek-lab/cryptek-lab.component';
 import { CertificatesComponent } from './modules/admin/certificates/certificates.component';
+import { ContactsComponent } from './modules/admin/contacts/contacts.component';
+import { CryptekLabComponent } from './modules/admin/cryptek-lab/cryptek-lab.component';
+import { ProfileComponent } from './modules/admin/profile/profile.component';
 
 export const routes: Routes = [
 
@@ -38,7 +36,8 @@ export const routes: Routes = [
 
     {
         path: 'sign-in',
-        component: SignInComponent
+        component: SignInComponent,
+        canActivate: [noAuthGuard],
     },
 
     // -----------------------------------------------------------------------------------------------------

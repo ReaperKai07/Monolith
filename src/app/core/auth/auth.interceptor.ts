@@ -1,23 +1,51 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { AuthService } from './auth.service';
 
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
-    
-    // Get access token from local storage
-    const accessToken = localStorage.getItem('accessToken');
+export const authInterceptor: HttpInterceptorFn = (request, next) => {
 
-    // Check if access token missing
-    if(!accessToken) {
-        return next(req)
+    const authService = inject(AuthService);
+
+    /*
+     * Only requests using the configured API URL
+     * are treated as backend API requests
+     */
+    const isApiRequest = request.url.startsWith(environment.apiUrl);
+
+    /*
+     * Continue external requests, images, documents
+     * and other assets without modification
+     */
+    if (!isApiRequest) {
+        return next(request);
     }
 
-    // Clone request and add access token
-    const authRequest = req.clone({
-        setHeaders : {
-            Authorization : `Bearer ${accessToken}`
-        }
-    });
+    const accessToken = authService.accessToken;
 
-    // Return modified request
-    return next(authRequest)
+    /*
+     * Continue unchanged when no token exists
+     * This allows the sign-in request to load users.json
+     */
+    if (!accessToken) {
+        return next(request);
+    }
 
-}
+    /*
+     * HTTP requests are immutable
+     * Clone the request before adding the Bearer token
+     */
+    const authenticatedRequest =
+        request.clone({
+            setHeaders: {
+                Authorization:
+                    `Bearer ${accessToken}`,
+            },
+        });
+
+    /*
+     * Continue using the authenticated request
+     */
+    return next(authenticatedRequest);
+
+};
