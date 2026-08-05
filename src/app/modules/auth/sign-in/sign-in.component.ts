@@ -52,7 +52,7 @@ export class SignInComponent implements OnInit {
         // Create SignInForm
         this.signInForm = this._formBuilder.group({
             email: [ 'khairulizzatroslan@gmail.com', [ Validators.required, Validators.email ]],
-            password: [ '870327Tun@', [ Validators.required, Validators.minLength(8) ]],
+            password: [ 'Just@Password', [ Validators.required, Validators.minLength(8) ]],
         })
 
     }

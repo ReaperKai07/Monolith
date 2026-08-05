@@ -3,7 +3,7 @@
         "id": 1,
         "name": "Khairul Izzat Bin Roslan",
         "email": "khairulizzatroslan@gmail.com",
-        "password": "870327Tun@",
+        "password": "Just@Password",
         "role": "Administrator",
 
         "profile": {
@@ -38,11 +38,11 @@
                 "institution": "MARA University of Technology (UiTM)",
                 "campus": "Tapah, Perak",
                 "qualification": "Diploma",
-                "course": "Conputer Science",
+                "course": "Computer Science",
                 "specialisation": "",
                 "startYear": 2018,
                 "endYear": 2021,
-                "description": "Studied the foundation of programming, object oriented java and ",
+                "description": "Studied the foundation of programming, object oriented java and computer problem solvings.",
                 "projectIds": [],
                 "skillIds": [8, 9, 10]
             }
@@ -55,7 +55,7 @@
                 "username": "ReaperKai07",
                 "url": "https://github.com/ReaperKai07",
                 "icon": "github",
-                "public": true
+                "isPublic": true
             },
             {
                 "id": 2,
@@ -63,7 +63,7 @@
                 "username": "Khairul Izzat Roslan",
                 "url": "https://linkedin.com/in/khairul-izzat-roslan",
                 "icon": "linkedin",
-                "public": true
+                "isPublic": true
             }
         ]
     }
