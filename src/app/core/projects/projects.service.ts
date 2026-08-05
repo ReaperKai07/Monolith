@@ -33,8 +33,8 @@ export class ProjectsService {
     // @ Private properties
     // -----------------------------------------------------------------------------------------------------
 
-    private readonly _storageKey = 'monolith_projects';
     private readonly _projectsUrl = `${environment.apiUrl}/projects.json`;
+    private readonly _storageKey = 'monolith_projects';
     private readonly _projects = new BehaviorSubject<Project[]>([]);
 
     // -----------------------------------------------------------------------------------------------------

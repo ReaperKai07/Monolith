@@ -33,8 +33,8 @@ export class ExperiencesService {
     // @ Private properties
     // -----------------------------------------------------------------------------------------------------
 
-    private readonly _storageKey = 'monolith_experiences';
     private readonly _experiencesUrl = `${environment.apiUrl}/experiences.json`;
+    private readonly _storageKey = 'monolith_experiences';
     private readonly _experiences = new BehaviorSubject<Experience[]>([]);
 
     // -----------------------------------------------------------------------------------------------------

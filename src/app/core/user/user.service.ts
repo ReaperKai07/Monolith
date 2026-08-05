@@ -30,8 +30,8 @@ export class UserService {
     // @ Private properties
     // -----------------------------------------------------------------------------------------------------
 
+    private readonly _usersUrl = `${environment.apiUrl}/users.json`; 
     private readonly _storageKey = 'monolith_users';
-    private readonly _usersUrl = `${environment.apiUrl}/users.json`;
     private readonly _currentUser = new BehaviorSubject<User | null>(null);
 
     // -----------------------------------------------------------------------------------------------------
