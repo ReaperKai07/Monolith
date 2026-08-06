@@ -1,29 +1,29 @@
 [
     {
         "id": 1,
-        "name": "Albert Lew",
-        "image": "",
-        "title": "Software Engineering Manager",
-        "company": "Kalsym Sdn. Bhd.",
-        "phone": "01X-XXX XXXX",
-        "email": "albert@example.com"
-    },
-    {
-        "id": 2,
-        "name": "Kevin",
+        "name": "Kevin Lew",
         "image": "",
         "title": "Project Director",
         "company": "Kalsym Sdn. Bhd.",
-        "phone": "01X-XXX XXXX",
-        "email": "kevin@example.com"
+        "phone": "",
+        "email": "kevin.lew@kalsym.com"
+    },
+    {
+        "id": 2,
+        "name": "Naquiddeen Bin Abdul Aziz",
+        "image": "",
+        "title": "Project Manager",
+        "company": "Kalsym Sdn. Bhd.",
+        "phone": "",
+        "email": "naquiddeen@kalsym.com"
     },
     {
         "id": 3,
-        "name": "Academic Supervisor",
+        "name": "(DR.) Aznoora Binti Osman",
         "image": "",
-        "title": "University Lecturer",
-        "company": "University Name",
+        "title": "Final Year Project Supervisor",
+        "company": "MARA University of Technology (UiTM) Perlis",
         "phone": "",
-        "email": "lecturer@example.com"
+        "email": "aznoora@uitm.edu.my"
     }
 ]
