@@ -13,6 +13,7 @@ import {
     CreateProjectRequest,
     Project,
     ProjectDto,
+    ProjectUpdate,
     UpdateProjectRequest,
 } from './projects.model';
 import { environment } from '../../../environments/environment';
@@ -26,7 +27,7 @@ export class ProjectsService {
     // -----------------------------------------------------------------------------------------------------
     // @ Dependencies
     // -----------------------------------------------------------------------------------------------------
-
+    
     private readonly _httpClient = inject(HttpClient);
 
     // -----------------------------------------------------------------------------------------------------
@@ -34,14 +35,19 @@ export class ProjectsService {
     // -----------------------------------------------------------------------------------------------------
 
     private readonly _projectsUrl = `${environment.apiUrl}/projects.json`;
-    private readonly _storageKey = 'monolith_projects';
     private readonly _projects = new BehaviorSubject<Project[]>([]);
+    private readonly _projectUpdatesUrl = `${environment.apiUrl}/project-updates.json`;
+    private readonly _projectUpdates = new BehaviorSubject<ProjectUpdate[]>([]);
+    private readonly _storageKey = 'monolith_projects';
+
+    private _projectUpdatesInitialized = false;
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
 
     readonly projects$ = this._projects.asObservable();
+    readonly projectUpdates$ = this._projectUpdates.asObservable();
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
@@ -147,7 +153,8 @@ export class ProjectsService {
      * DELETE /projects/:id
      */
     deleteProject(id: number): Observable<boolean> {
-        return this.getProjects().pipe(
+        return this.getProjects()
+        .pipe(
             switchMap(projects => {
                 const projectExists =
                     projects.some(project => project.id === id);
@@ -172,19 +179,70 @@ export class ProjectsService {
         return this._loadSeedProjects();
     }
 
+    /**
+     * Loads project updates from project-updates.json
+     */
+    initializeProjectUpdates(): Observable<ProjectUpdate[]> {
+        if (this._projectUpdatesInitialized) {
+            return of(this._projectUpdates.value);
+        }
+        return this._httpClient.get<ProjectUpdate[]>(
+                this._projectUpdatesUrl
+            )
+            .pipe(
+                tap(updates => {
+                    this._projectUpdates.next(updates);
+                    this._projectUpdatesInitialized = true;
+                })
+            );
+    }
+
+    /**
+     * Returns updates belonging to a project
+     * @param projectId
+     */
+    getProjectUpdates(
+        projectId: number
+    ): Observable<ProjectUpdate[]> {
+        return this.getAllProjectUpdates()
+        .pipe(
+            map(updates =>
+                updates
+                .filter(
+                    update => update.projectId === projectId
+                )
+                .sort(
+                    (first, second) =>
+                        new Date(second.createdAt).getTime() -
+                        new Date(first.createdAt).getTime()
+                )
+            )
+        );
+    }
+
+    /**
+     * GET /project-updates
+     */
+    getAllProjectUpdates(): Observable<ProjectUpdate[]> {
+        if (this._projectUpdatesInitialized) {
+            return of(this._projectUpdates.value);
+        }
+
+        return this.initializeProjectUpdates();
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Private methods
     // -----------------------------------------------------------------------------------------------------
 
     private _loadSeedProjects(): Observable<Project[]> {
-        return this._httpClient
-            .get<ProjectDto[]>(this._projectsUrl)
-            .pipe(
-                map(projects =>
-                    projects.map(project => this._mapDtoToProject(project))
-                ),
-                tap(projects => this._saveProjects(projects))
-            );
+        return this._httpClient.get<ProjectDto[]>(this._projectsUrl)
+        .pipe(
+            map(projects =>
+                projects.map(project => this._mapDtoToProject(project))
+            ),
+            tap(projects => this._saveProjects(projects))
+        );
     }
 
     private _saveProjects(

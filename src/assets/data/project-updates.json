@@ -1,0 +1,130 @@
+[
+    {
+        "id": 1,
+        "projectId": 5,
+        "type": "Release",
+        "title": "Deployed Monolith to GitHub Pages",
+        "description": "Configured GitHub Pages deployment, enabled hash-based routing and corrected the simulated API path for the hosted application.",
+        "createdAt": "2026-08-06T01:00:00+08:00"
+    },
+    {
+        "id": 2,
+        "projectId": 5,
+        "type": "Improvement",
+        "title": "Centralized simulated API configuration",
+        "description": "Updated application services to resolve JSON endpoints through the Angular environment configuration and improved the authentication interceptor flow.",
+        "createdAt": "2026-08-05T15:00:00+08:00"
+    },
+    {
+        "id": 3,
+        "projectId": 5,
+        "type": "Feature",
+        "title": "Added reusable snackbar notifications",
+        "description": "Created reusable success, error, warning and informational snackbar variants and integrated feedback into skill create, edit and delete operations.",
+        "createdAt": "2026-08-05T12:00:00+08:00"
+    },
+    {
+        "id": 4,
+        "projectId": 5,
+        "type": "Feature",
+        "title": "Expanded the Cryptek Lab component showcase",
+        "description": "Added an interactive skeleton loader demonstration and updated the reusable component showcase layout and examples.",
+        "createdAt": "2026-08-05T10:00:00+08:00"
+    },
+    {
+        "id": 5,
+        "projectId": 5,
+        "type": "Feature",
+        "title": "Completed the contacts directory",
+        "description": "Implemented a read-only contacts module with company grouping, responsive contact cards and image fallback support.",
+        "createdAt": "2026-08-04T15:00:00+08:00"
+    },
+    {
+        "id": 6,
+        "projectId": 5,
+        "type": "Feature",
+        "title": "Completed skill management",
+        "description": "Added categorized skill cards, technology icons, proficiency indicators, related-project chips and create, edit and delete workflows.",
+        "createdAt": "2026-08-04T11:00:00+08:00"
+    },
+    {
+        "id": 7,
+        "projectId": 5,
+        "type": "Feature",
+        "title": "Completed experience management",
+        "description": "Connected the experience details dialog to the main module and completed the create, edit, delete and responsive presentation workflows.",
+        "createdAt": "2026-08-03T15:00:00+08:00"
+    },
+    {
+        "id": 8,
+        "projectId": 5,
+        "type": "Refactor",
+        "title": "Standardized project module architecture",
+        "description": "Cleaned and reorganized the Projects module into consistent dependency, property, lifecycle, accessor and method sections.",
+        "createdAt": "2026-08-02T16:00:00+08:00"
+    },
+    {
+        "id": 9,
+        "projectId": 5,
+        "type": "Feature",
+        "title": "Added reusable search and project dialogs",
+        "description": "Implemented real-time reusable search, project filtering and shared create and edit dialog handling for the Projects module.",
+        "createdAt": "2026-08-02T12:00:00+08:00"
+    },
+    {
+        "id": 10,
+        "projectId": 5,
+        "type": "Feature",
+        "title": "Added reusable pagination and deletion workflows",
+        "description": "Created shared pagination and delete confirmation components and integrated them into the project table.",
+        "createdAt": "2026-08-01T14:00:00+08:00"
+    },
+    {
+        "id": 11,
+        "projectId": 5,
+        "type": "Improvement",
+        "title": "Improved responsive application navigation",
+        "description": "Updated the sidebar layout, mobile responsiveness, main application routing and dashboard interface.",
+        "createdAt": "2026-07-30T15:00:00+08:00"
+    },
+    {
+        "id": 12,
+        "projectId": 5,
+        "type": "Feature",
+        "title": "Added user-state restoration and reusable loading feedback",
+        "description": "Separated user-related logic from authentication, restored the signed-in user after refresh and added loading indicators for sign-in and navigation actions.",
+        "createdAt": "2026-07-27T15:00:00+08:00"
+    },
+    {
+        "id": 13,
+        "projectId": 5,
+        "type": "Feature",
+        "title": "Implemented simulated authentication",
+        "description": "Added the authentication service, sign-in flow, access and refresh tokens, route protection and signed-in redirection.",
+        "createdAt": "2026-07-21T15:00:00+08:00"
+    },
+    {
+        "id": 14,
+        "projectId": 5,
+        "type": "Improvement",
+        "title": "Established the initial dashboard architecture",
+        "description": "Created the dashboard, added Angular Material, reorganized application routes and cleaned the initial project folder structure.",
+        "createdAt": "2026-07-20T15:00:00+08:00"
+    },
+    {
+        "id": 15,
+        "projectId": 5,
+        "type": "Documentation",
+        "title": "Documented the Monolith portfolio project",
+        "description": "Revised the README to describe Monolith as an enterprise-inspired Angular developer portfolio dashboard.",
+        "createdAt": "2026-07-19T15:00:00+08:00"
+    },
+    {
+        "id": 16,
+        "projectId": 5,
+        "type": "Release",
+        "title": "Initialized the Monolith repository",
+        "description": "Created the initial Angular repository and established the foundation for the portfolio dashboard.",
+        "createdAt": "2026-07-19T10:00:00+08:00"
+    }
+]

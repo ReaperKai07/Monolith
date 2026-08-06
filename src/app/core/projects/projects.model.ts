@@ -34,8 +34,24 @@ export interface ProjectDto {
     status: ProjectStatus;
 }
 
-export type CreateProjectRequest =
-    Omit<Project, 'id'>;
+export type CreateProjectRequest = Omit<Project, 'id'>;
 
-export type UpdateProjectRequest =
-    Partial<Omit<Project, 'id'>>;
+export type UpdateProjectRequest = Partial<Omit<Project, 'id'>>;
+
+export type ProjectUpdateType =
+    | 'Feature'
+    | 'Improvement'
+    | 'Bug Fix'
+    | 'Refactor'
+    | 'Documentation'
+    | 'Release'
+    | 'Maintenance';
+
+export interface ProjectUpdate {
+    id: number;
+    projectId: number;
+    type: ProjectUpdateType;
+    title: string;
+    description: string;
+    createdAt: string;
+}

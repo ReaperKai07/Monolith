@@ -4,10 +4,11 @@
     <!-- Welcoming -->
     <section class="flex flex-col gap-2 lg:col-span-2">
         <p class="text-3xl font-bold text-stone-900">
-            Welcome Back, Khairul.
+            Welcome Back, {{ displayName }}.
         </p>
+
         <p class="text-sm text-stone-500">
-            Today is Monday, 27 July, 2026
+            Today is {{ today | date:'EEEE, d MMMM, y' }}
         </p>
     </section>
 
@@ -20,7 +21,7 @@
                     Projects
                 </p>
                 <p class="text-3xl font-bold">
-                    3
+                    {{ projectCount }}
                 </p>
             </div>
             <div class="flex shrink-0 justify-center items-center">
@@ -41,7 +42,7 @@
                 </p>
                 <div class="flex flex-row gap-2 items-end">
                     <p class="text-3xl font-bold">
-                        2
+                        {{ experienceYears }}
                     </p>
                     <p class="font-semibold">
                         Years
@@ -66,7 +67,7 @@
                     Skills
                 </p>
                 <p class="text-3xl font-bold">
-                    26
+                    {{ skillCount }}
                 </p>
             </div>
             <div class="flex shrink-0 justify-center items-center">
@@ -86,7 +87,7 @@
                     Certificates
                 </p>
                 <p class="text-3xl font-bold">
-                    0
+                    {{ certificateCount }}
                 </p>
             </div>
             <div class="flex shrink-0 justify-center items-center">
@@ -110,40 +111,58 @@
         <div class="flex flex-col gap-3 lg:col-span-3">
             <div>
                 <p class="text-sm mb-4 font-medium uppercase tracking-wide text-stone-500">Latest Project</p>
-                <p class="mt-1 text-2xl font-semibold text-stone-900">Monolith</p>
-                <p class="text-sm text-stone-500">
-                    Personal developer portfolio presented as a dashboard application built with Angular 19.
-                </p>
+                @if (activeProject) {
+                    <p class="mt-1 text-2xl font-semibold text-stone-900">
+                        {{ activeProject.project }}
+                    </p>
+
+                    <p class="text-sm text-stone-500">
+                        {{ activeProject.description }}
+                    </p>
+                }
             </div>
             <div class="flex flex-wrap gap-x-8 gap-y-2 text-sm text-stone-600">
                 <p>
                     Status : 
                     <span class="font-medium text-stone-900">
-                        In Development
+                        {{ activeProject?.status ?? 'Not available' }}
                     </span>
                 </p>
                 <p>
                     Started : 
                     <span class="font-medium text-stone-900">
-                        July 2026
+                        @if (activeProject?.startDate) {
+                            {{ activeProject?.startDate | date:'MMMM y' }}
+                        } @else {
+                            Not specified
+                        }
                     </span>
                 </p>
                 <p>
                     Target Completion : 
                     <span class="font-medium text-stone-900">
-                        August 2026
+                        @if (activeProject?.endDate) {
+                            {{ activeProject?.endDate | date:'MMMM y' }}
+                        } @else {
+                            Not specified
+                        }
                     </span>
                 </p>
 
             </div>
-            <!-- Progress -->
+            <!-- Progress Bar -->
             <div class="mt-2 flex flex-col gap-2">
                 <div class="flex justify-between text-sm">
                     <span class="text-stone-600">Progress</span>
-                    <span class="font-medium text-stone-900">10%</span>
+                    <span class="font-medium text-stone-900">
+                        {{ activeProjectProgress }}%
+                    </span>
                 </div>
                 <div class="h-4 w-full overflow-hidden rounded-full bg-stone-200">
-                    <div class="h-full w-[10%] rounded-full bg-stone-800"></div>
+                    <div
+                        class="h-full rounded-full bg-stone-800 transition-all"
+                        [style.width.%]="activeProjectProgress">
+                    </div>
                 </div>
             </div>
         </div>
@@ -200,7 +219,7 @@
                     <thead>
                         <tr class="border-b border-stone-200 text-sm text-stone-500">
                             <th class="px-4 py-3 font-medium">Type</th>
-                            <th class="px-4 py-3 font-medium">Comment</th>
+                            <th class="px-4 py-3 font-medium">Update</th>
                             <th class="px-4 py-3 font-medium">Time</th>
                             <th class="px-4 py-3 font-medium">Date</th>
                         </tr>
@@ -221,8 +240,9 @@
                                     </span>
                                 </td>
                                 <!-- Commit Message -->
-                                <td class="px-4 py-4 text-sm text-stone-700">
-                                    {{ update.comment }}
+                                <td class="px-4 py-4">
+                                    <p class="text-sm font-medium text-stone-800">{{ update.title }}</p>
+                                    <p class="mt-1 line-clamp-2 text-xs text-stone-500">{{ update.description }}</p>
                                 </td>
                                 <!-- Time -->
                                 <td class="whitespace-nowrap px-4 py-4 text-sm text-stone-500">
