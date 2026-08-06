@@ -15,11 +15,11 @@
     <div class="h-px w-full mt-4 bg-stone-200"></div>
 
     <!-- Company Columns -->
-    <div class="grid grid-cols-1 gap-16 lg:grid-cols-2 xl:grid-cols-3">
+    <div class="grid grid-cols-1 gap-16 lg:grid-cols-2">
 
         @for (group of contactGroups; track group.company) {
             <!-- Company Group -->
-            <section class="flex min-w-0 flex-col gap-8 p-8 rounded-lg bg-linear-to-b from-stone-700 to-stone-900">
+            <section class="flex min-w-0 flex-col gap-8 p-8 rounded-lg bg-gradient-primary">
                 <!-- Company Header -->
                 <div class="border-b border-stone-300 pb-4">
                     <h2 class="font-semibold text-white">
@@ -48,7 +48,7 @@
                                             (error)="onImageError(contact.image)">
                                     } @else {
                                         <!-- User Placeholder -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
                                             <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
                                         </svg>
                                     }

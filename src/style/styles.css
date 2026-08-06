@@ -2,6 +2,14 @@
 
 @import "tailwindcss";
 
+:root {
+    --gradient-primary: linear-gradient(to bottom, rgb(68 64 60), rgb(28 25 23));
+}
+
+@utility bg-gradient-primary {
+    background: var(--gradient-primary);
+}
+
 html, body { 
     height: 100%; 
 }
