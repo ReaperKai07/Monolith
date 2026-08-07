@@ -11,6 +11,7 @@ export interface Project {
     technology: string[];
     scope: string[];
     features: string[];
+    tasks: ProjectTask[];
     startDate: Date | null;
     endDate: Date | null;
     status: ProjectStatus;
@@ -29,12 +30,13 @@ export interface ProjectDto {
     technology: string[];
     scope: string[];
     features: string[];
+    tasks: ProjectTask[];
     startDate: string | null;
     endDate: string | null;
     status: ProjectStatus;
 }
 
-export type CreateProjectRequest = Omit<Project, 'id'>;
+export type CreateProjectRequest = Omit<Project, 'id' | 'tasks'> & { tasks?: ProjectTask[]; };
 
 export type UpdateProjectRequest = Partial<Omit<Project, 'id'>>;
 
@@ -55,3 +57,10 @@ export interface ProjectUpdate {
     description: string;
     createdAt: string;
 }
+
+export interface ProjectTask {
+    id: number;
+    title: string;
+    completed: boolean;
+}
+

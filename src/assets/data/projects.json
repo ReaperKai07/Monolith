@@ -7,8 +7,8 @@
         "platform": [ "Android", "iOS" ],
         "technology": [ "Angular", "TypeScript", "Capacitor", "Ionic", "Tailwind", "RxJS" ],
         "scope": [ "Frontend" ],
-        "features": [ "eKYC Workflow", "RESTful API Integration", "Responsive UI", "Cross-platform Mobile", "App Maintenance", "Bug Fixes"
-        ],
+        "features": [ "eKYC Workflow", "RESTful API Integration", "Responsive UI", "Cross-platform Mobile", "App Maintenance", "Bug Fixes" ],
+        "tasks": [],
         "startDate": null,
         "endDate": null,
         "status": "Completed"
@@ -22,6 +22,7 @@
         "technology": [ "Angular", "TypeScript", "Capacitor", "Ionic", "Tailwind", "RxJS" ],
         "scope": [ "Frontend" ],
         "features": [ "eKYC Workflow", "RESTful API Integration", "Cross-platform Mobile", "Customer Self-Service", "Bug Fixes", "Feature Enhancements" ],
+        "tasks": [],
         "startDate": null,
         "endDate": null,
         "status": "Completed"
@@ -35,6 +36,7 @@
         "technology": [ "Angular", "TypeScript", "Tailwind", "RxJS" ],
         "scope": [ "Frontend", "UI/UX" ],
         "features": [ "Marketplace UI", "Product Browsing", "Responsive Layout", "RESTful API Integration", "Component Reusability" ],
+        "tasks": [],
         "startDate": null,
         "endDate": null,
         "status": "Completed"
@@ -48,6 +50,7 @@
         "technology": [ "Angular", "TypeScript", "Tailwind", "RxJS" ],
         "scope": [ "Frontend", "UI/UX" ],
         "features": [ "Responsive Website", "Legacy Migration", "Figma Implementation", "Reusable Components" ],
+        "tasks": [],
         "startDate": null,
         "endDate": null,
         "status": "On Hold"
@@ -61,6 +64,33 @@
         "technology": [ "Angular", "TypeScript", "Tailwind", "RxJS" ],
         "scope": [ "Frontend", "UI/UX" ],
         "features": [ "JWT Authentication", "Refresh Token Flow", "Route Guards", "HTTP Interceptors", "RESTful API Integration", "Reactive Forms", "CRUD Operations", "Reusable Dialog Components", "Reusable Search Component", "Reusable Pagination Component", "Responsive Layout", "Mock Backend", "Local Storage Persistence" ],
+        "tasks": [
+            {
+                "id": 1,
+                "title": "Complete user profile page",
+                "completed": false
+            },
+            {
+                "id": 2,
+                "title": "Implement notification dropdown",
+                "completed": false
+            },
+            {
+                "id": 3,
+                "title": "Add GitHub development activity to dashboard",
+                "completed": false
+            },
+            {
+                "id": 4,
+                "title": "Create an OTP verification as reusable",
+                "completed": false
+            },
+            {
+                "id": 5,
+                "title": "Implement settings with dark mode, clear all data, and refresh json data",
+                "completed": false
+            }
+        ],
         "startDate": "2026-06-01",
         "endDate": null,
         "status": "In Development"
@@ -74,6 +104,7 @@
         "technology": [ "React" ],
         "scope": [ "Frontend", "UI/UX" ],
         "features": [ "React Hooks", "Component Architecture", "Responsive Layout", "UI Experimentation" ],
+        "tasks": [],
         "startDate": null,
         "endDate": null,
         "status": "On Hold"
@@ -87,6 +118,7 @@
         "technology": [ "Angular", "TypeScript", "Capacitor", "Ionic", "Tailwind", "RxJS" ],
         "scope": [ "Frontend", "UI/UX" ],
         "features": [ "Authentication Flow", "eKYC Workflow", "Subscription Management", "Billing Overview", "Responsive Mobile UI" ],
+        "tasks": [],
         "startDate": null,
         "endDate": null,
         "status": "Planning"

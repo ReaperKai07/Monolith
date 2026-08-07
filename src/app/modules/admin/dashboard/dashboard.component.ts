@@ -8,9 +8,10 @@ import { SkillsService } from '../../../core/skills/skills.service';
 import { CertificatesService } from '../../../core/certificates/certificates.service';
 import { UserService } from '../../../core/user/user.service';
 import { User } from '../../../core/user/user.model';
-import { Project, ProjectUpdate, ProjectUpdateType } from '../../../core/projects/projects.model';
+import { Project, ProjectTask, ProjectUpdate, ProjectUpdateType } from '../../../core/projects/projects.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Experience } from '../../../core/experiences/experiences.model';
+import { Router } from '@angular/router';
 
 type UpdateType = 'Added' | 'Updated' | 'Deleted';
 
@@ -45,6 +46,7 @@ export class DashboardComponent implements OnInit {
         private readonly _certificatesService = inject(CertificatesService);
         private readonly _userService = inject(UserService);
         private readonly _destroyRef = inject(DestroyRef);
+        private readonly _router = inject(Router);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
@@ -100,8 +102,15 @@ export class DashboardComponent implements OnInit {
         return Math.min(90, completedFeatures * 10);
     }
 
+    /**
+     * Returns tasks for the active project
+     */
+    get activeProjectTasks(): ProjectTask[] {
+        return this.activeProject?.tasks.slice(0, 5) ?? [];
+    }
+
     // -----------------------------------------------------------------------------------------------------
-    // @ Project update methods
+    // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
     /**
@@ -136,6 +145,16 @@ export class DashboardComponent implements OnInit {
             default:
                 return 'bg-stone-100 text-stone-700';
         }
+    }
+
+    /**
+     * Navigates to a dashboard section
+     * @param route
+     */
+    navigateTo(
+        route: string
+    ): void {
+        this._router.navigate([route]);
     }
 
     // -----------------------------------------------------------------------------------------------------

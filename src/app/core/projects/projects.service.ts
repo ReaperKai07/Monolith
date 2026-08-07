@@ -103,20 +103,22 @@ export class ProjectsService {
     createProject(
         request: CreateProjectRequest
     ): Observable<Project> {
-        return this.getProjects().pipe(
-            map(projects => {
-                const newProject: Project = {
-                    ...request,
-                    id: this._generateNextId(projects),
-                };
-                const updatedProjects = [
-                    ...projects,
-                    newProject,
-                ];
-                this._saveProjects(updatedProjects);
-                return newProject;
-            })
-        );
+        return this.getProjects()
+            .pipe(
+                map(projects => {
+                    const newProject: Project = {
+                        ...request,
+                        tasks: request.tasks ?? [],
+                        id: this._generateNextId(projects),
+                    };
+                    const updatedProjects = [
+                        ...projects,
+                        newProject,
+                    ];
+                    this._saveProjects(updatedProjects);
+                    return newProject;
+                })
+            );
     }
 
     /**
@@ -130,7 +132,7 @@ export class ProjectsService {
             switchMap(projects => {
                 const projectIndex = projects.findIndex(project => project.id === id);
                 if (projectIndex === -1) {
-                    return throwError(() =>
+                    return throwError(() => 
                         new Error(`Project with ID ${id} was not found.`)
                     );
                 }
@@ -156,10 +158,9 @@ export class ProjectsService {
         return this.getProjects()
         .pipe(
             switchMap(projects => {
-                const projectExists =
-                    projects.some(project => project.id === id);
+                const projectExists = projects.some(project => project.id === id);
                 if (!projectExists) {
-                    return throwError(() =>
+                    return throwError(() => 
                         new Error(`Project with ID ${id} was not found.`)
                     );
                 }
@@ -186,9 +187,7 @@ export class ProjectsService {
         if (this._projectUpdatesInitialized) {
             return of(this._projectUpdates.value);
         }
-        return this._httpClient.get<ProjectUpdate[]>(
-                this._projectUpdatesUrl
-            )
+        return this._httpClient.get<ProjectUpdate[]>(this._projectUpdatesUrl)
             .pipe(
                 tap(updates => {
                     this._projectUpdates.next(updates);
@@ -206,16 +205,11 @@ export class ProjectsService {
     ): Observable<ProjectUpdate[]> {
         return this.getAllProjectUpdates()
         .pipe(
-            map(updates =>
-                updates
-                .filter(
-                    update => update.projectId === projectId
-                )
-                .sort(
-                    (first, second) =>
-                        new Date(second.createdAt).getTime() -
-                        new Date(first.createdAt).getTime()
-                )
+            map(updates => updates
+                .filter( update => 
+                    update.projectId === projectId)
+                .sort( (first, second) => 
+                    new Date(second.createdAt).getTime() - new Date(first.createdAt).getTime())
             )
         );
     }
@@ -227,7 +221,6 @@ export class ProjectsService {
         if (this._projectUpdatesInitialized) {
             return of(this._projectUpdates.value);
         }
-
         return this.initializeProjectUpdates();
     }
 
@@ -238,9 +231,8 @@ export class ProjectsService {
     private _loadSeedProjects(): Observable<Project[]> {
         return this._httpClient.get<ProjectDto[]>(this._projectsUrl)
         .pipe(
-            map(projects =>
-                projects.map(project => this._mapDtoToProject(project))
-            ),
+            map(projects => projects
+                .map( project => this._mapDtoToProject(project))),
             tap(projects => this._saveProjects(projects))
         );
     }
@@ -270,12 +262,9 @@ export class ProjectsService {
         return {
             ...project,
             features: project.features ?? [],
-            startDate: project.startDate
-                ? new Date(project.startDate)
-                : null,
-            endDate: project.endDate
-                ? new Date(project.endDate)
-                : null,
+            tasks: project.tasks ?? [],
+            startDate: project.startDate ? new Date(project.startDate) : null,
+            endDate: project.endDate ? new Date(project.endDate) : null,
         };
     }
 
@@ -285,12 +274,9 @@ export class ProjectsService {
         return {
             ...project,
             features: project.features ?? [],
-            startDate: project.startDate
-                ? this._formatDate(project.startDate)
-                : null,
-            endDate: project.endDate
-                ? this._formatDate(project.endDate)
-                : null,
+            tasks: project.tasks ?? [],
+            startDate: project.startDate ? this._formatDate(project.startDate) : null,
+            endDate: project.endDate ? this._formatDate(project.endDate) : null,
         };
     }
 

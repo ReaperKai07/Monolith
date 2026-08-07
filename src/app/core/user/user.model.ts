@@ -6,6 +6,7 @@ export interface User {
     profile: UserProfile;
     education: UserEducation[];
     platforms: UserPlatform[];
+    objectives: UserObjective[];
 }
 
 export interface UserProfile {
@@ -68,4 +69,17 @@ export interface UpdateUserRequest {
     profile?: Partial<UserProfile>;
     education?: UserEducation[];
     platforms?: UserPlatform[];
+    objectives?: UserObjective[];
+}
+
+export type UserObjectiveStatus =
+    | 'Planned'
+    | 'In Progress'
+    | 'Completed';
+
+export interface UserObjective {
+    id: number;
+    title: string;
+    description: string;
+    status: UserObjectiveStatus;
 }

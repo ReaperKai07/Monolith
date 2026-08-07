@@ -116,12 +116,9 @@ export class UserService {
                         ...existingUser.profile,
                         ...request.profile,
                     },
-                    education:
-                        request.education ??
-                        existingUser.education,
-                    platforms:
-                        request.platforms ??
-                        existingUser.platforms,
+                    education: request.education ?? existingUser.education,
+                    platforms: request.platforms ?? existingUser.platforms,
+                    objectives: request.objectives ?? existingUser.objectives,
                 };
                 const updatedUsers = [
                     ...users,

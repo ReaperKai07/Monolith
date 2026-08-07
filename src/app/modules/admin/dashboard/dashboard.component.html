@@ -6,7 +6,6 @@
         <p class="text-3xl font-bold text-stone-900">
             Welcome Back, {{ displayName }}.
         </p>
-
         <p class="text-sm text-stone-500">
             Today is {{ today | date:'EEEE, d MMMM, y' }}
         </p>
@@ -15,7 +14,9 @@
     <!-- Quick Analytics Cards -->
     <section class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 lg:col-span-2">
         <!-- Projects -->
-        <div class="flex justify-between rounded-lg bg-gradient-primary text-white p-6 shadow-sm">
+        <div 
+            class="flex cursor-pointer justify-between rounded-lg bg-gradient-primary p-6 text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            (click)="navigateTo('/projects')">
             <div class="flex min-w-0 flex-col gap-4">
                 <p class="font-semibold">
                     Projects
@@ -35,7 +36,9 @@
             </div>
         </div>
         <!-- Years of Experience -->
-        <div class="flex justify-between rounded-lg bg-gradient-primary text-white p-6 shadow-sm">
+        <div 
+            class="flex cursor-pointer justify-between rounded-lg bg-gradient-primary p-6 text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            (click)="navigateTo('/experiences')">
             <div class="flex min-w-0 flex-col gap-4">
                 <p class="font-semibold">
                     Experience
@@ -61,7 +64,9 @@
             </div>
         </div>
         <!-- Skills -->
-        <div class="flex justify-between rounded-lg bg-gradient-primary text-white p-6 shadow-sm">
+        <div 
+            class="flex cursor-pointer justify-between rounded-lg bg-gradient-primary p-6 text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            (click)="navigateTo('/skills')">
             <div class="flex min-w-0 flex-col gap-4">
                 <p class="font-semibold">
                     Skills
@@ -81,7 +86,9 @@
             </div>
         </div>
         <!-- Certificates -->
-        <div class="flex justify-between rounded-lg bg-gradient-primary text-white p-6 shadow-sm">
+        <div 
+            class="flex cursor-pointer justify-between rounded-lg bg-gradient-primary p-6 text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            (click)="navigateTo('/certificates')">
             <div class="flex min-w-0 flex-col gap-4">
                 <p class="font-semibold">
                     Certificates
@@ -115,7 +122,6 @@
                     <p class="mt-1 text-2xl font-semibold text-stone-900">
                         {{ activeProject.project }}
                     </p>
-
                     <p class="text-sm text-stone-500">
                         {{ activeProject.description }}
                     </p>
@@ -169,48 +175,35 @@
         <!-- Project Icon -->
         <div class="flex items-center justify-center lg:col-span-1">
             <div class="flex items-center justify-center rounded-full bg-stone-900 p-5">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="size-16 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-16 text-white">
                     <path d="M16.5 7.5h-9v9h9v-9Z" />
-                    <path
-                        fill-rule="evenodd"
-                        d="M8.25 2.25A.75.75 0 0 1 9 3v.75h2.25V3a.75.75 0 0 1 1.5 0v.75H15V3a.75.75 0 0 1 1.5 0v.75h.75a3 3 0 0 1 3 3v.75H21A.75.75 0 0 1 21 9h-.75v2.25H21a.75.75 0 0 1 0 1.5h-.75V15H21a.75.75 0 0 1 0 1.5h-.75v.75a3 3 0 0 1-3 3h-.75V21a.75.75 0 0 1-1.5 0v-.75h-2.25V21a.75.75 0 0 1-1.5 0v-.75H9V21a.75.75 0 0 1-1.5 0v-.75h-.75a3 3 0 0 1-3-3v-.75H3A.75.75 0 0 1 3 15h.75v-2.25H3a.75.75 0 0 1 0-1.5h.75V9H3a.75.75 0 0 1 0-1.5h.75v-.75a3 3 0 0 1 3-3h.75V3a.75.75 0 0 1 .75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h10.5a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V6.75Z"
-                        clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M8.25 2.25A.75.75 0 0 1 9 3v.75h2.25V3a.75.75 0 0 1 1.5 0v.75H15V3a.75.75 0 0 1 1.5 0v.75h.75a3 3 0 0 1 3 3v.75H21A.75.75 0 0 1 21 9h-.75v2.25H21a.75.75 0 0 1 0 1.5h-.75V15H21a.75.75 0 0 1 0 1.5h-.75v.75a3 3 0 0 1-3 3h-.75V21a.75.75 0 0 1-1.5 0v-.75h-2.25V21a.75.75 0 0 1-1.5 0v-.75H9V21a.75.75 0 0 1-1.5 0v-.75h-.75a3 3 0 0 1-3-3v-.75H3A.75.75 0 0 1 3 15h.75v-2.25H3a.75.75 0 0 1 0-1.5h.75V9H3a.75.75 0 0 1 0-1.5h.75v-.75a3 3 0 0 1 3-3h.75V3a.75.75 0 0 1 .75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h10.5a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75H6.75a.75.75 0 0 1-.75-.75V6.75Z" clip-rule="evenodd" />
                 </svg>
             </div>
         </div>
     </section>
-
+    <!-- Current Project To-Do and Updates -->
     <section class="grid grid-cols-1 gap-8 lg:grid-cols-4 col-span-1 lg:col-span-2">
         <!-- To-Do List -->
-        <div class="flex flex-col lg:col-span-1 gap-4 rounded-lg bg-white p-6 shadow-sm">
+        <div class="flex flex-col gap-4 rounded-lg bg-white p-6 shadow-sm lg:col-span-1">
             <div>
-                <p class="text-lg font-semibold text-stone-900">
-                    To-Do List
-                </p>
-                <p class="text-sm text-stone-500">
-                    Current development tasks.
-                </p>
+                <p class="text-lg font-semibold text-stone-900">To-Do List</p>
+                <p class="text-sm text-stone-500">Current development tasks.</p>
             </div>
-            <div class="flex flex-row gap-2 items-start">
-                <div class="mt-1 p-1 bg-stone-500 flex rounded-full"></div>
-                <p class="text-xs text-stone-500">
-                    Improve responsive design for mobile and smaller screens
-                </p>
-            </div>
+            @for (task of activeProjectTasks; track task.id) {
+                <div class="flex flex-row items-start gap-2">
+                    <div class="mt-1 size-2 shrink-0 rounded-full bg-stone-500"></div>
+                    <p class="text-xs text-stone-500">{{ task.title }}</p>
+                </div>
+            } @empty {
+                <p class="text-sm text-stone-500">No pending tasks.</p>
+            }
         </div>
         <!-- Recent Updates -->
         <div class="flex flex-col lg:col-span-3 gap-5 rounded-lg bg-white p-6 shadow-sm">
             <div>
-                <p class="text-lg font-semibold text-stone-900">
-                    Recent Updates
-                </p>
-                <p class="text-sm text-stone-500">
-                    Latest development activity for Monolith.
-                </p>
+                <p class="text-lg font-semibold text-stone-900">Recent Updates</p>
+                <p class="text-sm text-stone-500">Latest development activity for Monolith.</p>
             </div>
             <!-- Table goes here -->
             <div class="w-full overflow-x-auto">
@@ -224,7 +217,6 @@
                             <th class="px-4 py-3 font-medium">Date</th>
                         </tr>
                     </thead>
-
                     <!-- Table Body -->
                     <tbody>
                         @for (update of recentUpdates; track update.id) {
