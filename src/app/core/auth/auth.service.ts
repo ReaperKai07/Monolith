@@ -30,21 +30,21 @@ export class AuthService {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Returns whether the user is authenticated
+     * Returns if user is authenticated
      */
     get authenticated(): boolean {
         return Boolean(this.accessToken);
     }
 
     /**
-     * Returns the current access token
+     * Returns current access token
      */
     get accessToken(): string | null {
         return localStorage.getItem(this._accessTokenKey);
     }
 
     /**
-     * Returns the current signed-in user ID
+     * Returns current signed-in user ID
      */
     get userId(): number | null {
         const userId = localStorage.getItem(this._userIdKey);
@@ -60,7 +60,8 @@ export class AuthService {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Signs in using the demo user data
+     * Signs in method
+     * By comparing the email and password to the json data
      * @param request
      */
     signIn(
@@ -104,7 +105,7 @@ export class AuthService {
     }
 
     /**
-     * Creates a new simulated access token
+     * Creates new simulated access token
      */
     refreshToken(): Observable<LoginResponse> {
         const refreshToken = localStorage.getItem(this._refreshTokenKey);

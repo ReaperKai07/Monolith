@@ -17,7 +17,7 @@ export const authGuard: CanActivateChildFn  = (route, state) => {
 
     /**
      * Redirect unauthenticated users to sign-in
-     * Store requested URL, to be restored after login
+     * Store requested URL page, restored after login
      */
     return router.createUrlTree(
         ['/sign-in'],

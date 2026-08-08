@@ -8,14 +8,12 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
     const authService = inject(AuthService);
 
     /*
-     * Only requests using the configured API URL
-     * are treated as backend API requests
+     * Only requests using the configured API URL are treated as backend API requests
      */
     const isApiRequest = request.url.startsWith(environment.apiUrl);
 
     /*
-     * Continue external requests, images, documents
-     * and other assets without modification
+     * Continue external requests, images, documents and other assets without modification
      */
     if (!isApiRequest) {
         return next(request);
@@ -25,23 +23,16 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
 
     /*
      * Continue unchanged when no token exists
-     * This allows the sign-in request to load users.json
+     * To allows sign-in request to load users.json (again)
      */
     if (!accessToken) {
         return next(request);
     }
 
     /*
-     * HTTP requests are immutable
-     * Clone the request before adding the Bearer token
+     * HTTP requests cannot be changed, clone request then adding Bearer token
      */
-    const authenticatedRequest =
-        request.clone({
-            setHeaders: {
-                Authorization:
-                    `Bearer ${accessToken}`,
-            },
-        });
+    const authenticatedRequest = request.clone({ setHeaders: { Authorization: `Bearer ${accessToken}`, }, });
 
     /*
      * Continue using the authenticated request

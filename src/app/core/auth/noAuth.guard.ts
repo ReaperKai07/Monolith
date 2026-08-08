@@ -8,14 +8,14 @@ export const noAuthGuard: CanActivateFn = () => {
     const router = inject(Router);
 
     /*
-     * Allow access when the user is not authenticated.
+     * Allow access when user not authenticated
      */
     if (!authService.authenticated) {
         return true;
     }
 
     /*
-     * Prevent authenticated users from returning to Sign In.
+     * Prevent authenticated users returning to Sign In
      */
     return router.createUrlTree([
         '/dashboard',
