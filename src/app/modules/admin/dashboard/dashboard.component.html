@@ -263,23 +263,80 @@
     <!-- Divider -->
     <div class="lg:col-span-2 h-px bg-stone-200"></div>
 
-    <!-- Long-Term Objectives -->
-    <section class="flex flex-col gap-5 rounded-lg bg-stone-900 p-6 shadow-sm lg:col-span-2">
-        <div>
-            <p class="text-lg font-semibold text-white">
-                Long-Term Objectives
-            </p>
-            <p class="text-sm text-white">
-                Professional and educational goals.
-            </p>
-        </div>
-            <div class="flex flex-row gap-2 items-start">
-                <div class="mt-1 p-1 bg-white flex rounded-full"></div>
-                <p class="text-xs text-white">
-                    Begin a Master's degree in a computer science-related programme
-                </p>
+<!-- Long-Term Objectives -->
+<section
+    class="
+        flex flex-col gap-5
+        rounded-lg bg-stone-900
+        p-6 shadow-sm
+        lg:col-span-2">
+
+    <!-- Header -->
+    <div>
+        <p class="text-lg font-semibold text-white">
+            Long-Term Objectives
+        </p>
+
+        <p class="text-sm text-white/70">
+            Professional and educational goals.
+        </p>
+    </div>
+
+    <!-- Objectives -->
+    <div class="flex flex-col gap-4">
+
+        @for (objective of userObjectives; track objective.id) {
+
+            <div class="flex items-start gap-3">
+
+                <!-- Bullet -->
+                <div
+                    class="
+                        mt-1.5 size-2 shrink-0
+                        rounded-full bg-white">
+                </div>
+
+                <!-- Content -->
+                <div class="flex min-w-0 flex-col gap-1">
+
+                    <div class="flex flex-wrap items-center gap-2">
+
+                        <p class="text-sm font-semibold text-white">
+                            {{ objective.title }}
+                        </p>
+
+                        <span
+                            class="
+                                rounded-full
+                                bg-white/10
+                                px-2 py-0.5
+                                text-xs text-white/70">
+
+                            {{ objective.status }}
+
+                        </span>
+
+                    </div>
+
+                    <p class="text-xs leading-5 text-white/70">
+                        {{ objective.description }}
+                    </p>
+
+                </div>
+
             </div>
-    </section>
+
+        } @empty {
+
+            <p class="text-sm text-white/60">
+                No long-term objectives available.
+            </p>
+
+        }
+
+    </div>
+
+</section>
   
 </div>
 

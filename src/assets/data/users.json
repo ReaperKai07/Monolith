@@ -72,9 +72,9 @@
                 "id": 1,
                 "title": "Pursue postgraduate studies",
                 "description": "Begin a Master's degree in a computer science-related programme.",
-                "status": "Planned"
+                "status": "On Hold"
             },
-            {
+            {   
                 "id": 2,
                 "title": "Expand frontend expertise",
                 "description": "Continue developing advanced Angular architecture while gaining stronger experience with React and modern frontend practices.",
@@ -84,7 +84,7 @@
                 "id": 3,
                 "title": "Develop full-stack capabilities",
                 "description": "Strengthen backend development skills and gain practical experience building complete frontend and backend applications.",
-                "status": "Planned"
+                "status": "Planning"
             }
         ]
     }

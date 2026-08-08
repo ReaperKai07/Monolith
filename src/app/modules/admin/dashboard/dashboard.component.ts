@@ -7,7 +7,7 @@ import { ExperiencesService } from '../../../core/experiences/experiences.servic
 import { SkillsService } from '../../../core/skills/skills.service';
 import { CertificatesService } from '../../../core/certificates/certificates.service';
 import { UserService } from '../../../core/user/user.service';
-import { User } from '../../../core/user/user.model';
+import { User, UserObjective } from '../../../core/user/user.model';
 import { Project, ProjectTask, ProjectUpdate, ProjectUpdateType } from '../../../core/projects/projects.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Experience } from '../../../core/experiences/experiences.model';
@@ -107,6 +107,13 @@ export class DashboardComponent implements OnInit {
      */
     get activeProjectTasks(): ProjectTask[] {
         return this.activeProject?.tasks.slice(0, 5) ?? [];
+    }
+
+    /**
+     * Returns long-term objectives for the current user
+     */
+    get userObjectives(): UserObjective[] {
+        return this.currentUser?.objectives ?? [];
     }
 
     // -----------------------------------------------------------------------------------------------------
