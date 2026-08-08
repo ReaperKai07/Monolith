@@ -317,5 +317,49 @@
         "level": "Advanced",
         "experienceMonths": 24,
         "projectIds": [1, 2, 3]
+    },
+    {
+        "id": 30,
+        "name": "Angular Reactive Forms",
+        "icon": "reactive-forms.svg",
+        "description": "Used to build structured forms with validation, dynamic controls and reusable form workflows in Angular applications.",
+        "category": "Frontend",
+        "type": "Concept",
+        "level": "Intermediate",
+        "experienceMonths": 20,
+        "projectIds": [1, 3]
+    },
+    {
+        "id": 31,
+        "name": "Web Storage",
+        "icon": "web-storage.svg",
+        "description": "Used browser storage for client-side persistence, authentication sessions and simulated application data.",
+        "category": "Frontend",
+        "type": "Web API",
+        "level": "Intermediate",
+        "experienceMonths": 12,
+        "projectIds": [1]
+    },
+    {
+        "id": 32,
+        "name": "Component-Based Architecture",
+        "icon": "component-based.svg",
+        "description": "Designing applications using reusable, isolated and maintainable UI components with clearly defined responsibilities.",
+        "category": "Frontend",
+        "type": "Concept",
+        "level": "Intermediate",
+        "experienceMonths": 20,
+        "projectIds": [1, 3]
+    },
+    {
+        "id": 33,
+        "name": "Angular Router",
+        "icon": "angular-router.svg",
+        "description": "Used to configure application navigation, nested routes, redirects and route protection in Angular applications.",
+        "category": "Frontend",
+        "type": "Library",
+        "level": "Intermediate",
+        "experienceMonths": 20,
+        "projectIds": [1, 3]
     }
 ]
