@@ -1,12 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Contact } from '../../../core/contacts/contacts.model';
+import { ContactGroup } from '../../../core/contacts/contacts.model';
 import { ContactsService } from '../../../core/contacts/contacts.service';
-
-interface ContactGroup {
-    company: string;
-    contacts: Contact[];
-}
 
 @Component({
     selector: 'app-contacts',
@@ -16,6 +11,7 @@ interface ContactGroup {
 
     ],
 })
+
 export class ContactsComponent implements OnInit {
 
     // -----------------------------------------------------------------------------------------------------
@@ -29,8 +25,9 @@ export class ContactsComponent implements OnInit {
     // @ Public properties
     // -----------------------------------------------------------------------------------------------------
 
-    contactsList: Contact[] = [];
+    contactGroups: ContactGroup[] = [];
     failedImages = new Set<string>();
+    failedLogos = new Set<string>();
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -39,52 +36,25 @@ export class ContactsComponent implements OnInit {
     ngOnInit(): void {
 
         /*
-         * Subscribe to the contacts service
+         * Subscribe to contact groups
          */
-        this._contactsService.contacts$
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
-            .subscribe(contacts => {
-                this.contactsList = contacts;
+        this._contactsService.contactGroups$
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe(contactGroups => {
+                this.contactGroups = contactGroups;
             });
 
         /*
-         * Load contacts from contacts.json
+         * Load contact groups from contacts.json
          */
         this._contactsService.initializeContacts()
-            .pipe(
-                takeUntilDestroyed(this._destroyRef)
-            )
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
                 error: error => {
                     console.error('Failed to initialize contacts:', error);
                 },
             });
-    }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Groups contacts by company
-     */
-    get contactGroups(): ContactGroup[] {
-        const companyNames = [
-            ...new Set(
-                this.contactsList.map(
-                    contact => contact.company
-                )
-            ),
-        ];
-
-        return companyNames.map(company => ({
-            company,
-            contacts: this.contactsList.filter(
-                contact => contact.company === company
-            ),
-        }));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -92,11 +62,23 @@ export class ContactsComponent implements OnInit {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Records a contact image that failed to load
+     * Records a reference image that failed to load
      * @param image
      */
-    onImageError(image: string): void {
+    onImageError(
+        image: string
+    ): void {
         this.failedImages.add(image);
+    }
+
+    /**
+     * Records an organization logo that failed to load
+     * @param logo
+     */
+    onLogoError(
+        logo: string
+    ): void {
+        this.failedLogos.add(logo);
     }
 
 }

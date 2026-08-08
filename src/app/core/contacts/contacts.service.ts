@@ -1,8 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, tap } from 'rxjs';
-import { Contact } from './contacts.model';
+import {
+    BehaviorSubject,
+    Observable,
+    of,
+    tap,
+} from 'rxjs';
+
 import { environment } from '../../../environments/environment';
+import { ContactGroup } from './contacts.model';
 
 @Injectable({
     providedIn: 'root',
@@ -21,7 +27,7 @@ export class ContactsService {
     // -----------------------------------------------------------------------------------------------------
 
     private readonly _contactsUrl = `${environment.apiUrl}/contacts.json`;
-    private readonly _contacts = new BehaviorSubject<Contact[]>([]);
+    private readonly _contactGroups = new BehaviorSubject<ContactGroup[]>([]);
     private _initialized = false;
 
     // -----------------------------------------------------------------------------------------------------
@@ -29,40 +35,37 @@ export class ContactsService {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Returns the current contacts data as an observable
+     * Returns contact groups as an observable
      */
-    get contacts$(): Observable<Contact[]> {
-        return this._contacts.asObservable();
-    }
+    readonly contactGroups$ = this._contactGroups.asObservable();
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Loads contacts from contacts.json
+     * Loads contact groups from contacts.json
      */
-    initializeContacts(): Observable<Contact[]> {
+    initializeContacts(): Observable<ContactGroup[]> {
         if (this._initialized) {
-            return of(this._contacts.value);
+            return of(this._contactGroups.value);
         }
-        return this._httpClient.get<Contact[]>(this._contactsUrl)
+        return this._httpClient.get<ContactGroup[]>(this._contactsUrl)
             .pipe(
-                tap(contacts => {
-                    this._contacts.next(contacts);
+                tap(contactGroups => {
+                    this._contactGroups.next(contactGroups);
                     this._initialized = true;
                 })
             );
     }
 
     /**
-     * Returns all contacts
+     * Returns all contact groups
      */
-    getContacts(): Observable<Contact[]> {
+    getContactGroups(): Observable<ContactGroup[]> {
         if (this._initialized) {
-            return of(this._contacts.value);
+            return of(this._contactGroups.value);
         }
-
         return this.initializeContacts();
     }
 

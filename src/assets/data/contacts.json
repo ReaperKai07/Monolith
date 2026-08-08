@@ -1,29 +1,42 @@
 [
     {
         "id": 1,
-        "name": "Kevin Lew",
-        "image": "",
-        "title": "Project Director",
-        "company": "Kalsym Sdn. Bhd.",
-        "phone": "",
-        "email": "kevin.lew@kalsym.com"
+        "name": "Kalsym Sdn. Bhd.",
+        "logo": "kalsym.png",
+        "location": "Subang Jaya, Selangor",
+        "references": [
+            {
+                "id": 1,
+                "name": "Kevin Lew",
+                "image": "kevin_lew.png",
+                "title": "Project Director",
+                "phone": "",
+                "email": "kevin.lew@kalsym.com"
+            },
+            {
+                "id": 2,
+                "name": "Naquiddeen Bin Abdul Aziz",
+                "image": "naqiuddeen.png",
+                "title": "Project Manager",
+                "phone": "",
+                "email": "naquiddeen@kalsym.com"
+            }
+        ]
     },
     {
         "id": 2,
-        "name": "Naquiddeen Bin Abdul Aziz",
-        "image": "",
-        "title": "Project Manager",
-        "company": "Kalsym Sdn. Bhd.",
-        "phone": "",
-        "email": "naquiddeen@kalsym.com"
-    },
-    {
-        "id": 3,
-        "name": "(DR.) Aznoora Binti Osman",
-        "image": "",
-        "title": "Final Year Project Supervisor",
-        "company": "MARA University of Technology (UiTM) Perlis",
-        "phone": "",
-        "email": "aznoora@uitm.edu.my"
+        "name": "MARA University of Technology (UiTM) Perlis",
+        "logo": "uitm.png",
+        "location": "Arau, Perlis",
+        "references": [
+            {
+                "id": 3,
+                "name": "(DR.) Aznoora Binti Osman",
+                "image": "aznoora.png",
+                "title": "Final Year Project Supervisor",
+                "phone": "",
+                "email": "aznoora@uitm.edu.my"
+            }
+        ]
     }
 ]
