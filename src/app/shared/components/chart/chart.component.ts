@@ -9,15 +9,30 @@ import {
     ViewChild,
 } from '@angular/core';
 import {
+    ArcElement,
+    BarController,
+    BarElement,
+    CategoryScale,
     Chart,
     ChartConfiguration,
     ChartData,
     ChartType,
-    registerables,
+    DoughnutController,
+    Legend,
+    LinearScale,
+    Tooltip,
 } from 'chart.js';
 
-Chart.register(...registerables);
-
+Chart.register(
+    BarController,
+    BarElement,
+    DoughnutController,
+    ArcElement,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+    Legend
+);
 @Component({
     selector: 'app-chart',
     standalone: true,
