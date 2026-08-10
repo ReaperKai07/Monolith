@@ -12,15 +12,9 @@ import { Project, ProjectTask, ProjectUpdate, ProjectUpdateType } from '../../..
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Experience } from '../../../core/experiences/experiences.model';
 import { Router } from '@angular/router';
-
-type UpdateType = 'Added' | 'Updated' | 'Deleted';
-
-interface RecentUpdate {
-    id: number;
-    type: UpdateType;
-    comment: string;
-    createdAt: Date;
-}
+import { ChartConfiguration, ChartData } from 'chart.js';
+import { ChartComponent } from '../../../shared/components/chart/chart.component';
+import { Skill, SkillCategory } from '../../../core/skills/skills.model';
 
 @Component({
     selector: 'app-dashboard',
@@ -30,7 +24,8 @@ interface RecentUpdate {
         MatIconModule,
         MatListModule,
         DatePipe,
-        NgClass
+        NgClass,
+        ChartComponent,
     ],
 })
 
@@ -51,7 +46,7 @@ export class DashboardComponent implements OnInit {
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
     // -----------------------------------------------------------------------------------------------------
-
+    
     readonly activeProjectId = 5;
     readonly today = new Date();
 
@@ -194,9 +189,13 @@ export class DashboardComponent implements OnInit {
             });
 
         this._skillsService.skills$
-            .pipe(takeUntilDestroyed(this._destroyRef))
+            .pipe(
+                takeUntilDestroyed(this._destroyRef)
+            )
             .subscribe(skills => {
                 this.skillCount = skills.length;
+
+                this._buildSkillsChart(skills);
             });
 
         this._certificatesService.certificates$
@@ -303,5 +302,86 @@ export class DashboardComponent implements OnInit {
         }
         return Math.max(0, years);
     }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Skills chart
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Builds chart data from skill categories
+     * @param skills
+     */
+    private _buildSkillsChart(
+        skills: Skill[]
+    ): void {
+        const categories: SkillCategory[] = [
+            'Frontend',
+            'Mobile',
+            'Backend',
+            'UI/UX',
+            'Data',
+            'Tools',
+        ];
+        const categoryCounts = categories.map(
+            category =>
+                skills.filter(
+                    skill => skill.category === category
+                ).length
+        );
+        this.skillsChartData = {
+            ...this.skillsChartData,
+            labels: categories,
+            datasets: [
+                {
+                    ...this.skillsChartData.datasets[0],
+                    data: categoryCounts,
+                },
+            ],
+        };
+    }
+
+    /**
+     * Bar Chart Data
+     */
+    skillsChartData: ChartData<'bar'> = {
+        labels: [],
+        datasets: [
+            {
+                label: 'Skills',
+                data: [],
+                backgroundColor: [
+                    '#3b82f6', // Frontend
+                    '#f97316', // Mobile
+                    '#22c55e', // Backend
+                    '#a855f7', // UI/UX
+                    '#06b6d4', // Data
+                    '#78716c', // Tools
+                ],
+                borderRadius: 6,
+            },
+        ],
+    };
+
+    /**
+     * Bar Chart Configuration
+     */
+    readonly skillsChartOptions: ChartConfiguration<'bar'>['options'] = {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        scales: {
+            x: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0,
+                },
+            },
+        },
+    };
 
 }
