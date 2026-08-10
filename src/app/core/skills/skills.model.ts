@@ -14,7 +14,8 @@ export type SkillType =
     | 'Database'
     | 'Design Tool'
     | 'Development Tool'
-    | 'Concept';
+    | 'Concept'
+    | 'Web API';
 
 export type SkillLevel =
     | 'Beginner'
