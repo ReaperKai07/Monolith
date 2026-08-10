@@ -8,6 +8,8 @@ import { SearchComponent } from '../../../shared/components/search/search.compon
 import { LoadingOverlayService } from '../../../core/services/loading-overlay.service';
 import { SkeletonLoaderComponent } from '../../../shared/components/skeleton-loader/skeleton-loader.component';
 import { SnackbarService } from '../../../core/services/snackbar.service';
+import { ChartConfiguration, ChartData } from 'chart.js';
+import { ChartComponent } from '../../../shared/components/chart/chart.component';
 
 @Component({
     selector: 'app-cryptek-lab',
@@ -18,6 +20,7 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
         PaginationComponent,
         SearchComponent,
         SkeletonLoaderComponent,
+        ChartComponent,
     ],
 })
 
@@ -179,5 +182,105 @@ export class CryptekLabComponent implements OnInit{
             'Information'
         );
     }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Charts Methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Bar Chart Data
+     * Postion in array determine the data value and color
+     */
+    readonly chartData: ChartData<'bar'> = {
+        labels: [ 
+            'Frontend', 
+            'Mobile', 
+            'Backend', 
+            'UI/UX', 
+            'Data',
+            'Tools', 
+        ],
+        datasets: [
+            {
+                label: 'Skills',
+                data: [ 12, 6, 3, 2, 2, 5, ],
+                backgroundColor: [
+                    '#22c55e',
+                    '#f97316',
+                    '#3b82f6',
+                    '#a855f7',
+                    '#06b6d4',
+                    '#78716c',
+                ],
+                borderRadius: 6,
+            },
+        ],
+    };
+
+    /**
+     * Bar Chart Configuration
+     */
+    readonly chartOptions: ChartConfiguration<'bar'>['options'] = {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        scales: {
+            x: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0,
+                },
+            },
+        },
+    };
+
+    /**
+     * Doughnut Chart Data
+     * Postion in array determine the data value and color
+     */
+    readonly doughnutChartData: ChartData<'doughnut'> = {
+        labels: [ 
+            'Completed', 
+            'In Development', 
+            'Planning', 
+            'On Hold', 
+        ],
+        datasets: [
+            {
+                label: 'Projects',
+                data: [ 
+                    4, 
+                    3, 
+                    2, 
+                    1, 
+                ],
+                backgroundColor: [
+                    '#22c55e',
+                    '#f97316',
+                    '#3b82f6',
+                    '#ef4444',
+                ],
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    /**
+     * Doughnut Chart Configuration
+     */
+    readonly doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+            },
+        },
+    };
 
 }
