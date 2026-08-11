@@ -74,7 +74,7 @@
                 "description": "Begin a Master's degree in a computer science-related programme.",
                 "status": "On Hold"
             },
-            {   
+            {
                 "id": 2,
                 "title": "Expand frontend expertise",
                 "description": "Continue developing advanced Angular architecture while gaining stronger experience with React and modern frontend practices.",
@@ -84,6 +84,18 @@
                 "id": 3,
                 "title": "Develop full-stack capabilities",
                 "description": "Strengthen backend development skills and gain practical experience building complete frontend and backend applications.",
+                "status": "In Progress"
+            },
+            {
+                "id": 4,
+                "title": "Explore backend development",
+                "description": "Develop stronger practical knowledge of Node.js, API development, server-side architecture and backend integration.",
+                "status": "In Progress"
+            },
+            {
+                "id": 5,
+                "title": "Explore AI-assisted and GenAI development",
+                "description": "Learn how AI-assisted development tools and generative AI can be applied to software development, application features and user-facing experiences.",
                 "status": "Planning"
             }
         ]

@@ -67,28 +67,31 @@
         "tasks": [
             {
                 "id": 1,
-                "title": "Complete user profile page",
-                "completed": false
+                "title": "Complete user profile page"
             },
             {
                 "id": 2,
-                "title": "Implement notification dropdown",
-                "completed": false
+                "title": "Implement notification dropdown"
             },
             {
                 "id": 3,
-                "title": "Add GitHub development activity to dashboard",
-                "completed": false
+                "title": "Add GitHub development activity to dashboard"
             },
             {
                 "id": 4,
-                "title": "Create an OTP verification as reusable",
-                "completed": false
+                "title": "Create reusable OTP verification component"
             },
             {
                 "id": 5,
-                "title": "Implement settings with dark mode, clear all data, and refresh json data",
-                "completed": false
+                "title": "Implement settings with dark mode, clear data and reload seed JSON data"
+            },
+            {
+                "id": 6,
+                "title": "Build a functional Node.js backend for Monolith"
+            },
+            {
+                "id": 7,
+                "title": "Implement a GenAI chatbot that retrieves and answers questions using portfolio data"
             }
         ],
         "startDate": "2026-06-01",
