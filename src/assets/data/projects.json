@@ -67,11 +67,11 @@
         "tasks": [
             {
                 "id": 1,
-                "title": "Complete user profile page"
+                "title": "Implement settings with dark mode, clear data and reload seed JSON data"
             },
             {
                 "id": 2,
-                "title": "Implement notification dropdown"
+                "title": "Create reusable OTP verification component"
             },
             {
                 "id": 3,
@@ -79,19 +79,15 @@
             },
             {
                 "id": 4,
-                "title": "Create reusable OTP verification component"
-            },
-            {
-                "id": 5,
-                "title": "Implement settings with dark mode, clear data and reload seed JSON data"
-            },
-            {
-                "id": 6,
                 "title": "Build a functional Node.js backend for Monolith"
             },
             {
-                "id": 7,
+                "id": 5,
                 "title": "Implement a GenAI chatbot that retrieves and answers questions using portfolio data"
+            },
+            {
+                "id": 6,
+                "title": "Implement notification dropdown"
             }
         ],
         "startDate": "2026-06-01",
