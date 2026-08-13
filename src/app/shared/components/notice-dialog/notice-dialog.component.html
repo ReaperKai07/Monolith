@@ -1,0 +1,54 @@
+<div class="w-full max-w-xl bg-white">
+
+    <!-- Header -->
+    <div class="flex items-start gap-4 border-b border-stone-200 p-6">
+
+        <!-- Icon -->
+        <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-stone-100 text-stone-700">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm10.5-4.5a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm0 3.75a.75.75 0 0 0-1.5 0v5.25a.75.75 0 0 0 1.5 0v-5.25Z" clip-rule="evenodd" />
+            </svg>
+        </div>
+
+        <!-- Title -->
+        <div>
+            <h2 class="text-xl font-semibold text-stone-900">
+                {{ data.title }}
+            </h2>
+            @if (data.description) {
+                <p class="mt-1 text-sm text-stone-500">
+                    {{ data.description }}
+                </p>
+            }
+        </div>
+
+    </div>
+
+    <!-- Content -->
+    <div class="p-6">
+        @if (data.items?.length) {
+            <div class="flex flex-col gap-4">
+                @for (item of data.items; track item) {
+                    <div class="flex items-start gap-3">
+                        <div class="mt-1.5 size-2 shrink-0 rounded-full bg-stone-500">
+                        </div>
+                        <p class="text-sm leading-6 text-stone-600">
+                            {{ item }}
+                        </p>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-end border-t border-stone-200 p-6">
+        <button
+            type="button"
+            class="rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-stone-700"
+            (click)="confirm()">
+            {{ data.confirmLabel ?? 'I Understand' }}
+        </button>
+    </div>
+
+</div>
