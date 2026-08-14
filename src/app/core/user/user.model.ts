@@ -32,6 +32,7 @@ export interface UserEducation {
     startYear: number | null;
     endYear: number | null;
     description: string;
+    transcriptUrl: string | null;
     projectIds: number[];
     skillIds: number[];
 }
