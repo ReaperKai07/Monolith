@@ -66,13 +66,7 @@
                         [href]="currentUser.profile.resumeUrl"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="
-                            inline-flex items-center justify-center
-                            rounded-lg bg-white
-                            px-4 py-2
-                            text-sm font-semibold text-stone-900
-                            transition-colors
-                            hover:bg-stone-100">
+                        class="inline-flex items-center justify-center rounded-lg bg-white px-4 py-2 text-sm font-semibold text-stone-900 transition-colors hover:bg-stone-100">
                         View Resume
                     </a>
                 }
@@ -111,11 +105,7 @@
                         </p>
                         <a
                             [href]="'mailto:' + currentUser.email"
-                            class="
-                                mt-1 block
-                                break-all text-sm text-stone-700
-                                hover:text-stone-900
-                                hover:underline">
+                            class="mt-1 block break-all text-sm text-stone-700 hover:text-stone-900 hover:underline">
                             {{ currentUser.email }}
                         </a>
                     </div>
@@ -128,11 +118,7 @@
                         @if (currentUser.profile.phone) {
                             <a
                                 [href]="'tel:' + currentUser.profile.phone"
-                                class="
-                                    mt-1 block
-                                    text-sm text-stone-700
-                                    hover:text-stone-900
-                                    hover:underline">
+                                class="mt-1 block text-sm text-stone-700 hover:text-stone-900 hover:underline">
                                 {{ currentUser.profile.phone }}
                             </a>
                         } @else {
@@ -276,70 +262,54 @@
 
             <!-- Education List -->
             <div class="mt-6 flex flex-col">
-
-                @for (
-                    education of currentUser.education;
-                    track education.id
-                ) {
-
-                    <div
-                        class="
-                            grid grid-cols-1 gap-4
-                            border-b border-stone-200
-                            py-6
-                            first:pt-0
-                            last:border-none
-                            last:pb-0
-                            md:grid-cols-[140px_1fr]">
-
+                @for (education of currentUser.education; track education.id) {
+                    <div class="grid grid-cols-1 gap-4 border-b border-stone-200 py-6 first:pt-0 last:border-none last:pb-0 md:grid-cols-[140px_1fr]">
                         <!-- Duration -->
                         <div>
                             <p class="text-sm font-medium text-stone-500">
-                                {{ education.startYear }}
-                                –
-                                {{ education.endYear ?? 'Present' }}
+                                {{ education.startYear }} – {{ education.endYear ?? 'Present' }}
                             </p>
                         </div>
-
                         <!-- Education Details -->
                         <div>
-
+                            <!-- Course Qualification -->
                             <h3 class="font-semibold text-stone-900">
-                                {{ education.qualification }}
-                                in
-                                {{ education.course }}
+                                {{ education.qualification }} in {{ education.course }}
                             </h3>
-
                             @if (education.specialisation) {
-
                                 <p class="mt-1 text-sm font-medium text-stone-600">
                                     {{ education.specialisation }}
                                 </p>
-
                             }
-
+                            <!-- Institution Campus -->
                             <p class="mt-2 text-sm text-stone-500">
-                                {{ education.institution }}
-                                ·
-                                {{ education.campus }}
+                                {{ education.institution }} · {{ education.campus }}
                             </p>
-
                             <p class="mt-3 text-sm leading-6 text-stone-600">
                                 {{ education.description }}
                             </p>
-
+                            <!-- View Transcript PDF -->
+                            @if (education.transcriptUrl) {
+                                <a
+                                    [href]="education.transcriptUrl"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class=" mt-4 inline-flex w-fit items-center justify-center gap-2 rounded-lg bg-gradient-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:opacity-90">
+                                    <!-- Document Icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
+                                        <path
+                                            fill-rule="evenodd" d="M5.625 1.5c-.621 0-1.125.504-1.125 1.125v18.75c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V8.25L12.75 1.5H5.625ZM12 2.625V9h6.375L12 2.625Z" clip-rule="evenodd" />
+                                    </svg>
+                                    View Transcript
+                                </a>
+                            }
                         </div>
-
                     </div>
-
                 } @empty {
-
                     <p class="text-sm text-stone-400">
                         No education information available.
                     </p>
-
                 }
-
             </div>
 
         </section>
