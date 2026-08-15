@@ -248,18 +248,15 @@
 
         <!-- Education -->
         <section class="rounded-lg bg-white p-6 shadow-sm">
-
             <!-- Header -->
             <div>
                 <h2 class="text-lg font-semibold text-stone-900">
                     Education
                 </h2>
-
                 <p class="mt-1 text-sm text-stone-500">
                     Academic background and areas of study.
                 </p>
             </div>
-
             <!-- Education List -->
             <div class="mt-6 flex flex-col">
                 @for (education of currentUser.education; track education.id) {
@@ -267,7 +264,7 @@
                         <!-- Duration -->
                         <div>
                             <p class="text-sm font-medium text-stone-500">
-                                {{ education.startYear }} – {{ education.endYear ?? 'Present' }}
+                                {{ education.startYear }} - {{ education.endYear ?? 'Present' }}
                             </p>
                         </div>
                         <!-- Education Details -->
@@ -290,10 +287,8 @@
                             </p>
                             <!-- View Transcript PDF -->
                             @if (education.transcriptUrl) {
-                                <a
-                                    [href]="education.transcriptUrl"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                <a 
+                                    [href]="education.transcriptUrl" target="_blank" rel="noopener noreferrer"
                                     class=" mt-4 inline-flex w-fit items-center justify-center gap-2 rounded-lg bg-gradient-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:opacity-90">
                                     <!-- Document Icon -->
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
@@ -311,7 +306,6 @@
                     </p>
                 }
             </div>
-
         </section>
 
     } @else {
