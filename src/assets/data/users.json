@@ -9,7 +9,7 @@
         "profile": {
             "headline": "Frontend Software Engineer",
             "summary": "Frontend software engineer experienced in developing cross-platform web and mobile applications using Angular, TypeScript, Ionic and Capacitor.",
-            "phone": "+60176016952",
+            "phone": "+60XXXXXXXXX",
             "location": "Subang Jaya, Selangor, Malaysia",
             "availability": "Open to Opportunities",
             "profileImageUrl": "assets/images/profile/profile.jpg",
@@ -29,8 +29,8 @@
                 "specialisation": "Big Data Analytics",
                 "startYear": 2022,
                 "endYear": 2024,
-                "description": "Studied web and software development, data analytics and data visualisation.",
-                "projectIds": [1],
+                "description": "CGPA 3.59 - Studied web and software development, database management, data mining, data analytics and data visualisation.",
+                "projectIds": [],
                 "skillIds": [8, 9, 10]
             },
             {
@@ -42,7 +42,7 @@
                 "specialisation": "",
                 "startYear": 2018,
                 "endYear": 2021,
-                "description": "Studied the foundation of programming, object oriented java and computer problem solvings.",
+                "description": "CGPA 3.11 - Studied the foundation of programming, object oriented programmnig, computer problem solvings and web development.",
                 "projectIds": [],
                 "skillIds": [8, 9, 10]
             }
