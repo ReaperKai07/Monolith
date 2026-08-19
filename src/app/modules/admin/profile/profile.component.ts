@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
 
     private readonly _userService = inject(UserService);
     private readonly _destroyRef = inject(DestroyRef);
-    private readonly _noticeDialog = inject(NoticeDialogService);
+    private readonly _noticeService = inject(NoticeDialogService);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
@@ -74,10 +74,14 @@ export class ProfileComponent implements OnInit {
      * Displays transcript request notice
      */
     openTranscriptNotice(): void {
-        this._noticeDialog.open({
+        this._noticeService.open({
             title: 'Academic Transcript',
             description:
-                'Academic transcripts are not publicly available due to privacy considerations. Please contact Khairul directly if you would like to request a copy.',
+                'Academic transcripts are not publicly available due to privacy considerations.',
+            items: [
+                'Please contact Khairul directly via email if you would like to request a copy.',
+                'Kindly introduce yourself and the reason for request.'
+            ],
             confirmLabel: 'I Understand',
         });
     }
