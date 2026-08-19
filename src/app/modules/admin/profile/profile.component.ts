@@ -3,6 +3,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { User } from '../../../core/user/user.model';
 import { UserService } from '../../../core/user/user.service';
+import { NoticeDialogService } from '../../../core/services/notice-dialog.service';
 
 @Component({
     selector: 'app-profile',
@@ -20,6 +21,7 @@ export class ProfileComponent implements OnInit {
 
     private readonly _userService = inject(UserService);
     private readonly _destroyRef = inject(DestroyRef);
+    private readonly _noticeDialog = inject(NoticeDialogService);
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
@@ -66,6 +68,18 @@ export class ProfileComponent implements OnInit {
      */
     onProfileImageError(): void {
         this.failedProfileImage = true;
+    }
+
+    /**
+     * Displays transcript request notice
+     */
+    openTranscriptNotice(): void {
+        this._noticeDialog.open({
+            title: 'Academic Transcript',
+            description:
+                'Academic transcripts are not publicly available due to privacy considerations. Please contact Khairul directly if you would like to request a copy.',
+            confirmLabel: 'I Understand',
+        });
     }
 
 }

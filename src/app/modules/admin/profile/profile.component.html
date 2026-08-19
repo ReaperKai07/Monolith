@@ -285,19 +285,27 @@
                             <p class="mt-3 text-sm leading-6 text-stone-600">
                                 {{ education.description }}
                             </p>
-                            <!-- View Transcript PDF -->
-                            @if (education.transcriptUrl) {
-                                <a 
-                                    [href]="education.transcriptUrl" target="_blank" rel="noopener noreferrer"
-                                    class=" mt-4 inline-flex w-fit items-center justify-center gap-2 rounded-lg bg-gradient-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:opacity-90">
-                                    <!-- Document Icon -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
-                                        <path
-                                            fill-rule="evenodd" d="M5.625 1.5c-.621 0-1.125.504-1.125 1.125v18.75c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V8.25L12.75 1.5H5.625ZM12 2.625V9h6.375L12 2.625Z" clip-rule="evenodd" />
-                                    </svg>
-                                    View Transcript
-                                </a>
-                            }
+                            <!-- Request Transcript -->
+                            <button
+                                type="button"
+                                class="mt-4 inline-flex w-fit items-center justify-center gap-2 rounded-lg bg-gradient-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:opacity-90"
+                                (click)="openTranscriptNotice()">
+
+                                <!-- Document Icon -->
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    class="size-4">
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M5.625 1.5c-.621 0-1.125.504-1.125 1.125v18.75c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V8.25L12.75 1.5H5.625ZM12 2.625V9h6.375L12 2.625Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+
+                                Request Transcript
+
+                            </button>
                         </div>
                     </div>
                 } @empty {

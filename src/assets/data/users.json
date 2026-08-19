@@ -30,7 +30,6 @@
                 "startYear": 2022,
                 "endYear": 2024,
                 "description": "Studied web and software development, data analytics and data visualisation.",
-                "transcriptUrl": "assets/documents/Khairul_Izzat_Roslan_Degree_Transcript.pdf",
                 "projectIds": [1],
                 "skillIds": [8, 9, 10]
             },
@@ -44,7 +43,6 @@
                 "startYear": 2018,
                 "endYear": 2021,
                 "description": "Studied the foundation of programming, object oriented java and computer problem solvings.",
-                "transcriptUrl": "assets/documents/Khairul_Izzat_Roslan_Diploma_Transcript.pdf",
                 "projectIds": [],
                 "skillIds": [8, 9, 10]
             }
