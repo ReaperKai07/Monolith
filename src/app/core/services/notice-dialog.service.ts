@@ -22,20 +22,21 @@ export class NoticeDialogService {
 
     /**
      * Opens a reusable notice dialog
-     * @param data
      */
     open(
-        data: NoticeDialogData
+        data: NoticeDialogData = {}
     ): Observable<boolean | undefined> {
-        return this._dialog.open(
-            NoticeDialogComponent,
-            {
-                width: '600px',
-                maxWidth: '90vw',
-                disableClose: true,
-                data,
-            }
-        ).afterClosed();
+
+        return this._dialog
+            .open<NoticeDialogComponent, NoticeDialogData, boolean>(
+                NoticeDialogComponent,
+                {
+                    width: 'calc(100vw - 32px)',
+                    maxWidth: '32rem',
+                    data,
+                }
+            )
+            .afterClosed();
     }
 
 }

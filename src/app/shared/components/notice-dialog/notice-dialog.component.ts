@@ -21,6 +21,18 @@ export class NoticeDialogComponent {
     readonly data = inject<NoticeDialogData>(MAT_DIALOG_DATA);
 
     // -----------------------------------------------------------------------------------------------------
+    // @ Default Notice Dialog Settings
+    // -----------------------------------------------------------------------------------------------------
+
+    readonly defaultTitle = 'Work in Progress';
+    readonly defaultDescription = 'This feature is currently under development.';
+    readonly defaultItems: string[] = [
+        'Development is currently focused on other sections and core functionality.',
+        'Please contact Khairul if you would like more information about the planned implementation.',
+    ];
+    readonly defaultConfirmLabel = 'I Understand';
+
+    // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
@@ -29,6 +41,13 @@ export class NoticeDialogComponent {
      */
     confirm(): void {
         this._dialogRef.close(true);
+    }
+
+    /**
+     * Determine item
+     */
+    get items(): string[] {
+        return this.data.items ?? this.defaultItems;
     }
 
 }

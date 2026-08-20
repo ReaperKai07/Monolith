@@ -1,5 +1,5 @@
 export interface NoticeDialogData {
-    title: string;
+    title?: string;
     description?: string;
     items?: string[];
     confirmLabel?: string;
