@@ -197,6 +197,33 @@
         </button>
     </section>
 
+    <!-- Notice Dialog -->
+    <section class="flex flex-col rounded-lg bg-white p-6 shadow-sm">
+        <!-- Header -->
+        <div>
+            <h2 class="text-lg font-semibold text-stone-900">
+                Notice Dialog
+            </h2>
+            <p class="mt-1 text-sm text-stone-500">
+                Reusable notice/information dialog with configurable content and default fallback values.
+            </p>
+        </div>
+        <!-- Demo Button -->
+        <div class="flex flex-col mt-6">
+            <button
+                type="button"
+                class="w-fit rounded-lg bg-gradient-primary px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:opacity-90"
+                (click)="openNoticeDialog()">
+                Open Notice Dialog
+            </button>
+        </div>
+        <div class="mt-6 rounded-lg bg-stone-50 p-4">
+            <p class="text-sm text-stone-600">
+                Displays the default 'Work in Progress' notice when no custom content was provided.
+            </p>
+        </div>
+    </section>
+
     <!-- Delete Dialog -->
     <section class="rounded-lg border border-stone-200 bg-white p-6 shadow-sm">
         <div>

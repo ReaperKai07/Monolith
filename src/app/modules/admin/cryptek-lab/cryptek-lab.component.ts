@@ -10,6 +10,7 @@ import { SkeletonLoaderComponent } from '../../../shared/components/skeleton-loa
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { ChartComponent } from '../../../shared/components/chart/chart.component';
+import { NoticeDialogService } from '../../../core/services/notice-dialog.service';
 
 @Component({
     selector: 'app-cryptek-lab',
@@ -34,6 +35,7 @@ export class CryptekLabComponent implements OnInit{
     private readonly _destroyRef = inject(DestroyRef);
     private readonly _loadingOverlayService = inject(LoadingOverlayService);
     private readonly _snackbarService = inject(SnackbarService);
+    private readonly _noticeService = inject(NoticeDialogService)
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public properties
@@ -282,5 +284,16 @@ export class CryptekLabComponent implements OnInit{
             },
         },
     };
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Notice dialog methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Opens the default work-in-progress notice
+     */
+    openNoticeDialog(): void {
+        this._noticeService.open();
+    }
 
 }
