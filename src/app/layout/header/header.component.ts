@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../../core/user/user.service';
+import { NoticeDialogService } from '../../core/services/notice-dialog.service';
 
 @Component({
     selector: 'app-header',
@@ -20,6 +21,7 @@ export class HeaderComponent {
 
     private readonly _userService = inject(UserService);
     private readonly _router = inject(Router);
+    private readonly _noticeService = inject(NoticeDialogService)
 
     // -----------------------------------------------------------------------------------------------------
     // @ Outputs
@@ -54,19 +56,17 @@ export class HeaderComponent {
     }
 
     /**
-     * Opens notifications
+     * Displays work-in-progress notice for notifications
      */
     openNotifications(): void {
-        console.log("Notification not implemented yet");
-        
+        this._noticeService.open();
     }
 
     /**
-     * Navigates to settings
+     * Displays work-in-progress notice for settings
      */
     openSettings(): void {
-        console.log("Settings not implemented yet");
-        // this._router.navigate(['/settings']);
+        this._noticeService.open();
     }
 
 }
