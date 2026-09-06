@@ -94,7 +94,7 @@
         "description": "Used for interface mockups, layout planning and lightweight UI design work.",
         "category": "UI/UX",
         "type": "Design Tool",
-        "level": "Familiar",
+        "level": "Intermediate",
         "experienceMonths": 12,
         "projectIds": [1, 2, 3]
     },
@@ -248,9 +248,9 @@
         "description": "Used to test REST APIs, validate request payloads and troubleshoot backend integrations.",
         "category": "Tools",
         "type": "Development Tool",
-        "level": "Intermediate",
+        "level": "Familiar",
         "experienceMonths": 18,
-        "projectIds": [1, 3]
+        "projectIds": []
     },
     {
         "id": 24,
@@ -361,5 +361,60 @@
         "level": "Intermediate",
         "experienceMonths": 20,
         "projectIds": [1, 3]
+    },
+    {
+        "id": 34,
+        "name": "PostgreSQL",
+        "icon": "postgresql.svg",
+        "description": "Used for relational database design, schema modelling, table relationships, constraints and structured application data.",
+        "category": "Backend",
+        "type": "Database",
+        "level": "Familiar",
+        "experienceMonths": 1,
+        "projectIds": [1]
+    },
+    {
+        "id": 35,
+        "name": "Database Design",
+        "icon": "database.svg",
+        "description": "Designing relational database schemas using entities, relationships, foreign keys, constraints and normalized data structures.",
+        "category": "Backend",
+        "type": "Concept",
+        "level": "Familiar",
+        "experienceMonths": 1,
+        "projectIds": []
+    },
+    {
+        "id": 36,
+        "name": "Generative AI",
+        "icon": "gen-ai.svg",
+        "description": "Exploring the use of generative AI models for software development, application features and AI-assisted workflows.",
+        "category": "Data",
+        "type": "Concept",
+        "level": "Beginner",
+        "experienceMonths": 1,
+        "projectIds": []
+    },
+    {
+        "id": 37,
+        "name": "AI-Assisted Development with ChatGPT",
+        "icon": "chatgpt.svg",
+        "description": "Using ChatGPT to support code generation, debugging, documentation, architectural exploration and software development workflows.",
+        "category": "Tools",
+        "type": "Concept",
+        "level": "Intermediate",
+        "experienceMonths": 1,
+        "projectIds": [1]
+    },
+    {
+        "id": 38,
+        "name": "Chart.js",
+        "icon": "chart-pie.svg",
+        "description": "Used to create reusable data visualisations including bar and doughnut charts for dashboard analytics.",
+        "category": "Frontend",
+        "type": "Library",
+        "level": "Familiar",
+        "experienceMonths": 1,
+        "projectIds": []
     }
 ]
