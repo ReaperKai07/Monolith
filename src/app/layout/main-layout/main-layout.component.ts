@@ -69,7 +69,7 @@ export class MainLayoutComponent implements OnInit {
                 'Create, update and delete operations are simulated and stored locally in the browser to demonstrate dashboard workflows.',
                 'Backend communication is currently simulated using local JSON data, Angular services and REST-style API patterns.',
                 'Monolith is designed responsively for both desktop and mobile devices.',
-                'Monolith is currently under active development. Last updated 19 August 2026.',
+                'Monolith is currently under active development. Last updated 6 September 2026.',
                 'Portfolio information may not always reflect the latest professional or academic changes. Please refer to the latest resume in the User Profile by clicking the user icon top right.',
             ],
             confirmLabel: 'I Understand',
